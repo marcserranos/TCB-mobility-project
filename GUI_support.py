@@ -19,6 +19,7 @@ import sys
 import tkinter as tk
 import GUI
 
+
 def main(*args):
     '''Main entry point for the application.'''
     global root, _top1, _w1
@@ -56,6 +57,7 @@ def main(*args):
 
 if __name__ == '__main__':
     GUI.start_up()
+
 
 
 
