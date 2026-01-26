@@ -28,11 +28,22 @@ class Admin(User):
         self.__usertype = "admin"
 
     def login_retrieve_info(self, user_id):
+
+        
         pass
 
-    def add_university(self): pass
-    def edit_university(self): pass
-    def delete_university(self): pass
+    def add_university(self): 
+        
+        
+        pass
+
+    def edit_university(self): 
+        
+        pass
+
+    def delete_university(self): 
+        
+        pass
 
 class Student(User):
     def __init__(self, user_id, mail, pwd):
