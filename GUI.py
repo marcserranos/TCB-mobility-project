@@ -30,6 +30,28 @@ def _style_code():
        style.theme_use('winnative')    
     _style_code_ran = 1
 
+class EntryPlaceholder(ttk.Entry):
+    def __init__(self, master=None, placeholder="", color='grey', **kwargs):
+        super().__init__(master, **kwargs)
+        self.placeholder = placeholder
+        self.placeholder_color = color
+        self.default_fg_color = '#000000' # Negro
+
+        self.bind("<FocusIn>", self._clear_placeholder)
+        self.bind("<FocusOut>", self._add_placeholder)
+
+        self._add_placeholder()
+
+    def _add_placeholder(self, e=None):
+        if not self.get():
+            self.insert(0, self.placeholder)
+            self.configure(foreground=self.placeholder_color)
+
+    def _clear_placeholder(self, e=None):
+        if self.get() == self.placeholder:
+            self.delete(0, tk.END)
+            self.configure(foreground=self.default_fg_color)
+
 class FrameBP:
     
     THEME = {
@@ -549,7 +571,7 @@ class FrameBP:
         self.AD_uniname_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Name''', compound='left', cursor="fleur")
         # ADMIN uni name entry
-        self.AD_uniname_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_uniname_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Universitat Pompeu Fabra")
         self.AD_uniname_entry.place(relx=0.058, rely=0.098, relheight=0.029
                 , relwidth=0.248)
         self.AD_uniname_entry.configure(exportselection="0", cursor="ibeam")
@@ -560,10 +582,10 @@ class FrameBP:
         self.AD_ID_label.configure(font="TkDefaultFont", relief="flat",
                 text='''ID''', compound='left')
         # ADMIN uni ID entry
-        self.AD_ID_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_ID_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="98FE9FHASN91U3")
         self.AD_ID_entry.place(relx=0.058, rely=0.224, relheight=0.029
                 , relwidth=0.248)
-        self.AD_ID_entry.configure(exportselection="0", cursor="ibeam")
+        self.AD_ID_entry.configure(exportselection="0", cursor="ibeam", state="disabled")
 
         # ADMIN country label
         self.AD_country_label = ttk.Label(self.AD_entries_frame)
@@ -571,7 +593,7 @@ class FrameBP:
         self.AD_country_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Country''', compound='left')
         # ADMIN country entry
-        self.AD_country_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_country_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Spain")
         self.AD_country_entry.place(relx=0.058, rely=0.35, relheight=0.029
                 , relwidth=0.248)
         self.AD_country_entry.configure(exportselection="0", cursor="ibeam")
@@ -582,7 +604,7 @@ class FrameBP:
         self.AD_city_label.configure(font="TkDefaultFont", relief="flat",
                 text='''City''', compound='left')
         # ADMIN city entry
-        self.AD_city_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_city_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Barcelona")
         self.AD_city_entry.place(relx=0.058, rely=0.476, relheight=0.029
                 , relwidth=0.248)
         self.AD_city_entry.configure(exportselection="0", cursor="ibeam")
@@ -594,7 +616,7 @@ class FrameBP:
         self.AD_continent_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Continent''', compound='left')
         # ADMIN continent entry
-        self.AD_continent_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_continent_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Europe")
         self.AD_continent_entry.place(relx=0.058, rely=0.601, relheight=0.028
                 , relwidth=0.248)
         self.AD_continent_entry.configure(exportselection="0", cursor="ibeam")
@@ -606,7 +628,7 @@ class FrameBP:
         self.AD_mingrade_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Minimum grade''', compound='left')
         # ADMIN minimum grade entry
-        self.AD_mingrade_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_mingrade_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="5.0")
         self.AD_mingrade_entry.place(relx=0.058, rely=0.727, relheight=0.028
                 , relwidth=0.248)
         self.AD_mingrade_entry.configure(exportselection="0", cursor="ibeam")
@@ -617,7 +639,7 @@ class FrameBP:
         self.AD_web_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Website''', compound='left')
         # ADMIN website entry
-        self.AD_web_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_web_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="www.upf.edu")
         self.AD_web_entry.place(relx=0.058, rely=0.853, relheight=0.029
                 , relwidth=0.248)
         self.AD_web_entry.configure(exportselection="0", cursor="ibeam")
@@ -628,7 +650,7 @@ class FrameBP:
         self.AD_lat_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Latitude''', compound='left')
         # ADMIN latitude entry
-        self.AD_lat_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_lat_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="41.4039")
         self.AD_lat_entry.place(relx=0.358, rely=0.098, relheight=0.029
                 , relwidth=0.257)
         self.AD_lat_entry.configure(exportselection="0", cursor="fleur")
@@ -640,7 +662,7 @@ class FrameBP:
         self.AD_long_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Longitude''', compound='left', cursor="fleur")
         # ADMIN longitude entry
-        self.AD_long_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_long_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="2.1940")
         self.AD_long_entry.place(relx=0.358, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_long_entry.configure(exportselection="0", cursor="ibeam")
@@ -669,7 +691,7 @@ class FrameBP:
         self.AD_spots_scale.configure(activebackground=self.THEME["BG_GREY"],
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
-                length="267", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"])
+                length="267", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"], from_=1, to=25, resolution=1)
 
         # ADMIN academic rank label
         self.AD_rank_label = tk.Label(self.AD_entries_frame)
@@ -680,7 +702,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University Ranking''')
         # ADMIN academic rank entry
-        self.AD_rank_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_rank_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="187 (N/A if not ranked)")
         self.AD_rank_entry.place(relx=0.667, rely=0.098, relheight=0.029
                 , relwidth=0.257)
         self.AD_rank_entry.configure(exportselection="0", takefocus="",
@@ -696,7 +718,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking''')
         # ADMIN engineering rank entry
-        self.AD_engrank_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_engrank_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="301-400 (N/A if not ranked)")
         self.AD_engrank_entry.place(relx=0.667, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_engrank_entry.configure(exportselection="0", takefocus="",
@@ -711,7 +733,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Weather''')
         # ADMIN weather entry
-        self.AD_weather_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_weather_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Mediterranean")
         self.AD_weather_entry.place(relx=0.667, rely=0.35, relheight=0.029
                 , relwidth=0.257)
         self.AD_weather_entry.configure(exportselection="0", takefocus="",
@@ -733,7 +755,8 @@ class FrameBP:
         self.AD_nightlife_scale.configure(activebackground=self.THEME["BG_GREY"],
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
-                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"])
+                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
+                from_=1.0, to=10.0, resolution=1.0)
         
         # ADMIN cost of living label
         self.AD_cost_label = tk.Label(self.AD_entries_frame)
@@ -750,7 +773,8 @@ class FrameBP:
         self.AD_cost_scale.configure(activebackground=self.THEME["BG_GREY"],
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
-                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"])
+                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
+                from_=1.0, to=10.0, resolution=1.0)
 
         # ADMIN previous cutoff grade label
         self.AD_cutoff_label = tk.Label(self.AD_entries_frame)
@@ -761,7 +785,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade''')
         # ADMIN previous cutoff grade entry
-        self.AD_cutoff_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_cutoff_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="5.00")
         self.AD_cutoff_entry.place(relx=0.667, rely=0.727, relheight=0.029
                 , relwidth=0.257)
         self.AD_cutoff_entry.configure(exportselection="0", takefocus="",
@@ -783,7 +807,8 @@ class FrameBP:
         self.AD_duration_scale.configure(activebackground=self.THEME["BG_GREY"],
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
-                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"])     
+                length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
+                from_=1.0, to=12.0, resolution=1.0)     
 
 #-----------------------------------------------------ADMIN PAGE, ACTION BUTTONS------------------------------------------------------
       
