@@ -31,7 +31,79 @@ def main(*args):
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
 
-    # --- NAVIGATION LOGIC ---
+    uni_data = {
+        "id": "USP-001",
+        "name": "University of Saint Petersburg",
+        "city": "Saint Petersburg",
+        "country": "Russia",
+        "continent": "Europe",
+        "mingrade": "6.5",
+        "cutoff": "9.0",
+        "weather": "Sunny",
+        "rank": "1",
+        "engrank": "150",
+        "lat": "59.9343",
+        "long": "30.3086",
+        "web": "https://www.usaintpetersburg.edu",
+        "cost": 3,
+        "spots": 12,
+        "duration": 6,
+        "nightlife": 5
+    }
+    def edit_delete_admin():
+        def force_update_entry(widget, value):
+            widget.configure(state="normal") 
+            # Check if the widget is our custom class to use the new logic
+            if isinstance(widget, GUI.EntryPlaceholder):
+                widget.set_text(value)
+            else:
+                widget.delete(0, tk.END)
+                widget.insert(0, value)
+                widget.configure(foreground="#000000")
+
+            force_update_entry(_w1.AD_city_entry, uni_data["city"])
+            force_update_entry(_w1.AD_country_entry, uni_data["country"])
+            force_update_entry(_w1.AD_cutoff_entry, uni_data["cutoff"])
+            force_update_entry(_w1.AD_weather_entry, uni_data["weather"])
+            force_update_entry(_w1.AD_rank_entry, uni_data["rank"])
+            force_update_entry(_w1.AD_engrank_entry, uni_data["engrank"])
+            force_update_entry(_w1.AD_ID_entry, uni_data["id"])
+            force_update_entry(_w1.AD_uniname_entry, uni_data["name"])
+            force_update_entry(_w1.AD_mingrade_entry, uni_data["mingrade"])
+            force_update_entry(_w1.AD_lat_entry, uni_data["lat"])
+            force_update_entry(_w1.AD_long_entry, uni_data["long"])
+            force_update_entry(_w1.AD_web_entry, uni_data["web"])
+
+            _w1.AD_continent_menu.set(uni_data["continent"])
+            _w1.AD_cost_scale.set(uni_data["cost"])
+            _w1.AD_spots_scale.set(uni_data["spots"])
+            _w1.AD_duration_scale.set(uni_data["duration"])
+            _w1.AD_nightlife_scale.set(uni_data["nightlife"])
+    
+    def clear_admin_fields():
+        placeholder_widgets = [
+        _w1.AD_uniname_entry, _w1.AD_country_entry, _w1.AD_city_entry,
+        _w1.AD_mingrade_entry, _w1.AD_web_entry, _w1.AD_lat_entry,
+        _w1.AD_long_entry, _w1.AD_rank_entry, _w1.AD_engrank_entry,
+        _w1.AD_weather_entry, _w1.AD_cutoff_entry
+    ]
+        for widget in placeholder_widgets:
+            widget.reset_placeholder()
+
+        _w1.AD_ID_entry.configure(state="normal")
+        _w1.AD_ID_entry.delete(0, tk.END)
+        _w1.AD_ID_entry.configure(state="disabled")
+
+        _w1.AD_continent_menu.set('')
+        _w1.AD_uni_combobox.set('')
+
+        _w1.AD_spots_scale.set(1)
+        _w1.AD_nightlife_scale.set(1.0)
+        _w1.AD_cost_scale.set(1.0)
+        _w1.AD_duration_scale.set(1.0)
+
+    _w1.AD_editdelete_button.configure(command=edit_delete_admin)    
+    _w1.AD_add_button.configure(command=clear_admin_fields)
 
     def show_student():
         _w1.ST_bg.lift()
@@ -41,28 +113,6 @@ def main(*args):
 
     def show_login():
         _w1.LG_bg.lift()
-    
-    def edit_delete_admin():
-        selected_uni = _w1.AD_uni_spinbox.get()
-        if not selected_uni or selected_uni == "":
-            tk.messagebox.showwarning("No university selected", "Please select a university to edit or delete.")
-            return
-        uni_data = mobility_manager.get_uni_by_name(selected_uni)
-        if not uni_data:
-            tk.messagebox.showerror("University not found", f"No data found for university: {selected_uni}")
-            return
-        
-        _w1.AD_city_entry.delete(0,END)
-        _w1.AD_city_entry.insert(0,uni_data["city"])
-        _w1.AD_country_entry.delete(0,END)
-        _w1.AD_country_entry.insert(0,uni_data["country"])
-        _w1.AD_continent_entry.delete(0,END)
-        _w1.AD_continent_entry.insert(0,uni_data["continent"])
-        _w1.AD_cutoff_entry.delete(0,END)
-        _w1.AD_cutoff_entry.insert(0,uni_data["cutoff"])
-        
-
-        print(f"Cargando datos de: {selected_uni}")
 
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student)
@@ -71,15 +121,11 @@ def main(*args):
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=show_login)
     _w1.AD_logout_button.configure(command=show_login)
-    
-    # Link EDIT/DELETE ADMIN Button
-    _w1.AD_edit_delete_button.configure(command=edit_delete_admin)
 
     # Set the initial view to the Login screen
     show_login()
 
     root.mainloop()
-
 
 if __name__ == '__main__':
     GUI.start_up()
