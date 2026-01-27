@@ -31,6 +31,73 @@ def main(*args):
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
 
+    uni_data = {
+        "id": "UPF-001",
+        "name": "Universitat Pompeu Fabra",
+        "city": "Barcelona",
+        "country": "Spain",
+        "continent": "Europe",
+        "mingrade": "7.0",
+        "cutoff": "8.5",
+        "weather": "Mediterranean",
+        "rank": "1",
+        "engrank": "150",
+        "lat": "41.3851",
+        "long": "2.1734",
+        "web": "https://www.upf.edu",
+        "cost": 3,
+        "spots": 12,
+        "duration": 6,
+        "nightlife": 5
+    }
+
+    def edit_delete_admin():
+        '''selected_uni = _w1.AD_uni_spinbox.get()
+        if not selected_uni or selected_uni == "":
+            tk.messagebox.showwarning("No university selected", "Please select a university to edit or delete.")
+            return
+        uni_data = mobility_manager.get_uni_by_name(selected_uni)
+        if not uni_data:
+            tk.messagebox.showerror("University not found", f"No data found for university: {selected_uni}")
+            return'''
+        
+        # Handling of the entries for the ADMIN
+        _w1.AD_city_entry.delete(0,END)
+        _w1.AD_city_entry.insert(0,uni_data["city"])
+        _w1.AD_country_entry.delete(0,END)
+        _w1.AD_country_entry.insert(0,uni_data["country"])
+        _w1.AD_continent_menu.set(uni_data["continent"])
+        _w1.AD_cutoff_entry.delete(0,END)
+        _w1.AD_cutoff_entry.insert(0,uni_data["cutoff"])
+        _w1.AD_weather_entry.delete(0,END)
+        _w1.AD_weather_entry.insert(0,uni_data["weather"])
+        _w1.AD_rank_entry.delete(0,END)
+        _w1.AD_rank_entry.insert(0,uni_data["rank"])
+        _w1.AD_engrank_entry.delete(0,END)
+        _w1.AD_engrank_entry.insert(0,uni_data["engrank"])
+        _w1.AD_ID_entry.delete(0,END)
+        _w1.AD_ID_entry.insert(0,uni_data["id"])
+        _w1.AD_uniname_entry.delete(0,END)
+        _w1.AD_uniname_entry.insert(0,uni_data["name"])
+        _w1.AD_mingrade_entry.delete(0,END)
+        _w1.AD_mingrade_entry.insert(0,uni_data["mingrade"])
+        _w1.AD_lat_entry.delete(0,END)
+        _w1.AD_lat_entry.insert(0,uni_data["lat"])
+        _w1.AD_long_entry.delete(0,END)
+        _w1.AD_long_entry.insert(0,uni_data["long"])
+        _w1.AD_web_entry.delete(0,END)
+        _w1.AD_web_entry.insert(0,uni_data["web"])
+
+        # Handling of the scales for the ADMIN
+        _w1.AD_cost_scale.set(uni_data["cost"])
+        _w1.AD_spots_scale.set(uni_data["spots"])
+        _w1.AD_duration_scale.set(uni_data["duration"])
+        _w1.AD_nightlife_scale.set(uni_data["nightlife"])
+
+        # Link EDIT/DELETE ADMIN Button
+
+    _w1.AD_editdelete_button.configure(command=edit_delete_admin)
+
     # --- NAVIGATION LOGIC ---
 
     def show_student():
@@ -41,28 +108,6 @@ def main(*args):
 
     def show_login():
         _w1.LG_bg.lift()
-    
-    def edit_delete_admin():
-        selected_uni = _w1.AD_uni_spinbox.get()
-        if not selected_uni or selected_uni == "":
-            tk.messagebox.showwarning("No university selected", "Please select a university to edit or delete.")
-            return
-        uni_data = mobility_manager.get_uni_by_name(selected_uni)
-        if not uni_data:
-            tk.messagebox.showerror("University not found", f"No data found for university: {selected_uni}")
-            return
-        
-        _w1.AD_city_entry.delete(0,END)
-        _w1.AD_city_entry.insert(0,uni_data["city"])
-        _w1.AD_country_entry.delete(0,END)
-        _w1.AD_country_entry.insert(0,uni_data["country"])
-        _w1.AD_continent_entry.delete(0,END)
-        _w1.AD_continent_entry.insert(0,uni_data["continent"])
-        _w1.AD_cutoff_entry.delete(0,END)
-        _w1.AD_cutoff_entry.insert(0,uni_data["cutoff"])
-        
-
-        print(f"Cargando datos de: {selected_uni}")
 
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student)
@@ -71,9 +116,6 @@ def main(*args):
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=show_login)
     _w1.AD_logout_button.configure(command=show_login)
-    
-    # Link EDIT/DELETE ADMIN Button
-    _w1.AD_edit_delete_button.configure(command=edit_delete_admin)
 
     # Set the initial view to the Login screen
     show_login()

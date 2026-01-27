@@ -613,11 +613,11 @@ class FrameBP:
                 , width=165)
         self.AD_continent_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Continent''', compound='left')
-        # ADMIN continent entry
-        self.AD_continent_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Europe")
-        self.AD_continent_entry.place(relx=0.058, rely=0.601, relheight=0.028
+        # ADMIN continent combobox
+        self.AD_continent_menu = ttk.Combobox(self.AD_entries_frame, values=["Europe", "North America", "South America", "Asia", "Africa", "Oceania"])
+        self.AD_continent_menu.place(relx=0.058, rely=0.601, relheight=0.028
                 , relwidth=0.248)
-        self.AD_continent_entry.configure(exportselection="0", cursor="ibeam")
+        self.AD_continent_menu.configure(background="white", takefocus="", height=10, state="readonly")
 
         # ADMIN minimum grade label
         self.AD_mingrade_label = ttk.Label(self.AD_entries_frame)
