@@ -524,8 +524,7 @@ class FrameBP:
         self.AD_add_button.configure(takefocus="", text='''Add''',compound='left', cursor="fleur")
 
         # ADMIN uni selector combobox
-        self.provalist = ["Universitat Pompeu Fabra", "Universitat de Barcelona", "Universitat de València", "Autonomous University of Barcelona", "University of Granada", "University of Sevilla", "University of Salamanca", "ANTONIO", "PEPE", "JOSEP", "MARIA", "LAIA", "Igor"]
-        self.AD_uni_combobox = ttk.Combobox(self.AD_subframe, values=self.provalist)
+        self.AD_uni_combobox = ttk.Combobox(self.AD_subframe)
         self.AD_uni_combobox.place(relx=0.028, rely=0.345, relheight=0.027
                 , relwidth=0.198)
         self.AD_uni_combobox.configure(background="white", takefocus="", height=10, state="readonly", textvariable=self.uni_var)

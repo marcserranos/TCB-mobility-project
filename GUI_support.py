@@ -9,11 +9,12 @@ import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
+from tkinter import messagebox
 
 from matplotlib import text
 
 import GUI
-import MobilityManager
+from MobilityManager import MobilityManager
 
 # ! /usr/bin/env python3
 #  -*- coding: utf-8 -*-
@@ -31,10 +32,17 @@ def main(*args):
     # Initialize the GUI class
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
-    mobility_manager = MobilityManager()
+    mobility_manager = MobilityManager("data/entries.csv")
+    mobility_manager.load_data()
+    _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
     def admin_editdelete():
-        uni_data = mobility_manager.get_uni_by_name(_w1.AD_uni_combobox.get())
+        uni_name = _w1.AD_uni_combobox.get()
+        uni_data = mobility_manager.get_uni_by_name(uni_name)
+        if not uni_data:
+            tk.messagebox.showerror("Not found", f"University '{uni_name}' not found.")
+            return
+
         _w1.AD_city_entry.delete(0, tk.END)
         _w1.AD_city_entry.insert(0, uni_data["City"])
         _w1.AD_country_entry.delete(0, tk.END)
@@ -60,10 +68,10 @@ def main(*args):
         _w1.AD_web_entry.delete(0, tk.END)
         _w1.AD_web_entry.insert(0, uni_data["Website"])
         _w1.AD_continent_menu.set(uni_data["Continent"])
-        _w1.AD_cost_scale.set(uni_data["Cost"])
-        _w1.AD_spots_scale.set(uni_data["Spots available"])
-        _w1.AD_duration_scale.set(uni_data["Duration (months)"])
-        _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
+        _w1.AD_cost_scale.set(float(uni_data["Cost"]))
+        _w1.AD_spots_scale.set(float(uni_data["Spots available"]))
+        _w1.AD_duration_scale.set(float(uni_data["Duration (months)"]))
+        _w1.AD_nightlife_scale.set(float(uni_data["Nightlife"]))
     
     def admin_add():
         _w1.AD_city_entry.delete(0, tk.END)
