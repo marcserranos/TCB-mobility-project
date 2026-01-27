@@ -10,6 +10,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
 
+from matplotlib import text
+
 import GUI
 
 # ! /usr/bin/env python3
@@ -18,7 +20,6 @@ import GUI
 import sys
 import tkinter as tk
 import GUI
-
 
 def main(*args):
     '''Main entry point for the application.'''
@@ -40,6 +41,28 @@ def main(*args):
 
     def show_login():
         _w1.LG_bg.lift()
+    
+    def edit_delete_admin():
+        selected_uni = _w1.AD_uni_spinbox.get()
+        if not selected_uni or selected_uni == "":
+            tk.messagebox.showwarning("No university selected", "Please select a university to edit or delete.")
+            return
+        uni_data = mobility_manager.get_uni_by_name(selected_uni)
+        if not uni_data:
+            tk.messagebox.showerror("University not found", f"No data found for university: {selected_uni}")
+            return
+        
+        _w1.AD_city_entry.delete(0,END)
+        _w1.AD_city_entry.insert(0,uni_data["city"])
+        _w1.AD_country_entry.delete(0,END)
+        _w1.AD_country_entry.insert(0,uni_data["country"])
+        _w1.AD_continent_entry.delete(0,END)
+        _w1.AD_continent_entry.insert(0,uni_data["continent"])
+        _w1.AD_cutoff_entry.delete(0,END)
+        _w1.AD_cutoff_entry.insert(0,uni_data["cutoff"])
+        
+
+        print(f"Cargando datos de: {selected_uni}")
 
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student)
@@ -48,6 +71,9 @@ def main(*args):
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=show_login)
     _w1.AD_logout_button.configure(command=show_login)
+    
+    # Link EDIT/DELETE ADMIN Button
+    _w1.AD_edit_delete_button.configure(command=edit_delete_admin)
 
     # Set the initial view to the Login screen
     show_login()

@@ -53,7 +53,7 @@ class EntryPlaceholder(ttk.Entry):
             self.configure(foreground=self.default_fg_color)
 
 class FrameBP:
-    
+
     THEME = {
         "UPF_red": "#c8102e",  
         "BG_GREY": "#d9d9d9",
@@ -63,7 +63,7 @@ class FrameBP:
         "TEXT_LIGHT": "#ffffff",
         "border_width": "2"
     }
-    """This class contains the GUI with all of its subframes and widgets."""
+
     def __init__(self, top=None):
 
         top.geometry("1440x829+-7+0")
@@ -82,8 +82,7 @@ class FrameBP:
         self.tch69 = tk.IntVar()
         self.tch67 = tk.IntVar()
         self.tch68 = tk.IntVar()
-        self.tch70 = tk.IntVar()
-
+        self.tch70 = tk.IntVar() 
 #__________________________________________________________STUDENT PAGE_________________________________________________________
 
         # Frame for the STUDENT page
@@ -542,13 +541,12 @@ class FrameBP:
         self.AD_add_button.configure(compound='left')
         self.AD_add_button.configure(cursor="fleur")
 
-        # MUST BE CHANGED TO A DEPLOYABLE MENU
-        self.AD_uni_spinbox = ttk.Spinbox(self.AD_subframe, from_=1, to=100)
-        self.AD_uni_spinbox.place(relx=0.028, rely=0.345, relheight=0.027
+        # ADMIN uni selector combobox
+        self.provalist = ["Universitat Pompeu Fabra", "Universitat de Barcelona", "Universitat de València", "Autonomous University of Barcelona", "University of Granada", "University of Sevilla", "University of Salamanca", "ANTONIO", "PEPE", "JOSEP", "MARIA", "LAIA", "Igor"]
+        self.AD_uni_combobox = ttk.Combobox(self.AD_subframe, values=self.provalist)
+        self.AD_uni_combobox.place(relx=0.028, rely=0.345, relheight=0.027
                 , relwidth=0.198)
-        self.AD_uni_spinbox.configure(exportselection="0")
-        self.AD_uni_spinbox.configure(background="white")
-        self.AD_uni_spinbox.configure(takefocus="")
+        self.AD_uni_combobox.configure(background="white", takefocus="", height=10, state="readonly")
 
         # ADMIN title label
         self.AD_title_label = ttk.Label(self.AD_subframe)
