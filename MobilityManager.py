@@ -63,7 +63,7 @@ class MobilityManager:
 
     def update_entry(self, uni_id, updated_data_dict):
         """Locates an entry by ID and updates its fields with new dictionary values."""
-        if uni_id in self.__uni_df['id'].values:
+        if uni_id in self.__uni_df['ID'].values:
             # Find row index where ID matches
             idx = self.__uni_df.index[self.__uni_df['ID'] == uni_id][0]
             # Update values using .loc

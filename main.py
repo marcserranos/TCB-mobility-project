@@ -31,6 +31,8 @@ if __name__ == "__main__":
     # Retrieve a specific university by name
     university_to_find = "Universitat Pompeu Fabra"
     university = mobility_manager.get_uni_by_name(university_to_find)
+    print(university)
     print(f"\nID of '{university_to_find}':")
-    print(university["ID"])
+    print(university["Cost of living"])
+    print(type(university["Cost of living"]))
     print(f"Length of ID: {len(university['ID'])}")

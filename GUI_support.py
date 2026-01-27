@@ -39,10 +39,13 @@ def main(*args):
     def admin_editdelete():
         uni_name = _w1.AD_uni_combobox.get()
         uni_data = mobility_manager.get_uni_by_name(uni_name)
+
         if not uni_data:
             tk.messagebox.showerror("Not found", f"University '{uni_name}' not found.")
             return
 
+        _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
+        
         _w1.AD_city_entry.delete(0, tk.END)
         _w1.AD_city_entry.insert(0, uni_data["City"])
         _w1.AD_country_entry.delete(0, tk.END)
@@ -55,8 +58,10 @@ def main(*args):
         _w1.AD_rank_entry.insert(0, uni_data["University Ranking"])
         _w1.AD_engrank_entry.delete(0, tk.END)
         _w1.AD_engrank_entry.insert(0, uni_data["Engineering Ranking"])
+        _w1.AD_ID_entry.configure(state="normal")
         _w1.AD_ID_entry.delete(0, tk.END)
         _w1.AD_ID_entry.insert(0, uni_data["ID"])
+        _w1.AD_ID_entry.configure(state="readonly")
         _w1.AD_uniname_entry.delete(0, tk.END)
         _w1.AD_uniname_entry.insert(0, uni_data["Name"])
         _w1.AD_mingrade_entry.delete(0, tk.END)
@@ -68,19 +73,25 @@ def main(*args):
         _w1.AD_web_entry.delete(0, tk.END)
         _w1.AD_web_entry.insert(0, uni_data["Website"])
         _w1.AD_continent_menu.set(uni_data["Continent"])
-        _w1.AD_cost_scale.set(float(uni_data["Cost"]))
-        _w1.AD_spots_scale.set(float(uni_data["Spots available"]))
-        _w1.AD_duration_scale.set(float(uni_data["Duration (months)"]))
-        _w1.AD_nightlife_scale.set(float(uni_data["Nightlife"]))
+        _w1.AD_cost_scale.set(uni_data["Cost of living"])
+        _w1.AD_spots_scale.set(uni_data["Spots available"])
+        _w1.AD_duration_scale.set(uni_data["Duration (months)"])
+        _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
     
-    def admin_add():
+    def clear_admin_entries():
+
+        _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
+
         _w1.AD_city_entry.delete(0, tk.END)
         _w1.AD_country_entry.delete(0, tk.END)
         _w1.AD_cutoff_entry.delete(0, tk.END)
         _w1.AD_weather_entry.delete(0, tk.END)
         _w1.AD_rank_entry.delete(0, tk.END)
         _w1.AD_engrank_entry.delete(0, tk.END)
+        _w1.AD_ID_entry.configure(state="normal")
         _w1.AD_ID_entry.delete(0, tk.END)
+        _w1.AD_ID_entry.insert(0, "Auto-generated")
+        _w1.AD_ID_entry.configure(state="readonly")
         _w1.AD_uniname_entry.delete(0, tk.END)
         _w1.AD_mingrade_entry.delete(0, tk.END)
         _w1.AD_lat_entry.delete(0, tk.END)
@@ -93,7 +104,7 @@ def main(*args):
         _w1.AD_nightlife_scale.set(1.0)
 
     _w1.AD_editdelete_button.configure(command=admin_editdelete)    
-    _w1.AD_add_button.configure(command=admin_add)
+    _w1.AD_add_button.configure(command=clear_admin_entries)
 
     def show_student():
         _w1.ST_bg.lift()
@@ -104,13 +115,18 @@ def main(*args):
     def show_login():
         _w1.LG_bg.lift()
 
+    def logout():
+        clear_admin_entries()
+        _w1.AD_entries_frame.place_forget()
+        show_login()
+
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student)
     _w1.LG_admin_button.configure(command=show_admin)
 
     # Link Logout Buttons
-    _w1.ST_logout_button.configure(command=show_login)
-    _w1.AD_logout_button.configure(command=show_login)
+    _w1.ST_logout_button.configure(command=logout)
+    _w1.AD_logout_button.configure(command=logout)
 
     # Set the initial view to the Login screen
     show_login()
