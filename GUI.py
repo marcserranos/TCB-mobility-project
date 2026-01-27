@@ -47,20 +47,24 @@ class FrameBP:
         top.geometry("1440x829+-7+0")
         top.minsize(120, 1)
         top.maxsize(1444, 881)
-        top.resizable(1,  1)
+        top.resizable(1, 1)
         top.title("Toplevel 0")
         top.configure(background=self.THEME["BG_GREY"], highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
  
         # Initialization variables, will be renamed for use. Related to the continents in the STUDENT page.
         self.top = top
-        self.combobox = tk.StringVar()
-        self.combobox.set('TCombobox')
-        self.tch65 = tk.IntVar()
-        self.tch66 = tk.IntVar()
-        self.tch69 = tk.IntVar()
-        self.tch67 = tk.IntVar()
-        self.tch68 = tk.IntVar()
-        self.tch70 = tk.IntVar() 
+        self.degree_var = tk.StringVar() 
+        self.lang_var = tk.StringVar()
+        self.continent_var = tk.StringVar()    
+        self.degree_var.set('Select Degree')
+        self.lang_var.set('Select Language')
+        self.continent_var.set('Select Continent')
+        self.var_EU = tk.IntVar()
+        self.var_NA = tk.IntVar()
+        self.var_AS = tk.IntVar()
+        self.var_SA = tk.IntVar()
+        self.var_OC = tk.IntVar()
+        self.var_AF = tk.IntVar() 
 #__________________________________________________________STUDENT PAGE_________________________________________________________
 
         # Frame for the STUDENT page
@@ -173,7 +177,7 @@ class FrameBP:
         self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame)
         self.ST_degree_menu.place(relx=0.21, rely=0.066, relheight=0.025
                 , relwidth=0.743)
-        self.ST_degree_menu.configure(exportselection="0", textvariable=self.combobox)
+        self.ST_degree_menu.configure(exportselection="0", textvariable=self.degree_var)
 
         # STUDENT Degree label
         self.ST_degree_label = tk.Label(self.ST_inputspanel_frame)
@@ -197,37 +201,37 @@ class FrameBP:
         self.ST_europe_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_europe_check.place(relx=0.093, rely=0.503, relwidth=0.131
                 , relheight=0.0, height=19)
-        self.ST_europe_check.configure(variable=self.tch65, text='''Europe''', compound='left')
+        self.ST_europe_check.configure(variable=self.var_EU, text='''Europe''', compound='left')
 
         # STUDENT continent checkbutton (SA)
         self.ST_southamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_southamerica_check.place(relx=0.376, rely=0.503, relwidth=0.245
                 , relheight=0.0, height=19)
-        self.ST_southamerica_check.configure(variable=self.tch66, text='''North America''', compound='left')
+        self.ST_southamerica_check.configure(variable=self.var_SA, text='''South America''', compound='left')
 
         # STUDENT continent checkbutton (AS)
         self.ST_asia_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_asia_check.place(relx=0.657, rely=0.503, relwidth=0.245
                 , relheight=0.0, height=19)
-        self.ST_asia_check.configure(variable=self.tch69, text='''South America''', compound='left')
+        self.ST_asia_check.configure(variable=self.var_AS, text='''Asia''', compound='left')
 
         # STUDENT continents checkbutton (AF)
         self.ST_africa_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_africa_check.place(relx=0.093, rely=0.531, relwidth=0.131
                 , relheight=0.0, height=18)
-        self.ST_africa_check.configure(variable=self.tch67, text='''Asia''', compound='left')
+        self.ST_africa_check.configure(variable=self.var_AF, text='''Africa''', compound='left')
 
         # STUDENT continent checkbutton (NA)
         self.ST_northamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_northamerica_check.place(relx=0.376, rely=0.531, relwidth=0.129
                 , relheight=0.0, height=18)
-        self.ST_northamerica_check.configure(variable=self.tch68, text='''Africa''', compound='left')
+        self.ST_northamerica_check.configure(variable=self.var_NA, text='''North America''', compound='left')
 
         # STUDENT continent checkbutton (OC)
         self.ST_oceania_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_oceania_check.place(relx=0.657, rely=0.531, relwidth=0.152
                 , relheight=0.0, height=18)
-        self.ST_oceania_check.configure(variable=self.tch70, text='''Oceania''', compound='left')
+        self.ST_oceania_check.configure(variable=self.var_OC, text='''Oceania''', compound='left')
 
         # STUDENT preferences scrolled window (TO DO: rename, plan, code, beautify)
         self.ScrolledwindowPreferencesLP = ScrolledWindow(self.ST_inputspanel_frame)
@@ -518,7 +522,7 @@ class FrameBP:
         self.AD_uni_combobox = ttk.Combobox(self.AD_subframe, values=self.provalist)
         self.AD_uni_combobox.place(relx=0.028, rely=0.345, relheight=0.027
                 , relwidth=0.198)
-        self.AD_uni_combobox.configure(background="white", takefocus="", height=10, state="readonly")
+        self.AD_uni_combobox.configure(background="white", takefocus="", height=10, state="readonly", textvariable=self.uni_var)
 
         # ADMIN title label
         self.AD_title_label = ttk.Label(self.AD_subframe)
@@ -563,7 +567,7 @@ class FrameBP:
         self.AD_country_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Country''', compound='left')
         # ADMIN country entry
-        self.AD_country_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Spain")
+        self.AD_country_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_country_entry.place(relx=0.058, rely=0.35, relheight=0.029
                 , relwidth=0.248)
         self.AD_country_entry.configure(exportselection="0", cursor="ibeam")
@@ -574,7 +578,7 @@ class FrameBP:
         self.AD_city_label.configure(font="TkDefaultFont", relief="flat",
                 text='''City''', compound='left')
         # ADMIN city entry
-        self.AD_city_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Barcelona")
+        self.AD_city_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_city_entry.place(relx=0.058, rely=0.476, relheight=0.029
                 , relwidth=0.248)
         self.AD_city_entry.configure(exportselection="0", cursor="ibeam")
@@ -589,7 +593,7 @@ class FrameBP:
         self.AD_continent_menu = ttk.Combobox(self.AD_entries_frame, values=["Europe", "North America", "South America", "Asia", "Africa", "Oceania"])
         self.AD_continent_menu.place(relx=0.058, rely=0.601, relheight=0.028
                 , relwidth=0.248)
-        self.AD_continent_menu.configure(background="white", takefocus="", height=10, state="readonly")
+        self.AD_continent_menu.configure(background="white", takefocus="", height=10, state="readonly", textvariable=self.continent_var)
 
         # ADMIN minimum grade label
         self.AD_mingrade_label = ttk.Label(self.AD_entries_frame)
@@ -598,7 +602,7 @@ class FrameBP:
         self.AD_mingrade_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Minimum grade''', compound='left')
         # ADMIN minimum grade entry
-        self.AD_mingrade_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="5.0")
+        self.AD_mingrade_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_mingrade_entry.place(relx=0.058, rely=0.727, relheight=0.028
                 , relwidth=0.248)
         self.AD_mingrade_entry.configure(exportselection="0", cursor="ibeam")
@@ -609,7 +613,7 @@ class FrameBP:
         self.AD_web_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Website''', compound='left')
         # ADMIN website entry
-        self.AD_web_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="www.upf.edu")
+        self.AD_web_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_web_entry.place(relx=0.058, rely=0.853, relheight=0.029
                 , relwidth=0.248)
         self.AD_web_entry.configure(exportselection="0", cursor="ibeam")
@@ -620,7 +624,7 @@ class FrameBP:
         self.AD_lat_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Latitude''', compound='left')
         # ADMIN latitude entry
-        self.AD_lat_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="41.4039")
+        self.AD_lat_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_lat_entry.place(relx=0.358, rely=0.098, relheight=0.029
                 , relwidth=0.257)
         self.AD_lat_entry.configure(exportselection="0", cursor="fleur")
@@ -632,7 +636,7 @@ class FrameBP:
         self.AD_long_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Longitude''', compound='left', cursor="fleur")
         # ADMIN longitude entry
-        self.AD_long_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="2.1940")
+        self.AD_long_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_long_entry.place(relx=0.358, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_long_entry.configure(exportselection="0", cursor="ibeam")
@@ -672,7 +676,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University Ranking''')
         # ADMIN academic rank entry
-        self.AD_rank_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="187 (N/A if not ranked)")
+        self.AD_rank_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_rank_entry.place(relx=0.667, rely=0.098, relheight=0.029
                 , relwidth=0.257)
         self.AD_rank_entry.configure(exportselection="0", takefocus="",
@@ -688,7 +692,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking''')
         # ADMIN engineering rank entry
-        self.AD_engrank_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="301-400 (N/A if not ranked)")
+        self.AD_engrank_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_engrank_entry.place(relx=0.667, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_engrank_entry.configure(exportselection="0", takefocus="",
@@ -703,7 +707,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Weather''')
         # ADMIN weather entry
-        self.AD_weather_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Mediterranean")
+        self.AD_weather_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_weather_entry.place(relx=0.667, rely=0.35, relheight=0.029
                 , relwidth=0.257)
         self.AD_weather_entry.configure(exportselection="0", takefocus="",
@@ -755,7 +759,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade''')
         # ADMIN previous cutoff grade entry
-        self.AD_cutoff_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="5.00")
+        self.AD_cutoff_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_cutoff_entry.place(relx=0.667, rely=0.727, relheight=0.029
                 , relwidth=0.257)
         self.AD_cutoff_entry.configure(exportselection="0", takefocus="",
