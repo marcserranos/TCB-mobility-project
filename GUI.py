@@ -795,7 +795,7 @@ class FrameBP:
                 activeforeground="black", background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Delete''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''Save''')
 
         # ADMIN delete button
         self.AD_delete_button = tk.Button(self.AD_entries_frame)
@@ -805,7 +805,7 @@ class FrameBP:
                 activeforeground="black", background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Save''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''Delete''')
 
 #-----------------------------------------------------ADMIN PAGE, MENU BAR--------------------------------------------------------      
 

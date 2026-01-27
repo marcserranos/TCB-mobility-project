@@ -1,4 +1,5 @@
 import pandas as pd
+import GUI
 
 class MobilityManager:
     def __init__(self, file_path):

@@ -22,6 +22,7 @@ from MobilityManager import MobilityManager
 import sys
 import tkinter as tk
 import GUI
+import logic
 
 def main(*args):
     '''Main entry point for the application.'''
@@ -45,7 +46,8 @@ def main(*args):
             return
 
         _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
-        
+        _w1.AD_delete_button.config(state="normal")
+
         _w1.AD_city_entry.delete(0, tk.END)
         _w1.AD_city_entry.insert(0, uni_data["City"])
         _w1.AD_country_entry.delete(0, tk.END)
@@ -79,8 +81,10 @@ def main(*args):
         _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
     
     def clear_admin_entries():
-
+        _w1.AD_delete_button.config(state="disabled")
         _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
+        _w1.AD_uni_combobox.set("Select University")
+        check_uni_selection()
 
         _w1.AD_city_entry.delete(0, tk.END)
         _w1.AD_country_entry.delete(0, tk.END)
@@ -106,6 +110,86 @@ def main(*args):
     _w1.AD_editdelete_button.configure(command=admin_editdelete)    
     _w1.AD_add_button.configure(command=clear_admin_entries)
 
+    def get_admin_inputs_dict():
+        try:
+            # Check if all required fields are filled
+            name = _w1.AD_uniname_entry.get().strip()
+            country = _w1.AD_country_entry.get().strip()
+            city = _w1.AD_city_entry.get().strip()
+            continent = _w1.AD_continent_menu.get().strip()
+            mingrade = _w1.AD_mingrade_entry.get().strip()
+            website = _w1.AD_web_entry.get().strip()
+            latitude = _w1.AD_lat_entry.get().strip()
+            longitude = _w1.AD_long_entry.get().strip()
+            weather = _w1.AD_weather_entry.get().strip()
+            rank = _w1.AD_rank_entry.get().strip()
+            engrank = _w1.AD_engrank_entry.get().strip()
+            cutoff = _w1.AD_cutoff_entry.get().strip()
+            
+            # Check for empty fields
+            if not all([name, country, city, continent, mingrade, website, latitude, longitude, weather, rank, engrank, cutoff]):
+                tk.messagebox.showerror("Missing Fields", "All fields must be filled before submission.")
+                return None
+            
+            data = {
+                "ID": _w1.AD_ID_entry.get(),
+                "Name": _w1.AD_uniname_entry.get(),
+                "Country": _w1.AD_country_entry.get(),
+                "City": _w1.AD_city_entry.get(),
+                "Continent": _w1.AD_continent_menu.get(),
+                "Minimum grade": float(_w1.AD_mingrade_entry.get() or 0),
+                "Website": _w1.AD_web_entry.get(),
+                "Latitude": float(_w1.AD_lat_entry.get() or 0),
+                "Longitude": float(_w1.AD_long_entry.get() or 0),
+                "Spots available": int(_w1.AD_spots_scale.get()),
+                "University Ranking": int(_w1.AD_rank_entry.get() or 0),
+                "Engineering Ranking": int(_w1.AD_engrank_entry.get() or 0),
+                "Weather": _w1.AD_weather_entry.get(),
+                "Nightlife": int(_w1.AD_nightlife_scale.get()),
+                "Cost of living": int(_w1.AD_cost_scale.get()),
+                "Previous cutoff grade": float(_w1.AD_cutoff_entry.get() or 0),
+                "Duration (months)": int(_w1.AD_duration_scale.get())
+            }
+            return data
+        except ValueError as e:
+            tk.messagebox.showerror("Format error", f"Numerical fields must contain valid numbers separated by a dot.")
+            return None
+        
+    def update_admin_uni_combobox():
+        _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
+
+    def save_admin_entries():
+        if _w1.AD_uni_combobox.get() == "Select University":
+            # Adding a new entry
+            new_data = get_admin_inputs_dict()
+            if new_data:
+                # Generate a new unique ID
+                new_data["ID"] = logic.Utilities.generate_random_id()
+                mobility_manager.add_entry(new_data)
+                tk.messagebox.showinfo("Success", f"University '{new_data['Name']}' added with ID {new_data['ID']}.")
+                update_admin_uni_combobox()
+
+        elif _w1.AD_uni_combobox.get() != "Select University":
+            # Editing an existing entry
+            updated_data = get_admin_inputs_dict()
+            if updated_data:
+                mobility_manager.update_entry(updated_data["ID"], updated_data)
+                tk.messagebox.showinfo("Success", f"University '{updated_data['Name']}' updated successfully.")
+                update_admin_uni_combobox()
+
+    def delete_admin_entries():
+        uni_name = _w1.AD_uni_combobox.get()
+        uni_data = mobility_manager.get_uni_by_name(uni_name)
+        confirm = tk.messagebox.askyesno("Confirm Deletion", f"Are you sure you want to delete '{uni_name}'?")
+        if confirm:
+            mobility_manager.delete_entry(uni_data["ID"])
+            tk.messagebox.showinfo("Deleted", f"University '{uni_name}' has been deleted.")
+            clear_admin_entries()
+            update_admin_uni_combobox()
+
+    _w1.AD_save_button.configure(command=save_admin_entries)
+    _w1.AD_delete_button.configure(command=delete_admin_entries)
+
     def show_student():
         _w1.ST_bg.lift()
 
@@ -118,7 +202,18 @@ def main(*args):
     def logout():
         clear_admin_entries()
         _w1.AD_entries_frame.place_forget()
+        _w1.AD_uni_combobox.set("Select University")
         show_login()
+        check_uni_selection()
+
+    def check_uni_selection():
+        """Enable/disable Edit/Delete button based on combobox selection"""
+        if _w1.AD_uni_combobox.get() == "Select University" or _w1.AD_uni_combobox.get() == "":
+            _w1.AD_editdelete_button.config(state="disabled")
+        else:
+            _w1.AD_editdelete_button.config(state="normal")
+    
+    _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection())
 
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student)
@@ -130,6 +225,7 @@ def main(*args):
 
     # Set the initial view to the Login screen
     show_login()
+    check_uni_selection()
 
     root.mainloop()
 
