@@ -13,6 +13,7 @@ from tkinter.constants import *
 from matplotlib import text
 
 import GUI
+import MobilityManager
 
 # ! /usr/bin/env python3
 #  -*- coding: utf-8 -*-
@@ -30,80 +31,61 @@ def main(*args):
     # Initialize the GUI class
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
+    mobility_manager = MobilityManager()
 
-    uni_data = {
-        "id": "USP-001",
-        "name": "University of Saint Petersburg",
-        "city": "Saint Petersburg",
-        "country": "Russia",
-        "continent": "Europe",
-        "mingrade": "6.5",
-        "cutoff": "9.0",
-        "weather": "Sunny",
-        "rank": "1",
-        "engrank": "150",
-        "lat": "59.9343",
-        "long": "30.3086",
-        "web": "https://www.usaintpetersburg.edu",
-        "cost": 3,
-        "spots": 12,
-        "duration": 6,
-        "nightlife": 5
-    }
-    def edit_delete_admin():
-        def force_update_entry(widget, value):
-            widget.configure(state="normal") 
-            # Check if the widget is our custom class to use the new logic
-            if isinstance(widget, GUI.EntryPlaceholder):
-                widget.set_text(value)
-            else:
-                widget.delete(0, tk.END)
-                widget.insert(0, value)
-                widget.configure(foreground="#000000")
-
-            force_update_entry(_w1.AD_city_entry, uni_data["city"])
-            force_update_entry(_w1.AD_country_entry, uni_data["country"])
-            force_update_entry(_w1.AD_cutoff_entry, uni_data["cutoff"])
-            force_update_entry(_w1.AD_weather_entry, uni_data["weather"])
-            force_update_entry(_w1.AD_rank_entry, uni_data["rank"])
-            force_update_entry(_w1.AD_engrank_entry, uni_data["engrank"])
-            force_update_entry(_w1.AD_ID_entry, uni_data["id"])
-            force_update_entry(_w1.AD_uniname_entry, uni_data["name"])
-            force_update_entry(_w1.AD_mingrade_entry, uni_data["mingrade"])
-            force_update_entry(_w1.AD_lat_entry, uni_data["lat"])
-            force_update_entry(_w1.AD_long_entry, uni_data["long"])
-            force_update_entry(_w1.AD_web_entry, uni_data["web"])
-
-            _w1.AD_continent_menu.set(uni_data["continent"])
-            _w1.AD_cost_scale.set(uni_data["cost"])
-            _w1.AD_spots_scale.set(uni_data["spots"])
-            _w1.AD_duration_scale.set(uni_data["duration"])
-            _w1.AD_nightlife_scale.set(uni_data["nightlife"])
-    
-    def clear_admin_fields():
-        placeholder_widgets = [
-        _w1.AD_uniname_entry, _w1.AD_country_entry, _w1.AD_city_entry,
-        _w1.AD_mingrade_entry, _w1.AD_web_entry, _w1.AD_lat_entry,
-        _w1.AD_long_entry, _w1.AD_rank_entry, _w1.AD_engrank_entry,
-        _w1.AD_weather_entry, _w1.AD_cutoff_entry
-    ]
-        for widget in placeholder_widgets:
-            widget.reset_placeholder()
-
-        _w1.AD_ID_entry.configure(state="normal")
+    def admin_editdelete():
+        uni_data = mobility_manager.get_uni_by_name(_w1.AD_uni_combobox.get())
+        _w1.AD_city_entry.delete(0, tk.END)
+        _w1.AD_city_entry.insert(0, uni_data["City"])
+        _w1.AD_country_entry.delete(0, tk.END)
+        _w1.AD_country_entry.insert(0, uni_data["Country"])
+        _w1.AD_cutoff_entry.delete(0, tk.END)
+        _w1.AD_cutoff_entry.insert(0, uni_data["Previous cutoff grade"])
+        _w1.AD_weather_entry.delete(0, tk.END)
+        _w1.AD_weather_entry.insert(0, uni_data["Weather"])
+        _w1.AD_rank_entry.delete(0, tk.END)
+        _w1.AD_rank_entry.insert(0, uni_data["University Ranking"])
+        _w1.AD_engrank_entry.delete(0, tk.END)
+        _w1.AD_engrank_entry.insert(0, uni_data["Engineering Ranking"])
         _w1.AD_ID_entry.delete(0, tk.END)
-        _w1.AD_ID_entry.configure(state="disabled")
-
-        _w1.AD_continent_menu.set('')
-        _w1.AD_uni_combobox.set('')
-
-        _w1.AD_spots_scale.set(1)
-        _w1.AD_nightlife_scale.set(1.0)
+        _w1.AD_ID_entry.insert(0, uni_data["ID"])
+        _w1.AD_uniname_entry.delete(0, tk.END)
+        _w1.AD_uniname_entry.insert(0, uni_data["Name"])
+        _w1.AD_mingrade_entry.delete(0, tk.END)
+        _w1.AD_mingrade_entry.insert(0, uni_data["Minimum grade"])
+        _w1.AD_lat_entry.delete(0, tk.END)
+        _w1.AD_lat_entry.insert(0, uni_data["Latitude"])
+        _w1.AD_long_entry.delete(0, tk.END)
+        _w1.AD_long_entry.insert(0, uni_data["Longitude"])
+        _w1.AD_web_entry.delete(0, tk.END)
+        _w1.AD_web_entry.insert(0, uni_data["Website"])
+        _w1.AD_continent_menu.set(uni_data["Continent"])
+        _w1.AD_cost_scale.set(uni_data["Cost"])
+        _w1.AD_spots_scale.set(uni_data["Spots available"])
+        _w1.AD_duration_scale.set(uni_data["Duration (months)"])
+        _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
+    
+    def admin_add():
+        _w1.AD_city_entry.delete(0, tk.END)
+        _w1.AD_country_entry.delete(0, tk.END)
+        _w1.AD_cutoff_entry.delete(0, tk.END)
+        _w1.AD_weather_entry.delete(0, tk.END)
+        _w1.AD_rank_entry.delete(0, tk.END)
+        _w1.AD_engrank_entry.delete(0, tk.END)
+        _w1.AD_ID_entry.delete(0, tk.END)
+        _w1.AD_uniname_entry.delete(0, tk.END)
+        _w1.AD_mingrade_entry.delete(0, tk.END)
+        _w1.AD_lat_entry.delete(0, tk.END)
+        _w1.AD_long_entry.delete(0, tk.END)
+        _w1.AD_web_entry.delete(0, tk.END)
+        _w1.AD_continent_menu.set("")
         _w1.AD_cost_scale.set(1.0)
+        _w1.AD_spots_scale.set(1.0)
         _w1.AD_duration_scale.set(1.0)
+        _w1.AD_nightlife_scale.set(1.0)
 
-    _w1.AD_editdelete_button.configure(command=edit_delete_admin)    
-    _w1.AD_add_button.configure(command=clear_admin_fields)
+    _w1.AD_editdelete_button.configure(command=admin_editdelete)    
+    _w1.AD_add_button.configure(command=admin_add)
 
     def show_student():
         _w1.ST_bg.lift()
