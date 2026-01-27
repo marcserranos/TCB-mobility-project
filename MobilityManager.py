@@ -7,6 +7,7 @@ class MobilityManager:
         self.__uni_df = pd.DataFrame()
 
     # --- PERSISTENCE METHODS ---
+    # The following methods are used in general to load and save data from/to the CSV file, which has persistent memory even in between different instances of the code. 
 
     def load_data(self):
         """Extracts information from the CSV into a Pandas DataFrame."""
@@ -23,7 +24,8 @@ class MobilityManager:
         self.__uni_df.to_csv(self.__file_path, index=False)
         print("Data successfully saved to CSV.")
 
-    # --- RETRIEVAL METHODS (FOR GUI) ---
+    # --- RETRIEVAL METHODS ---
+    # The following methods are used to retrieve data from the DataFrame in various formats for use in the GUI.
 
     def get_university_names(self):
         """Returns a simple list of names for GUI dropdowns or lists."""
