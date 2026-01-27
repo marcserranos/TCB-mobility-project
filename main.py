@@ -1,6 +1,6 @@
 import pandas as pd
 import random
-import mobility_manager as mm
+import MobilityManager as mm
 import logic 
 
 # This is a simple test to retrieve university data using the MobilityManager class.
