@@ -1,2 +1,77 @@
+import pandas as pd
 
+class MobilityManager:
+    def __init__(self, file_path):
 
+        self.__file_path = file_path
+        self.__uni_df = pd.DataFrame()
+
+    # --- PERSISTENCE METHODS ---
+
+    def load_data(self):
+        """Extracts information from the CSV into a Pandas DataFrame."""
+        try:
+            self.__uni_df = pd.read_csv(self.__file_path)
+            print(f"Successfully loaded {len(self.__uni_df)} entries.")
+        except FileNotFoundError:
+            print("CSV file not found. Starting with an empty database.")
+            self.__uni_df = pd.DataFrame()
+
+    def save_data(self):
+        """Persists the in-memory DataFrame back into the CSV file."""
+        # index=False prevents Pandas from adding an extra column for the row numbers
+        self.__uni_df.to_csv(self.__file_path, index=False)
+        print("Data successfully saved to CSV.")
+
+    # --- RETRIEVAL METHODS (FOR GUI) ---
+
+    def get_university_names(self):
+        """Returns a simple list of names for GUI dropdowns or lists."""
+        if self.__uni_df.empty:
+            return []
+        return self.__uni_df['Name'].tolist()
+
+    def get_all_entries_as_list(self):
+        """Returns all universities as a list of dictionaries for the preliminary delivery."""
+        # 'records' format: [{col1: val1, col2: val2}, ...]
+        return self.__uni_df.to_dict('records')
+
+    def get_uni_by_id(self, uni_id):
+        """Retrieves a single dictionary entry based on the University ID."""
+        entry = self.__uni_df[self.__uni_df['ID'] == uni_id]
+        if not entry.empty:
+            return entry.iloc[0].to_dict()
+        return None
+    
+    def get_uni_by_name(self, uni_name):
+        """Retrieves a single dictionary entry based on the University Name."""
+        entry = self.__uni_df[self.__uni_df['Name'] == uni_name]
+        if not entry.empty:
+            return entry.iloc[0].to_dict()
+        return None
+
+    # --- DATA MODIFICATION METHODS (CRUD) ---
+
+    def add_entry(self, new_data_dict):
+        """Appends a new dictionary entry to the DataFrame and saves it."""
+        # Convert the dictionary to a DataFrame row and concatenate
+        new_row = pd.DataFrame([new_data_dict])
+        self.__uni_df = pd.concat([self.__uni_df, new_row], ignore_index=True)
+        self.save_data()
+
+    def update_entry(self, uni_id, updated_data_dict):
+        """Locates an entry by ID and updates its fields with new dictionary values."""
+        if uni_id in self.__uni_df['id'].values:
+            # Find row index where ID matches
+            idx = self.__uni_df.index[self.__uni_df['ID'] == uni_id][0]
+            # Update values using .loc
+            for key, value in updated_data_dict.items():
+                self.__uni_df.at[idx, key] = value
+            self.save_data()
+            return True
+        return False
+
+    def delete_entry(self, uni_id):
+        """Removes a university entry from the DataFrame based on its ID."""
+        self.__uni_df = self.__uni_df[self.__uni_df['ID'] != uni_id]
+        self.save_data()

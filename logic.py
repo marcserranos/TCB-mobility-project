@@ -135,7 +135,9 @@ class Utilities:
 
     @staticmethod
     def generate_random_id() -> str:
-        return str(random.randint(100000, 999999))
+        """Generates a random 14-character ID as a string."""
+        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        return ''.join(random.choice(chars) for _ in range(14))
 
     @staticmethod
     def choose_random_id(): pass
