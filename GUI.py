@@ -30,28 +30,6 @@ def _style_code():
        style.theme_use('winnative')    
     _style_code_ran = 1
 
-class EntryPlaceholder(ttk.Entry):
-    def __init__(self, master=None, placeholder="", color='grey', **kwargs):
-        super().__init__(master, **kwargs)
-        self.placeholder = placeholder
-        self.placeholder_color = color
-        self.default_fg_color = '#000000' # Negro
-
-        self.bind("<FocusIn>", self._clear_placeholder)
-        self.bind("<FocusOut>", self._add_placeholder)
-
-        self._add_placeholder()
-
-    def _add_placeholder(self, e=None):
-        if not self.get():
-            self.insert(0, self.placeholder)
-            self.configure(foreground=self.placeholder_color)
-
-    def _clear_placeholder(self, e=None):
-        if self.get() == self.placeholder:
-            self.delete(0, tk.END)
-            self.configure(foreground=self.default_fg_color)
-
 class FrameBP:
 
     THEME = {
@@ -527,19 +505,13 @@ class FrameBP:
 
         # ADMIN Edit/Delete button
         self.AD_editdelete_button = ttk.Button(self.AD_subframe)
-        self.AD_editdelete_button.place(relx=0.028, rely=0.224, height=86
-                , width=275)
-        self.AD_editdelete_button.configure(takefocus="")
-        self.AD_editdelete_button.configure(text='''Edit / Delete''')
-        self.AD_editdelete_button.configure(compound='left')
+        self.AD_editdelete_button.place(relx=0.028, rely=0.224, height=86, width=275)
+        self.AD_editdelete_button.configure(text='''Edit / Delete''', compound='left',takefocus="")
 
         # ADMIN Add button
         self.AD_add_button = ttk.Button(self.AD_subframe)
         self.AD_add_button.place(relx=0.029, rely=0.598, height=86, width=275)
-        self.AD_add_button.configure(takefocus="")
-        self.AD_add_button.configure(text='''Add''')
-        self.AD_add_button.configure(compound='left')
-        self.AD_add_button.configure(cursor="fleur")
+        self.AD_add_button.configure(takefocus="", text='''Add''',compound='left', cursor="fleur")
 
         # ADMIN uni selector combobox
         self.provalist = ["Universitat Pompeu Fabra", "Universitat de Barcelona", "Universitat de València", "Autonomous University of Barcelona", "University of Granada", "University of Sevilla", "University of Salamanca", "ANTONIO", "PEPE", "JOSEP", "MARIA", "LAIA", "Igor"]
@@ -569,7 +541,7 @@ class FrameBP:
         self.AD_uniname_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Name''', compound='left', cursor="fleur")
         # ADMIN uni name entry
-        self.AD_uniname_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="Universitat Pompeu Fabra")
+        self.AD_uniname_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_uniname_entry.place(relx=0.058, rely=0.098, relheight=0.029
                 , relwidth=0.248)
         self.AD_uniname_entry.configure(exportselection="0", cursor="ibeam")
@@ -580,7 +552,7 @@ class FrameBP:
         self.AD_ID_label.configure(font="TkDefaultFont", relief="flat",
                 text='''ID''', compound='left')
         # ADMIN uni ID entry
-        self.AD_ID_entry = EntryPlaceholder(self.AD_entries_frame, placeholder="98FE9FHASN91U3")
+        self.AD_ID_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_ID_entry.place(relx=0.058, rely=0.224, relheight=0.029
                 , relwidth=0.248)
         self.AD_ID_entry.configure(exportselection="0", cursor="ibeam", state="disabled")
