@@ -5,7 +5,7 @@ class MobilityManager:
 
         self.__file_path = file_path
         self.__uni_df = pd.DataFrame()
-        
+
     # --- PERSISTENCE METHODS ---
 
     def load_data(self):
@@ -29,16 +29,23 @@ class MobilityManager:
         """Returns a simple list of names for GUI dropdowns or lists."""
         if self.__uni_df.empty:
             return []
-        return self.__uni_df['name'].tolist()
+        return self.__uni_df['Name'].tolist()
 
     def get_all_entries_as_list(self):
         """Returns all universities as a list of dictionaries for the preliminary delivery."""
         # 'records' format: [{col1: val1, col2: val2}, ...]
         return self.__uni_df.to_dict('records')
 
-    def get_entry_by_id(self, uni_id):
+    def get_uni_by_id(self, uni_id):
         """Retrieves a single dictionary entry based on the University ID."""
-        entry = self.__uni_df[self.__uni_df['id'] == uni_id]
+        entry = self.__uni_df[self.__uni_df['ID'] == uni_id]
+        if not entry.empty:
+            return entry.iloc[0].to_dict()
+        return None
+    
+    def get_uni_by_name(self, uni_name):
+        """Retrieves a single dictionary entry based on the University Name."""
+        entry = self.__uni_df[self.__uni_df['Name'] == uni_name]
         if not entry.empty:
             return entry.iloc[0].to_dict()
         return None
@@ -56,7 +63,7 @@ class MobilityManager:
         """Locates an entry by ID and updates its fields with new dictionary values."""
         if uni_id in self.__uni_df['id'].values:
             # Find row index where ID matches
-            idx = self.__uni_df.index[self.__uni_df['id'] == uni_id][0]
+            idx = self.__uni_df.index[self.__uni_df['ID'] == uni_id][0]
             # Update values using .loc
             for key, value in updated_data_dict.items():
                 self.__uni_df.at[idx, key] = value
@@ -66,5 +73,5 @@ class MobilityManager:
 
     def delete_entry(self, uni_id):
         """Removes a university entry from the DataFrame based on its ID."""
-        self.__uni_df = self.__uni_df[self.__uni_df['id'] != uni_id]
+        self.__uni_df = self.__uni_df[self.__uni_df['ID'] != uni_id]
         self.save_data()
