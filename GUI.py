@@ -55,16 +55,22 @@ class FrameBP:
         self.top = top
         self.degree_var = tk.StringVar() 
         self.lang_var = tk.StringVar()
-        self.continent_var = tk.StringVar()    
+        self.continent_var = tk.StringVar()
+        self.uni_var = tk.StringVar()    
         self.degree_var.set('Select Degree')
         self.lang_var.set('Select Language')
         self.continent_var.set('Select Continent')
+        self.uni_var.set('Select University')
         self.var_EU = tk.IntVar()
         self.var_NA = tk.IntVar()
         self.var_AS = tk.IntVar()
         self.var_SA = tk.IntVar()
         self.var_OC = tk.IntVar()
         self.var_AF = tk.IntVar() 
+        self.val_spots = tk.DoubleVar()
+        self.val_nightlife = tk.DoubleVar()
+        self.val_cost = tk.DoubleVar()
+        self.val_duration = tk.DoubleVar()
 #__________________________________________________________STUDENT PAGE_________________________________________________________
 
         # Frame for the STUDENT page
@@ -154,7 +160,7 @@ class FrameBP:
         self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame)
         self.ST_lang_menu.place(relx=0.07, rely=0.225, relheight=0.025
                 , relwidth=0.343)
-        self.ST_lang_menu.configure(exportselection="0", textvariable=self.combobox)
+        self.ST_lang_menu.configure(exportselection="0", textvariable=self.lang_var)
         self.ST_lang_frame = tk.Frame(self.ST_inputspanel_frame)
         self.ST_lang_frame.place(relx=0.07, rely=0.265, relheight=0.179
                 , relwidth=0.855)
@@ -665,7 +671,7 @@ class FrameBP:
         self.AD_spots_scale.configure(activebackground=self.THEME["BG_GREY"],
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
-                length="267", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"], from_=1, to=25, resolution=1)
+                length="267", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"], from_=1, to=25, resolution=1, variable=self.val_spots)
 
         # ADMIN academic rank label
         self.AD_rank_label = tk.Label(self.AD_entries_frame)
@@ -730,7 +736,7 @@ class FrameBP:
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
                 length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
-                from_=1.0, to=10.0, resolution=1.0)
+                from_=1.0, to=10.0, resolution=1.0, variable=self.val_nightlife)
         
         # ADMIN cost of living label
         self.AD_cost_label = tk.Label(self.AD_entries_frame)
@@ -748,7 +754,7 @@ class FrameBP:
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
                 length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
-                from_=1.0, to=10.0, resolution=1.0)
+                from_=1.0, to=10.0, resolution=1.0, variable=self.val_cost)
 
         # ADMIN previous cutoff grade label
         self.AD_cutoff_label = tk.Label(self.AD_entries_frame)
@@ -782,7 +788,7 @@ class FrameBP:
                 background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"],
                 length="266", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"],
-                from_=1.0, to=12.0, resolution=1.0)     
+                from_=1.0, to=12.0, resolution=1.0, variable=self.val_duration)     
 
 #-----------------------------------------------------ADMIN PAGE, ACTION BUTTONS------------------------------------------------------
       

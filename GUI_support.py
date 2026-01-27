@@ -13,6 +13,7 @@ from tkinter.constants import *
 from matplotlib import text
 
 import GUI
+import MobilityManager
 
 # ! /usr/bin/env python3
 #  -*- coding: utf-8 -*-
@@ -30,56 +31,39 @@ def main(*args):
     # Initialize the GUI class
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
+    mobility_manager = MobilityManager()
 
-    uni_data = {
-        "id": "USP-001",
-        "name": "University of Saint Petersburg",
-        "city": "Saint Petersburg",
-        "country": "Russia",
-        "continent": "Europe",
-        "mingrade": "6.5",
-        "cutoff": "9.0",
-        "weather": "Sunny",
-        "rank": "1",
-        "engrank": "150",
-        "lat": "59.9343",
-        "long": "30.3086",
-        "web": "https://www.usaintpetersburg.edu",
-        "cost": 3,
-        "spots": 12,
-        "duration": 6,
-        "nightlife": 5
-    }
     def admin_editdelete():
+        uni_data = mobility_manager.get_uni_by_name(_w1.AD_uni_combobox.get())
         _w1.AD_city_entry.delete(0, tk.END)
-        _w1.AD_city_entry.insert(0, uni_data["city"])
+        _w1.AD_city_entry.insert(0, uni_data["City"])
         _w1.AD_country_entry.delete(0, tk.END)
-        _w1.AD_country_entry.insert(0, uni_data["country"])
+        _w1.AD_country_entry.insert(0, uni_data["Country"])
         _w1.AD_cutoff_entry.delete(0, tk.END)
-        _w1.AD_cutoff_entry.insert(0, uni_data["cutoff"])
+        _w1.AD_cutoff_entry.insert(0, uni_data["Previous cutoff grade"])
         _w1.AD_weather_entry.delete(0, tk.END)
-        _w1.AD_weather_entry.insert(0, uni_data["weather"])
+        _w1.AD_weather_entry.insert(0, uni_data["Weather"])
         _w1.AD_rank_entry.delete(0, tk.END)
-        _w1.AD_rank_entry.insert(0, uni_data["rank"])
+        _w1.AD_rank_entry.insert(0, uni_data["University Ranking"])
         _w1.AD_engrank_entry.delete(0, tk.END)
-        _w1.AD_engrank_entry.insert(0, uni_data["engrank"])
+        _w1.AD_engrank_entry.insert(0, uni_data["Engineering Ranking"])
         _w1.AD_ID_entry.delete(0, tk.END)
-        _w1.AD_ID_entry.insert(0, uni_data["id"])
+        _w1.AD_ID_entry.insert(0, uni_data["ID"])
         _w1.AD_uniname_entry.delete(0, tk.END)
-        _w1.AD_uniname_entry.insert(0, uni_data["name"])
+        _w1.AD_uniname_entry.insert(0, uni_data["Name"])
         _w1.AD_mingrade_entry.delete(0, tk.END)
-        _w1.AD_mingrade_entry.insert(0, uni_data["mingrade"])
+        _w1.AD_mingrade_entry.insert(0, uni_data["Minimum grade"])
         _w1.AD_lat_entry.delete(0, tk.END)
-        _w1.AD_lat_entry.insert(0, uni_data["lat"])
+        _w1.AD_lat_entry.insert(0, uni_data["Latitude"])
         _w1.AD_long_entry.delete(0, tk.END)
-        _w1.AD_long_entry.insert(0, uni_data["long"])
+        _w1.AD_long_entry.insert(0, uni_data["Longitude"])
         _w1.AD_web_entry.delete(0, tk.END)
-        _w1.AD_web_entry.insert(0, uni_data["web"])
-        _w1.AD_continent_menu.set(uni_data["continent"])
-        _w1.AD_cost_scale.set(uni_data["cost"])
-        _w1.AD_spots_scale.set(uni_data["spots"])
-        _w1.AD_duration_scale.set(uni_data["duration"])
-        _w1.AD_nightlife_scale.set(uni_data["nightlife"])
+        _w1.AD_web_entry.insert(0, uni_data["Website"])
+        _w1.AD_continent_menu.set(uni_data["Continent"])
+        _w1.AD_cost_scale.set(uni_data["Cost"])
+        _w1.AD_spots_scale.set(uni_data["Spots available"])
+        _w1.AD_duration_scale.set(uni_data["Duration (months)"])
+        _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
     
     def admin_add():
         _w1.AD_city_entry.delete(0, tk.END)
@@ -94,11 +78,11 @@ def main(*args):
         _w1.AD_lat_entry.delete(0, tk.END)
         _w1.AD_long_entry.delete(0, tk.END)
         _w1.AD_web_entry.delete(0, tk.END)
-        _w1.AD_continent_menu.set(uni_data["continent"])
-        _w1.AD_cost_scale.set(uni_data["cost"])
-        _w1.AD_spots_scale.set(uni_data["spots"])
-        _w1.AD_duration_scale.set(uni_data["duration"])
-        _w1.AD_nightlife_scale.set(uni_data["nightlife"])
+        _w1.AD_continent_menu.set("")
+        _w1.AD_cost_scale.set(1.0)
+        _w1.AD_spots_scale.set(1.0)
+        _w1.AD_duration_scale.set(1.0)
+        _w1.AD_nightlife_scale.set(1.0)
 
     _w1.AD_editdelete_button.configure(command=admin_editdelete)    
     _w1.AD_add_button.configure(command=admin_add)
