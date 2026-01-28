@@ -229,7 +229,4 @@ def main(*args):
 
 if __name__ == '__main__':
     GUI.start_up()
-
-
-    # HOLQ HOL HOLAHJA
     

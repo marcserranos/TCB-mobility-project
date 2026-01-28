@@ -3,7 +3,6 @@ import random
 
 # This code defines all the classes and methods for the logic layer of the application.
 
-# --- LOCATION CLASS ---
 class Location:
     def __init__(self, city, country, continent, coords):
         # Private attributes (-) as per UML
@@ -16,7 +15,6 @@ class Location:
     def gen_map(self, coords_list: list):
         print(f"Generating map for coordinates: {coords_list}")
 
-# --- UNIVERSITY CLASS ---
 class University:
     def __init__(self, uni_id, name, degree, grade, lang, cutoff, url, logo, loc_obj):
         # Private attributes (-)
