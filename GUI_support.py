@@ -11,8 +11,6 @@ import tkinter.ttk as ttk
 from tkinter.constants import *
 from tkinter import messagebox
 
-from matplotlib import text
-
 import GUI
 from MobilityManager import MobilityManager
 
