@@ -31,7 +31,8 @@ def _style_code():
     _style_code_ran = 1
 
 class FrameBP:
-
+        
+    # Theme dictionary used throughout the GUI    
     THEME = {
         "UPF_red": "#c8102e",  
         "BG_GREY": "#d9d9d9",
@@ -43,7 +44,7 @@ class FrameBP:
     }
 
     def __init__(self, top=None):
-
+        # Toplevel configuration
         top.geometry("1440x829+-7+0")
         top.minsize(120, 1)
         top.maxsize(1444, 881)
@@ -51,7 +52,7 @@ class FrameBP:
         top.title("Toplevel 0")
         top.configure(background=self.THEME["BG_GREY"], highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
  
-        # Initialization variables, will be renamed for use. Related to the continents in the STUDENT page.
+        # Initialization variables. Related to variable dependant entries such as comboboxes and checkbuttons.
         self.top = top
         self.degree_var = tk.StringVar() 
         self.lang_var = tk.StringVar()
@@ -543,9 +544,9 @@ class FrameBP:
 
         # ADMIN uni name label
         self.AD_uniname_label = ttk.Label(self.AD_entries_frame)
-        self.AD_uniname_label.place(relx=0.058, rely=0.07, height=17, width=86)
+        self.AD_uniname_label.place(relx=0.058, rely=0.07, height=17, width=263)
         self.AD_uniname_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Name''', compound='left', cursor="fleur")
+                text='''Official name''', compound='left', cursor="fleur")
         # ADMIN uni name entry
         self.AD_uniname_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_uniname_entry.place(relx=0.058, rely=0.098, relheight=0.029
@@ -554,7 +555,7 @@ class FrameBP:
 
         # ADMIN uni ID label
         self.AD_ID_label = ttk.Label(self.AD_entries_frame)
-        self.AD_ID_label.place(relx=0.058, rely=0.196, height=17, width=117)
+        self.AD_ID_label.place(relx=0.058, rely=0.196, height=17, width=263)
         self.AD_ID_label.configure(font="TkDefaultFont", relief="flat",
                 text='''ID''', compound='left')
         # ADMIN uni ID entry
@@ -565,7 +566,7 @@ class FrameBP:
 
         # ADMIN country label
         self.AD_country_label = ttk.Label(self.AD_entries_frame)
-        self.AD_country_label.place(relx=0.058, rely=0.322, height=17, width=86)
+        self.AD_country_label.place(relx=0.058, rely=0.322, height=17, width=263)
         self.AD_country_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Country''', compound='left')
         # ADMIN country entry
@@ -576,7 +577,7 @@ class FrameBP:
 
         # ADMIN city label
         self.AD_city_label = ttk.Label(self.AD_entries_frame)
-        self.AD_city_label.place(relx=0.058, rely=0.448, height=18, width=117)
+        self.AD_city_label.place(relx=0.058, rely=0.448, height=18, width=263)
         self.AD_city_label.configure(font="TkDefaultFont", relief="flat",
                 text='''City''', compound='left')
         # ADMIN city entry
@@ -588,7 +589,7 @@ class FrameBP:
         # ADMIN continent label
         self.AD_continent_label = ttk.Label(self.AD_entries_frame)
         self.AD_continent_label.place(relx=0.058, rely=0.573, height=17
-                , width=165)
+                , width=263)
         self.AD_continent_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Continent''', compound='left')
         # ADMIN continent combobox
@@ -600,7 +601,7 @@ class FrameBP:
         # ADMIN minimum grade label
         self.AD_mingrade_label = ttk.Label(self.AD_entries_frame)
         self.AD_mingrade_label.place(relx=0.058, rely=0.699, height=17
-                , width=164)
+                , width=263)
         self.AD_mingrade_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Minimum grade''', compound='left')
         # ADMIN minimum grade entry
@@ -611,9 +612,9 @@ class FrameBP:
 
         # ADMIN website label
         self.AD_web_label = ttk.Label(self.AD_entries_frame)
-        self.AD_web_label.place(relx=0.058, rely=0.825, height=17, width=85)
+        self.AD_web_label.place(relx=0.058, rely=0.825, height=17, width=263)
         self.AD_web_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Website''', compound='left')
+                text='''Website URL''', compound='left')
         # ADMIN website entry
         self.AD_web_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_web_entry.place(relx=0.058, rely=0.853, relheight=0.029
@@ -622,7 +623,7 @@ class FrameBP:
 
         # ADMIN latitude label
         self.AD_lat_label = ttk.Label(self.AD_entries_frame)
-        self.AD_lat_label.place(relx=0.358, rely=0.07, height=17, width=86)
+        self.AD_lat_label.place(relx=0.358, rely=0.07, height=17, width=263)
         self.AD_lat_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Latitude''', compound='left')
         # ADMIN latitude entry
@@ -634,7 +635,7 @@ class FrameBP:
         # ADMIN longitude label
         self.AD_long_label = ttk.Label(self.AD_entries_frame)
         self.AD_long_label.place(relx=0.358, rely=0.196, height=17
-                , width=117)
+                , width=263)
         self.AD_long_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Longitude''', compound='left', cursor="fleur")
         # ADMIN longitude entry
@@ -646,7 +647,7 @@ class FrameBP:
         # ADMIN languages label
         self.AD_lang_label = ttk.Label(self.AD_entries_frame)
         self.AD_lang_label.place(relx=0.358, rely=0.322, height=17
-                , width=198)
+                , width=263)
         self.AD_lang_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Languages required''', compound='left')
         # ADMIN languages frame
@@ -657,7 +658,7 @@ class FrameBP:
 
         # ADMIN spots label
         self.AD_spots_label = ttk.Label(self.AD_entries_frame)
-        self.AD_spots_label.place(relx=0.358, rely=0.797, height=17, width=94)
+        self.AD_spots_label.place(relx=0.358, rely=0.797, height=17, width=263)
         self.AD_spots_label.configure(font="TkDefaultFont", relief="flat",
                 text='''Spots available''', compound='left')
         # ADMIN spots scale
@@ -671,12 +672,12 @@ class FrameBP:
 
         # ADMIN academic rank label
         self.AD_rank_label = tk.Label(self.AD_entries_frame)
-        self.AD_rank_label.place(relx=0.667, rely=0.07, height=21, width=113)
+        self.AD_rank_label.place(relx=0.667, rely=0.07, height=21, width=263)
         self.AD_rank_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''University Ranking''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''University Ranking (input 0 if N/A)''')
         # ADMIN academic rank entry
         self.AD_rank_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_rank_entry.place(relx=0.667, rely=0.098, relheight=0.029
@@ -687,12 +688,12 @@ class FrameBP:
         # ADMIN engineering rank label
         self.AD_engrank_label = tk.Label(self.AD_entries_frame)
         self.AD_engrank_label.place(relx=0.667, rely=0.196, height=21
-                , width=124)
+                , width=263)
         self.AD_engrank_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking (input 0 if N/A)''')
         # ADMIN engineering rank entry
         self.AD_engrank_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_engrank_entry.place(relx=0.667, rely=0.224, relheight=0.029
@@ -702,12 +703,12 @@ class FrameBP:
 
         # ADMIN weather label
         self.AD_weather_label = tk.Label(self.AD_entries_frame)
-        self.AD_weather_label.place(relx=0.667, rely=0.322, height=21, width=53)
+        self.AD_weather_label.place(relx=0.667, rely=0.322, height=21, width=263)
         self.AD_weather_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Weather''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''Weather (qualitative description)''')
         # ADMIN weather entry
         self.AD_weather_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_weather_entry.place(relx=0.667, rely=0.35, relheight=0.029
@@ -718,7 +719,7 @@ class FrameBP:
         # ADMIN nightlife label
         self.AD_nightlife_label = tk.Label(self.AD_entries_frame)
         self.AD_nightlife_label.place(relx=0.667, rely=0.448, height=21
-                , width=49)
+                , width=263)
         self.AD_nightlife_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
@@ -736,7 +737,7 @@ class FrameBP:
         
         # ADMIN cost of living label
         self.AD_cost_label = tk.Label(self.AD_entries_frame)
-        self.AD_cost_label.place(relx=0.667, rely=0.573, height=20, width=124)
+        self.AD_cost_label.place(relx=0.667, rely=0.573, height=20, width=263)
         self.AD_cost_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
@@ -754,12 +755,12 @@ class FrameBP:
 
         # ADMIN previous cutoff grade label
         self.AD_cutoff_label = tk.Label(self.AD_entries_frame)
-        self.AD_cutoff_label.place(relx=0.667, rely=0.699, height=21, width=134)
+        self.AD_cutoff_label.place(relx=0.667, rely=0.699, height=21, width=263)
         self.AD_cutoff_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade''')
+                highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade (input 0 if N/A)''')
         # ADMIN previous cutoff grade entry
         self.AD_cutoff_entry = ttk.Entry(self.AD_entries_frame)
         self.AD_cutoff_entry.place(relx=0.667, rely=0.727, relheight=0.029
@@ -770,7 +771,7 @@ class FrameBP:
         # ADMIN duration label
         self.AD_duration_label = tk.Label(self.AD_entries_frame)
         self.AD_duration_label.place(relx=0.667, rely=0.797, height=21
-                , width=104)
+                , width=263)
         self.AD_duration_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
@@ -835,7 +836,9 @@ class FrameBP:
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Log out''')
 
-# Code related to scroll and special widgets, will be activated later.-------------------------------------------------
+#__________________________________________________________________________________________________________________________________
+# Code related to scroll and special widgets, will be implemented later.
+
 class AutoScroll(object):
     '''Configure the scrollbars for a widget.'''
     def __init__(self, master):
