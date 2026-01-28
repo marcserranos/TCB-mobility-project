@@ -4,6 +4,15 @@ An app that scrapes, processes, enriches and displays erasmus and mobility progr
 
 - All libraries used are contained on the "requirements.txt" file.
 
+CURRENT REPO DISTRIBUTION: 
+- logic.py: preliminary class implementation
+- MobilityManager: main class implementation
+- user.py: user classes implementation
+- GUI.py: Tkinter GUI implementaiton
+- GUI_support.py: Tkinter GUI implementaiton
+- scraping/: contains experimental code for data scraping (read SCRAPING_README.md)
+
+
 Aleix Ruf i Marc Serrano.
 Enginyeria Biomèdica UPF
 
