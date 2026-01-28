@@ -9,8 +9,9 @@ CURRENT REPO DISTRIBUTION:
 - MobilityManager: main class implementation
 - user.py: user classes implementation
 - GUI.py: Tkinter GUI implementaiton
-- GUI_support.py: Tkinter GUI implementaiton
+- GUI_support.py: Tkinter GUI implementation
 - scraping/: contains experimental code for data scraping (read SCRAPING_README.md)
+- data/: contains all csv files for database and persistence memory
 
 
 Aleix Ruf i Marc Serrano.
