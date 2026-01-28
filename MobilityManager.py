@@ -1,3 +1,8 @@
+# MobilityManager.py
+# This class handles all data operations related to university information,
+# including loading from and saving to a CSV file, as well as Create, Read,
+# Update, and Delete (CRUD) operations on university entries.
+
 import pandas as pd
 import GUI
 
@@ -7,9 +12,7 @@ class MobilityManager:
         self.__file_path = file_path
         self.__uni_df = pd.DataFrame()
 
-    # --- PERSISTENCE METHODS ---
-    # The following methods are used in general to load and save data from/to the CSV file, which has persistent memory even in between different instances of the code. 
-
+    # This method extracts the information from the CSV into a Pandas DataFrame in memory for easier manipulation.
     def load_data(self):
         """Extracts information from the CSV into a Pandas DataFrame."""
         try:
@@ -19,14 +22,12 @@ class MobilityManager:
             print("CSV file not found. Starting with an empty database.")
             self.__uni_df = pd.DataFrame()
 
+    # This method saves the current state of the DataFrame back into the CSV file.
     def save_data(self):
         """Persists the in-memory DataFrame back into the CSV file."""
         # index=False prevents Pandas from adding an extra column for the row numbers
         self.__uni_df.to_csv(self.__file_path, index=False)
         print("Data successfully saved to CSV.")
-
-    # --- RETRIEVAL METHODS ---
-    # The following methods are used to retrieve data from the DataFrame in various formats for use in the GUI.
 
     def get_university_names(self):
         """Returns a simple list of names for GUI dropdowns or lists."""
@@ -35,7 +36,7 @@ class MobilityManager:
         return self.__uni_df['Name'].tolist()
 
     def get_all_entries_as_list(self):
-        """Returns all universities as a list of dictionaries for the preliminary delivery."""
+        """Returns all universities as a list of dictionaries"""
         # 'records' format: [{col1: val1, col2: val2}, ...]
         return self.__uni_df.to_dict('records')
 
@@ -53,7 +54,6 @@ class MobilityManager:
             return entry.iloc[0].to_dict()
         return None
 
-    # --- DATA MODIFICATION METHODS (CRUD) ---
 
     def add_entry(self, new_data_dict):
         """Appends a new dictionary entry to the DataFrame and saves it."""
