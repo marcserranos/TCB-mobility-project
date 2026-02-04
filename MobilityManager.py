@@ -7,13 +7,14 @@ import pandas as pd
 import GUI
 
 class MobilityManager:
-    def __init__(self, file_path):
-
-        self.__file_path = file_path
+    def __init__(self, uni_file_path, users_file_path):
+        
+        self.__file_path = uni_file_path
+        self.__users_file_path = users_file_path
         self.__uni_df = pd.DataFrame()
 
     # This method extracts the information from the CSV into a Pandas DataFrame in memory for easier manipulation.
-    def load_data(self):
+    def load_universities(self):
         """Extracts information from the CSV into a Pandas DataFrame."""
         try:
             self.__uni_df = pd.read_csv(self.__file_path)
@@ -77,6 +78,4 @@ class MobilityManager:
         """Removes a university entry from the DataFrame based on its ID."""
         self.__uni_df = self.__uni_df[self.__uni_df['ID'] != uni_id]
         self.save_data()
-
-
     

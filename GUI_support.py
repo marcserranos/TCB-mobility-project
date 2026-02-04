@@ -32,7 +32,7 @@ def main(*args):
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
     mobility_manager = MobilityManager("data/entries.csv")
-    mobility_manager.load_data()
+    mobility_manager.load_universities()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
     def admin_editdelete():

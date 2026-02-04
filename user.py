@@ -63,7 +63,6 @@ class Student(User):
 
     def new_student(self, user_id, mail, pwd):
         new_user_id = "U" + logic.Utilities.generate_random_id()
-        
         print(new_user_id)
         pass
 

@@ -9,10 +9,10 @@ import logic
 # This is a simple test to retrieve university data using the MobilityManager class.
 if __name__ == "__main__":
     # Initialize the MobilityManager with the path to the CSV file
-    mobility_manager = mm.MobilityManager("data/entries.csv")
+    mobility_manager = mm.MobilityManager(uni_file_path="data/universities.csv", users_file_path="data/users.csv")
     
     # Load data from the CSV file
-    mobility_manager.load_data()
+    mobility_manager.load_universities()
     
     # Retrieve and print all university names
     university_names = mobility_manager.get_university_names()

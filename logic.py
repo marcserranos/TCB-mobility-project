@@ -62,11 +62,6 @@ class Utilities:
     
     # We decided to try and use @staticmethods, as these methods do not require any instance-specific data.
     # In the case of Utility funcions, we won't need to create an instance of Utilities to use them.
-    @staticmethod
-    def load_data(file_path: str):
-        """Uses Pandas to load university data efficiently"""
-        # Could be eliminated as we added MobilityManager for data handling.
-        pass
 
     @staticmethod
     def generate_random_id() -> str:
