@@ -54,7 +54,6 @@ class MobilityManager:
             return entry.iloc[0].to_dict()
         return None
 
-
     def add_entry(self, new_data_dict):
         """Appends a new dictionary entry to the DataFrame and saves it."""
         # Convert the dictionary to a DataFrame row and concatenate
@@ -78,3 +77,6 @@ class MobilityManager:
         """Removes a university entry from the DataFrame based on its ID."""
         self.__uni_df = self.__uni_df[self.__uni_df['ID'] != uni_id]
         self.save_data()
+
+
+    

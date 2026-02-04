@@ -36,74 +36,7 @@ class University:
     # Public method (+) to safely access private attributes
     def get_uni_att(self, attribute: str):
         """Returns the value of the requested attribute if it exists, else None."""
-        pass
-
-# This class defines a generic user with basic attributes and methods for authentication and profile management.
-class User:
-    def __init__(self, user_id, mail, pwd):
-        # Protected attributes (#) for inheritance
-        self._ID = user_id
-        self._mail = mail
-        self._pwd = pwd
-
-    def create_user(self, user_id, mail, pwd):
-        """Creates a new user with the given credentials."""
-        pass
-
-    def verify_credentials(self, email, pwd):
-        """Verifies if the provided email and password match the user's credentials."""
-        return self._mail == email and self._pwd == pwd
-
-    # This function will have to ensure in some way that all persistant information is correctly saved on the different csv files.
-    def logout(self):
-        """Logs out the current user."""
-        print(f"User {self._mail} logged out.")
-
-    def change_pwd(self, user_id, new_pwd):
-        """Changes the password of a user."""
-        self._pwd = new_pwd
-
-    def change_mail(self, new_mail):
-        """Changes the email of a user."""
-        self._mail = new_mail
-
-
-# This class represents an admin user with elevated privileges to manage universities, it inherits from User.
-class Admin(User):
-    def __init__(self, user_id, mail, pwd):
-        super().__init__(user_id, mail, pwd)
-        # Private attribute (-)
-        self.__usertype = "admin"
-
-    # We will possibly deprecate these methods, as we introduced MobilityManager for data handling.
-    def login_retrieve_info(self, user_id): pass
-    def add_university(self): pass
-    def edit_university(self): pass
-    def delete_university(self): pass
-
-# This class represents a student user with specific attributes and methods, it inherits from User.
-class Student(User):
-    def __init__(self, user_id, mail, pwd):
-        super().__init__(user_id, mail, pwd)
-        # Private attributes (-)
-        self.__usertype = "student"
-        self.__degree = ""
-        self.__grade = 0.0
-        self.__lang = {}
-        self.__continents = []
-        self.__preferences = []
-
-    def login_retrieve_info(self, user_id):
-        """Retrieves student information upon login. Mainly preferences."""
-        pass
-
-    def new_student(self, user_id, mail, pwd):
-        """Logs the creation of a new student, updates the users.csv file. """
-        pass
-
-    def get_stud_att(self, attribute: str):
-        """Returns the value of the requested attribute if it exists, else None."""
-        pass
+        return getattr(self, f"_{self.__class__.__name__}__{attribute}", None)
 
 # This class is responsible for scoring and ranking universities based on student profiles.
 class ScoringEngine:

@@ -1,4 +1,6 @@
 # --- USER HIERARCHY ---
+import logic
+
 class User:
     def __init__(self, user_id, mail, pwd):
         # Protected attributes (#) for inheritance
@@ -60,6 +62,9 @@ class Student(User):
         pass
 
     def new_student(self, user_id, mail, pwd):
+        new_user_id = "U" + logic.Utilities.generate_random_id()
+        
+        print(new_user_id)
         pass
 
     def get_stud_att(self, attribute: str):
