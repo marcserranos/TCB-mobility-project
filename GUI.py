@@ -445,7 +445,7 @@ class FrameBP:
         self.LG_sublabelframe.place(relx=0.312, rely=0.466, relheight=0.388
                 , relwidth=0.382)
         self.LG_sublabelframe.configure(relief='groove', foreground="white",
-                text='''Student''', background=self.THEME["UPF_red"],
+                text='', background=self.THEME["UPF_red"],
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
 
         # LOGIN mail label
@@ -497,9 +497,9 @@ class FrameBP:
 
         # LOGIN title label
         self.LG_title_label = tk.Label(self.LG_bg)
-        self.LG_title_label.place(relx=0.284, rely=0.18, height=91, width=644)
+        self.LG_title_label.place(relx=0.5, rely=0.18, height=91, width=644, anchor='center')
         self.LG_title_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["UPF_red"],
+                activeforeground="black", anchor='center', background=self.THEME["UPF_red"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 font="-family {Microsoft YaHei} -size 48 -weight bold",
                 foreground=self.THEME["TEXT_LIGHT"], highlightbackground=self.THEME["BG_GREY"],

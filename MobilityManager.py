@@ -7,11 +7,12 @@ import pandas as pd
 import GUI
 
 class MobilityManager:
-    def __init__(self, uni_file_path, users_file_path):
+    def __init__(self, uni_file_path="data/entries.csv", users_file_path="data/users.csv"):
         
         self.__file_path = uni_file_path
         self.__users_file_path = users_file_path
         self.__uni_df = pd.DataFrame()
+        self.__users_df = pd.DataFrame()
 
     # This method extracts the information from the CSV into a Pandas DataFrame in memory for easier manipulation.
     def load_universities(self):
@@ -78,4 +79,33 @@ class MobilityManager:
         """Removes a university entry from the DataFrame based on its ID."""
         self.__uni_df = self.__uni_df[self.__uni_df['ID'] != uni_id]
         self.save_data()
+
+    def load_users(self):
+        """Loads user data from the users CSV file."""
+        try:
+            self.__users_df = pd.read_csv(self.__users_file_path)
+            print(f"Successfully loaded {len(self.__users_df)} users.")
+        except FileNotFoundError:
+            print("Users CSV file not found. Starting with an empty user database.")
+            self.__users_df = pd.DataFrame()
+
+    def save_users(self):
+        """Saves the current user DataFrame back to the users CSV file."""
+        self.__users_df.to_csv(self.__users_file_path, index=False)
+        print("User data successfully saved to CSV.")
+    
+    def verify_credentials(self, email, pwd):
+        """Checks if the provided email and password match any user in the users DataFrame."""
+        if self.__users_df.empty:
+            return False
+        user = self.__users_df[(self.__users_df['email'] == email) & (self.__users_df['pwd'] == pwd)]
+        return not user.empty
+    
+    def add_user(self, user_data_dict):
+        """Adds a new user to the users DataFrame and saves it."""
+        new_user_row = pd.DataFrame([user_data_dict])
+        self.__users_df = pd.concat([self.__users_df, new_user_row], ignore_index=True)
+        self.save_users()
+    
+
     

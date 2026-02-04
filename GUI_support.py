@@ -31,6 +31,17 @@ def main(*args):
     # Initialize the GUI class
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
+    # selection state: None | 'student' | 'admin'
+    _w1.auth_selection = None
+    # styles: Unselected (red background) and Selected (non-red background)
+    style = ttk.Style()
+    try:
+        style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
+        style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
+    except Exception:
+        # Some themes ignore background; ensure foregrounds are set
+        style.configure('Unselected.TButton', foreground='white')
+        style.configure('Selected.TButton', foreground='black')
     mobility_manager = MobilityManager("data/entries.csv")
     mobility_manager.load_universities()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
@@ -188,6 +199,57 @@ def main(*args):
     _w1.AD_save_button.configure(command=save_admin_entries)
     _w1.AD_delete_button.configure(command=delete_admin_entries)
 
+    def show_student_login():
+        """Toggle Student selection: show student buttons or deselect if already selected."""
+        if _w1.auth_selection == 'student':
+            # deselect: hide panel entirely
+            _w1.auth_selection = None
+            _w1.LG_sublabelframe.configure(text='')
+            _w1.LG_sublabelframe.place_forget()
+            _w1.LG_studentlogin_button.place_forget()
+            _w1.LG_studentsingup_button.place_forget()
+            _w1.LG_adminlogin_button.place_forget()
+            _w1.LG_student_button.configure(style='Unselected.TButton')
+            _w1.LG_admin_button.configure(style='Unselected.TButton')
+            root.update_idletasks()
+            return
+
+        # select student
+        _w1.auth_selection = 'student'
+        _w1.LG_sublabelframe.place(relx=0.312, rely=0.466, relheight=0.388, relwidth=0.382)
+        _w1.LG_sublabelframe.configure(text='Student')
+        _w1.LG_studentlogin_button.place(relx=0.178, rely=0.772, height=56, width=125, bordermode='ignore')
+        _w1.LG_studentsingup_button.place(relx=0.606, rely=0.772, height=56, width=125, bordermode='ignore')
+        _w1.LG_adminlogin_button.place_forget()
+        _w1.LG_student_button.configure(style='Selected.TButton')
+        _w1.LG_admin_button.configure(style='Unselected.TButton')
+        root.update_idletasks()
+
+    def show_admin_login():
+        """Toggle Admin selection: show admin login or deselect if already selected."""
+        if _w1.auth_selection == 'admin':
+            _w1.auth_selection = None
+            _w1.LG_sublabelframe.configure(text='')
+            _w1.LG_sublabelframe.place_forget()
+            _w1.LG_adminlogin_button.place_forget()
+            _w1.LG_studentlogin_button.place_forget()
+            _w1.LG_studentsingup_button.place_forget()
+            _w1.LG_student_button.configure(style='Unselected.TButton')
+            _w1.LG_admin_button.configure(style='Unselected.TButton')
+            root.update_idletasks()
+            return
+
+        # select admin
+        _w1.auth_selection = 'admin'
+        _w1.LG_sublabelframe.place(relx=0.312, rely=0.466, relheight=0.388, relwidth=0.382)
+        _w1.LG_sublabelframe.configure(text='Admin')
+        _w1.LG_adminlogin_button.place(relx=0.392, rely=0.772, height=56, width=125, bordermode='ignore')
+        _w1.LG_studentlogin_button.place_forget()
+        _w1.LG_studentsingup_button.place_forget()
+        _w1.LG_admin_button.configure(style='Selected.TButton')
+        _w1.LG_student_button.configure(style='Unselected.TButton')
+        root.update_idletasks()
+
     def show_student():
         _w1.ST_bg.lift()
 
@@ -196,6 +258,23 @@ def main(*args):
 
     def show_login():
         _w1.LG_bg.lift()
+        # Show selection buttons and form, hide all login buttons initially
+        _w1.LG_student_button.place(relx=0.388, rely=0.323, height=86, width=125)
+        _w1.LG_admin_button.place(relx=0.54, rely=0.323, height=86, width=125)
+        # hide input panel by default (no selection)
+        _w1.LG_sublabelframe.place_forget()
+        _w1.LG_studentlogin_button.place_forget()
+        _w1.LG_adminlogin_button.place_forget()
+        _w1.LG_studentsingup_button.place_forget()
+        _w1.LG_mail_entry.delete(0, tk.END)
+        _w1.LG_pwd_entry.delete(0, tk.END)
+        # default: no selection -> both top buttons shown as Unselected (red)
+        try:
+            _w1.LG_student_button.configure(style='Unselected.TButton')
+            _w1.LG_admin_button.configure(style='Unselected.TButton')
+        except Exception:
+            pass
+        root.update_idletasks()
 
     def logout():
         clear_admin_entries()
@@ -214,8 +293,8 @@ def main(*args):
     _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection())
 
     # Link Login Screen Buttons
-    _w1.LG_student_button.configure(command=show_student)
-    _w1.LG_admin_button.configure(command=show_admin)
+    _w1.LG_student_button.configure(command=show_student_login)
+    _w1.LG_admin_button.configure(command=show_admin_login)
 
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=logout)
