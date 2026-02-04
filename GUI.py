@@ -154,16 +154,28 @@ class FrameBP:
                                     highlightcolor=self.THEME["TEXT_DARK"], text='''Grade''')
 
         # STUDENT Languages selector (TO DO)
-        self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame)
-        self.ST_lang_menu.place(relx=0.07, rely=0.225, relheight=0.025
-                , relwidth=0.343)
-        self.ST_lang_menu.configure(exportselection="0", textvariable=self.lang_var)
+        # Define the 8 language pool
+        language_pool = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese", "Japanese"]
+
+        # STUDENT Languages selector
+        self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame, values=language_pool)
+        self.ST_lang_menu.place(relx=0.07, rely=0.225, relheight=0.025, relwidth=0.343)
+        self.ST_lang_menu.configure(exportselection="0", textvariable=self.lang_var, state="readonly")
+        self.lang_var.set('Select Language')
+
+# Frame where added languages will appear
+        # Frame where added languages will appear
         self.ST_lang_frame = tk.Frame(self.ST_inputspanel_frame)
-        self.ST_lang_frame.place(relx=0.07, rely=0.265, relheight=0.179
-                , relwidth=0.855)
-        self.ST_lang_frame.configure(relief='groove', borderwidth="2",
-                background=self.THEME["BG_GREY"], highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"])
+        self.ST_lang_frame.place(relx=0.07, rely=0.265, relheight=0.179, relwidth=0.855)
+        self.ST_lang_frame.configure(relief='groove', borderwidth="2", background=self.THEME["BG_GREY"])
+
+        # Configure 2 equal columns for the grid
+        self.ST_lang_frame.columnconfigure(0, weight=1)
+        self.ST_lang_frame.columnconfigure(1, weight=1)
+
+        # To keep track of active language rows
+        self.added_languages = {} # Format: {"English": [frame, level_combobox]}
+
         self.ST_lang_label = tk.Label(self.ST_inputspanel_frame)
         self.ST_lang_label.place(relx=0.07, rely=0.184, height=22, width=74)
         self.ST_lang_label.configure(activebackground=self.THEME["BG_GREY"],
@@ -178,7 +190,7 @@ class FrameBP:
 
         # STUDENT Degree menu
         self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame)
-        self.ST_degree_menu.place(relx=0.21, rely=0.066, relheight=0.025
+        self.ST_degree_menu.place(relx=0.21, rely=0.066, relheight=0.035
                 , relwidth=0.743)
         self.ST_degree_menu.configure(exportselection="0", textvariable=self.degree_var)
 
@@ -193,7 +205,7 @@ class FrameBP:
 
         # STUDENT continents label
         self.ST_continents_label = tk.Label(self.ST_inputspanel_frame)
-        self.ST_continents_label.place(relx=0.07, rely=0.464, height=21, width=84)
+        self.ST_continents_label.place(relx=0.07, rely=0.464, height=30, width=84)
         self.ST_continents_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
@@ -202,54 +214,71 @@ class FrameBP:
         
         # STUDENT continent checkbutton (EU)
         self.ST_europe_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_europe_check.place(relx=0.093, rely=0.503, relwidth=0.131
-                , relheight=0.0, height=19)
+        self.ST_europe_check.place(relx=0.093, rely=0.503, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_europe_check.configure(variable=self.var_EU, text='''Europe''', compound='left')
 
         # STUDENT continent checkbutton (SA)
         self.ST_southamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_southamerica_check.place(relx=0.376, rely=0.503, relwidth=0.245
-                , relheight=0.0, height=19)
+        self.ST_southamerica_check.place(relx=0.376, rely=0.503, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_southamerica_check.configure(variable=self.var_SA, text='''South America''', compound='left')
 
         # STUDENT continent checkbutton (AS)
         self.ST_asia_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_asia_check.place(relx=0.657, rely=0.503, relwidth=0.245
-                , relheight=0.0, height=19)
+        self.ST_asia_check.place(relx=0.657, rely=0.503, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_asia_check.configure(variable=self.var_AS, text='''Asia''', compound='left')
 
         # STUDENT continents checkbutton (AF)
         self.ST_africa_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_africa_check.place(relx=0.093, rely=0.531, relwidth=0.131
-                , relheight=0.0, height=18)
+        self.ST_africa_check.place(relx=0.093, rely=0.531, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_africa_check.configure(variable=self.var_AF, text='''Africa''', compound='left')
 
         # STUDENT continent checkbutton (NA)
         self.ST_northamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_northamerica_check.place(relx=0.376, rely=0.531, relwidth=0.129
-                , relheight=0.0, height=18)
+        self.ST_northamerica_check.place(relx=0.376, rely=0.531, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_northamerica_check.configure(variable=self.var_NA, text='''North America''', compound='left')
 
         # STUDENT continent checkbutton (OC)
         self.ST_oceania_check = ttk.Checkbutton(self.ST_inputspanel_frame)
-        self.ST_oceania_check.place(relx=0.657, rely=0.531, relwidth=0.152
-                , relheight=0.0, height=18)
+        self.ST_oceania_check.place(relx=0.657, rely=0.531, relwidth=0.25
+                , relheight=0.0, height=26)
         self.ST_oceania_check.configure(variable=self.var_OC, text='''Oceania''', compound='left')
 
-        # STUDENT preferences scrolled window (TO DO: rename, plan, code, beautify)
-        self.ScrolledwindowPreferencesLP = ScrolledWindow(self.ST_inputspanel_frame)
-        self.ScrolledwindowPreferencesLP.place(relx=0.07, rely=0.623
-                , relheight=0.273, relwidth=0.853)
-        self.ScrolledwindowPreferencesLP.configure(background=self.THEME["BG_GREY"],
-                borderwidth="2", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], insertbackground=self.THEME["TEXT_DARK"],
-                relief="groove", selectbackground=self.THEME["BG_GREY"],
-                selectforeground="black")
-        self.color = self.ScrolledwindowPreferencesLP.cget("background")
-        self.ScrolledwindowPreferencesLP_f = tk.Frame(self.ScrolledwindowPreferencesLP,
-                            background=self.color)
-        self.ScrolledwindowPreferencesLP.create_window(0, 0, anchor='nw',
-                                           window=self.ScrolledwindowPreferencesLP_f)
+        # STUDENT preferences container frame
+        self.ST_prefs_frame = tk.Frame(self.ST_inputspanel_frame)
+        self.ST_prefs_frame.place(relx=0.07, rely=0.623, relheight=0.273, relwidth=0.853)
+        self.ST_prefs_frame.configure(relief='groove', borderwidth="2", background=self.THEME["BG_GREY"])
+
+        # Lists to hold the widgets for easy access
+        self.pref_rows = []
+        self.pref_labels = []
+        self.pref_up_btns = []
+        self.pref_down_btns = []
+
+        # Changed to 4 entries only
+        for i in range(4):
+            row = tk.Frame(self.ST_prefs_frame, background=self.THEME["BG_GREY"], 
+                           highlightbackground=self.THEME["TEXT_DARK"], highlightthickness=1, height=48)
+            row.pack(fill="x", padx=2, pady=1)
+            row.pack_propagate(False)
+            
+            lbl = tk.Label(row, text="", background=self.THEME["BG_GREY"], foreground=self.THEME["TEXT_DARK"], anchor="w")
+            lbl.pack(side="left", padx=10, fill="both", expand=True)
+            
+            btn_down = tk.Button(row, text="▼", width=3)
+            btn_down.pack(side="right", padx=5)
+            
+            btn_up = tk.Button(row, text="▲", width=3)
+            btn_up.pack(side="right", padx=2)
+
+            self.pref_rows.append(row)
+            self.pref_labels.append(lbl)
+            self.pref_down_btns.append(btn_down)
+            self.pref_up_btns.append(btn_up)
 
         # STUDENT Rank! button
         self.ST_rank_button = ttk.Button(self.ST_inputspanel_frame)
@@ -655,6 +684,86 @@ class FrameBP:
         self.AD_lang_frame.place(relx=0.358, rely=0.35, relheight=0.401
                 , relwidth=0.259)
         self.AD_lang_frame.configure(relief='groove', borderwidth="2")
+
+        # ADMIN English label
+        self.AD_english_label = ttk.Label(self.AD_lang_frame)
+        self.AD_english_label.place(relx=0.02, rely=0.01, height=14, relwidth=0.35)
+        self.AD_english_label.configure(font="TkDefaultFont", relief="flat",
+                text='''English''', compound='left')
+        # ADMIN English combobox
+        self.AD_english_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_english_combobox.place(relx=0.40, rely=0.01, relheight=0.065, relwidth=0.58)
+        self.AD_english_combobox.configure(state="readonly")
+
+        # ADMIN Spanish label
+        self.AD_spanish_label = ttk.Label(self.AD_lang_frame)
+        self.AD_spanish_label.place(relx=0.02, rely=0.11, height=14, relwidth=0.35)
+        self.AD_spanish_label.configure(font="TkDefaultFont", relief="flat",
+                text='''Spanish''', compound='left')
+        # ADMIN Spanish combobox
+        self.AD_spanish_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_spanish_combobox.place(relx=0.40, rely=0.11, relheight=0.065, relwidth=0.58)
+        self.AD_spanish_combobox.configure(state="readonly")
+
+        # ADMIN French label
+        self.AD_french_label = ttk.Label(self.AD_lang_frame)
+        self.AD_french_label.place(relx=0.02, rely=0.21, height=14, relwidth=0.35)
+        self.AD_french_label.configure(font="TkDefaultFont", relief="flat",
+                text='''French''', compound='left')
+        # ADMIN French combobox
+        self.AD_french_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_french_combobox.place(relx=0.40, rely=0.21, relheight=0.065, relwidth=0.58)
+        self.AD_french_combobox.configure(state="readonly")
+
+        # ADMIN German label
+        self.AD_german_label = ttk.Label(self.AD_lang_frame)
+        self.AD_german_label.place(relx=0.02, rely=0.31, height=14, relwidth=0.35)
+        self.AD_german_label.configure(font="TkDefaultFont", relief="flat",
+                text='''German''', compound='left')
+        # ADMIN German combobox
+        self.AD_german_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_german_combobox.place(relx=0.40, rely=0.31, relheight=0.065, relwidth=0.58)
+        self.AD_german_combobox.configure(state="readonly")
+
+        # ADMIN Portuguese label
+        self.AD_portuguese_label = ttk.Label(self.AD_lang_frame)
+        self.AD_portuguese_label.place(relx=0.02, rely=0.41, height=14, relwidth=0.35)
+        self.AD_portuguese_label.configure(font="TkDefaultFont", relief="flat",
+                text='''Portuguese''', compound='left')
+        # ADMIN Portuguese combobox
+        self.AD_portuguese_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_portuguese_combobox.place(relx=0.40, rely=0.41, relheight=0.065, relwidth=0.58)
+        self.AD_portuguese_combobox.configure(state="readonly")
+
+        # ADMIN Chinese label
+        self.AD_chinese_label = ttk.Label(self.AD_lang_frame)
+        self.AD_chinese_label.place(relx=0.02, rely=0.51, height=14, relwidth=0.35)
+        self.AD_chinese_label.configure(font="TkDefaultFont", relief="flat",
+                text='''Chinese''', compound='left')
+        # ADMIN Chinese combobox
+        self.AD_chinese_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_chinese_combobox.place(relx=0.40, rely=0.51, relheight=0.065, relwidth=0.58)
+        self.AD_chinese_combobox.configure(state="readonly")
+
+        # ADMIN Japanese label
+        self.AD_japanese_label = ttk.Label(self.AD_lang_frame)
+        self.AD_japanese_label.place(relx=0.02, rely=0.61, height=14, relwidth=0.35)
+        self.AD_japanese_label.configure(font="TkDefaultFont", relief="flat",
+                text='''Japanese''', compound='left')
+        # ADMIN Japanese combobox
+        self.AD_japanese_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_japanese_combobox.place(relx=0.40, rely=0.61, relheight=0.065, relwidth=0.58)
+        self.AD_japanese_combobox.configure(state="readonly")
+
+        # ADMIN Italian label
+        self.AD_italian_label = ttk.Label(self.AD_lang_frame)
+        self.AD_italian_label.place(relx=0.02, rely=0.71, height=14, relwidth=0.35)
+        self.AD_italian_label.configure(font="TkDefaultFont", relief="flat",
+                text='''Italian''', compound='left')
+        # ADMIN Italian combobox
+        self.AD_italian_combobox = ttk.Combobox(self.AD_lang_frame)
+        self.AD_italian_combobox.place(relx=0.40, rely=0.71, relheight=0.065, relwidth=0.58)
+        self.AD_italian_combobox.configure(state="readonly")
 
         # ADMIN spots label
         self.AD_spots_label = ttk.Label(self.AD_entries_frame)

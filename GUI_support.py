@@ -189,6 +189,54 @@ def main(*args):
     _w1.AD_save_button.configure(command=save_admin_entries)
     _w1.AD_delete_button.configure(command=delete_admin_entries)
 
+    def add_language():
+        lang = _w1.lang_var.get()
+        
+        if lang == "Select Language" or lang == "" or lang in _w1.added_languages:
+            return
+        
+        # Limit to 8 languages total (4 rows x 2 columns)
+        count = len(_w1.added_languages)
+        if count >= 8:
+            tk.messagebox.showwarning("Limit Reached", "You can only add up to 8 languages.")
+            return
+
+        # Calculate Grid Position: 0-3 rows, 0-1 columns
+        grid_row = count % 4
+        grid_col = count // 4
+
+        # Container for this specific language entry
+        row_frame = tk.Frame(_w1.ST_lang_frame, background=_w1.THEME["BG_GREY"])
+        row_frame.grid(row=grid_row, column=grid_col, sticky="nsew", padx=2, pady=1)
+
+        # 1. Language Name (Smaller width to fit 2 columns)
+        lbl = tk.Label(row_frame, text=lang, background=_w1.THEME["BG_GREY"], 
+                       foreground=_w1.THEME["TEXT_DARK"], width=8, anchor="w")
+        lbl.pack(side="left", padx=2)
+
+        # 2. Level Selector
+        level_var = tk.StringVar(value="B1")
+        cb = ttk.Combobox(row_frame, values=["B1", "B2", "C1", "C2"], 
+                          textvariable=level_var, width=4, state="readonly")
+        cb.pack(side="left", padx=2)
+
+        # 3. Remove Button
+        btn_remove = tk.Button(row_frame, text="x", fg="red", relief="flat", 
+                               background=_w1.THEME["BG_GREY"], font=("Arial", 8),
+                               command=lambda l=lang, r=row_frame: remove_language(l, r))
+        btn_remove.pack(side="right", padx=2)
+
+        _w1.added_languages[lang] = [row_frame, cb]
+
+    def remove_language(lang, row_frame):
+        row_frame.destroy()
+        del _w1.added_languages[lang]
+        # Optional: Redraw remaining to fill gaps (if you want them to shift back)
+        # But for simplicity, leaving a gap is fine in a grid.
+
+    # Link the existing Add button from GUI.py to our function
+    _w1.ST_lang_button.configure(command=add_language)
+
     # Navigation logic
     def show_student():
         '''Function to show the Student screen.'''
@@ -216,6 +264,37 @@ def main(*args):
             _w1.AD_editdelete_button.config(state="disabled")
         else:
             _w1.AD_editdelete_button.config(state="normal")
+
+    # --- PREFERENCES LOGIC (4 ENTRIES) ---
+    # Omitted "Engineering Rank"
+    preferences_data = ["Cost of Living", "Nightlife", "Weather", "Academic Rank"]
+
+    def update_pref_ui():
+        """Updates the text and button states for the 4 existing rows."""
+        for i in range(4):
+            # Update Label text
+            _w1.pref_labels[i].config(text=f"{i+1}. {preferences_data[i]}")
+            
+            # Update Down button: disabled if at index 3 (the new bottom)
+            _w1.pref_down_btns[i].config(
+                command=lambda idx=i: move_pref(idx, 1),
+                state="disabled" if i == 3 else "normal"
+            )
+            
+            # Update Up button: disabled if at index 0
+            _w1.pref_up_btns[i].config(
+                command=lambda idx=i: move_pref(idx, -1),
+                state="disabled" if i == 0 else "normal"
+            )
+
+    def move_pref(index, direction):
+        """Swaps the data and refreshes the UI labels."""
+        new_index = index + direction
+        preferences_data[index], preferences_data[new_index] = preferences_data[new_index], preferences_data[index]
+        update_pref_ui()
+
+    # Initial call to populate the 4 items
+    update_pref_ui()
     
     # Links combobox selection to check function to enable edit/delete button
     _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection())
