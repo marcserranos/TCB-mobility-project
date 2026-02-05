@@ -1,4 +1,4 @@
-# Still in development
-# Will contain a tabular list of all users with their respective email and password.
-# Each row represents a user, with columns for user ID, email, password, and other relevant attributes.
+email,password,user_type,UID
+ruf,lolazo,student,UQO0QQGSPY3PKX5
+a,a,admin,UQO0QQGSPY3PKX6
 

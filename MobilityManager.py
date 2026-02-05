@@ -5,6 +5,7 @@
 
 import pandas as pd
 import GUI
+import logic
 
 class MobilityManager:
     def __init__(self, uni_file_path="data/entries.csv", users_file_path="data/users.csv"):
@@ -94,18 +95,27 @@ class MobilityManager:
         self.__users_df.to_csv(self.__users_file_path, index=False)
         print("User data successfully saved to CSV.")
     
-    def verify_credentials(self, email, pwd):
+    def verify_credentials(self, email, pwd, user_type):
         """Checks if the provided email and password match any user in the users DataFrame."""
         if self.__users_df.empty:
             return False
-        user = self.__users_df[(self.__users_df['email'] == email) & (self.__users_df['pwd'] == pwd)]
+        user = self.__users_df[(self.__users_df['email'] == email) & (self.__users_df['password'] == pwd) & (self.__users_df['user_type'] == user_type)]
         return not user.empty
     
     def add_user(self, user_data_dict):
         """Adds a new user to the users DataFrame and saves it."""
+        #Generate random ID for the new user
+        user_data_dict['UID'] = "U" + logic.Utilities.generate_random_id()
+        # Convert the dictionary to a DataFrame row and concatenate
         new_user_row = pd.DataFrame([user_data_dict])
         self.__users_df = pd.concat([self.__users_df, new_user_row], ignore_index=True)
         self.save_users()
+
+    def check_new_user_email(self, email):
+        """Checks if the provided email already exists in the users DataFrame."""
+        if self.__users_df.empty:
+            return False
+        return not self.__users_df[self.__users_df['email'] == email].empty
     
 
     

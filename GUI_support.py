@@ -31,6 +31,8 @@ def main(*args):
     # Initialize the GUI class
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
+
+    ## aixó ho hem de moure en algun altre lloc o dins d'una funció d'inicialització, però ho deixo aquí per ara
     # selection state: None | 'student' | 'admin'
     _w1.auth_selection = None
     # styles: Unselected (red background) and Selected (non-red background)
@@ -42,8 +44,11 @@ def main(*args):
         # Some themes ignore background; ensure foregrounds are set
         style.configure('Unselected.TButton', foreground='white')
         style.configure('Selected.TButton', foreground='black')
+    ## ----------------------------------------------------------------
+    
     mobility_manager = MobilityManager("data/entries.csv")
     mobility_manager.load_universities()
+    mobility_manager.load_users()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
     def admin_editdelete():
@@ -295,6 +300,87 @@ def main(*args):
     # Link Login Screen Buttons
     _w1.LG_student_button.configure(command=show_student_login)
     _w1.LG_admin_button.configure(command=show_admin_login)
+
+    # --- Authentication button handlers ---
+    def admin_login_action():
+        email = _w1.LG_mail_entry.get().strip()
+        pwd = _w1.LG_pwd_entry.get().strip()
+        if not email or not pwd:
+            tk.messagebox.showerror("Missing fields", "Please enter email and password.")
+            return
+        # Prefer MobilityManager.verify_credentials if implemented
+        if hasattr(mobility_manager, 'verify_credentials'):
+            try:
+                ok = mobility_manager.verify_credentials(email, pwd, 'admin')
+            except Exception as e:
+                tk.messagebox.showerror("Error", f"Error during auth: {e}")
+                return
+            if ok:
+                show_admin()
+            else:
+                tk.messagebox.showerror("Authentication failed", "Invalid admin credentials.")
+        else:
+            # Fallback: simulate success
+            tk.messagebox.showinfo("Not implemented", "verify_credentials not implemented yet — proceeding to Admin.")
+            show_admin()
+
+    def student_login_action():
+        email = _w1.LG_mail_entry.get().strip()
+        pwd = _w1.LG_pwd_entry.get().strip()
+        if not email or not pwd:
+            tk.messagebox.showerror("Missing fields", "Please enter email and password.")
+            return
+        if hasattr(mobility_manager, 'verify_credentials'):
+            try:
+                ok = mobility_manager.verify_credentials(email, pwd, 'student')
+            except Exception as e:
+                tk.messagebox.showerror("Error", f"Error during auth: {e}")
+                return
+            if ok:
+                show_student()
+            else:
+                tk.messagebox.showerror("Authentication failed", "Invalid student credentials.")
+        else:
+            tk.messagebox.showinfo("Not implemented", "verify_credentials not implemented yet — proceeding to Student.")
+            show_student()
+
+    def student_signup_action():
+        email = _w1.LG_mail_entry.get().strip()
+        pwd = _w1.LG_pwd_entry.get().strip()
+        if not email or not pwd:
+            tk.messagebox.showerror("Missing fields", "Please enter email and password to sign up.")
+            return
+        # Check if email already exists
+        if hasattr(mobility_manager, 'check_new_user_email'):
+            try:
+                if mobility_manager.check_new_user_email(email):
+                    tk.messagebox.showerror("Email exists", f"The email '{email}' is already registered.")
+                    return
+            except Exception as e:
+                tk.messagebox.showerror("Error", f"Error checking email: {e}")
+                return
+        # Call MobilityManager.add_user if available
+        if hasattr(mobility_manager, 'add_user'):
+            try:
+                mobility_manager.add_user({
+                    'email': email,
+                    'password': pwd,
+                    'user_type': 'student'
+                })
+            except Exception as e:
+                tk.messagebox.showerror("Error", f"Error creating user: {e}")
+                return
+            tk.messagebox.showinfo("Success", "Account created — proceeding to Student screen.")
+            show_student()
+        else:
+            # Fallback: simulate user creation
+            tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")
+            show_student()
+
+    # Bind the auth button handlers
+    _w1.LG_adminlogin_button.configure(command=admin_login_action)
+    _w1.LG_studentlogin_button.configure(command=student_login_action)
+    _w1.LG_studentsingup_button.configure(command=student_signup_action)
 
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=logout)
