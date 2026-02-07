@@ -33,20 +33,6 @@ def main(*args):
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
 
-    ## aixó ho hem de moure en algun altre lloc o dins d'una funció d'inicialització, però ho deixo aquí per ara
-    # selection state: None | 'student' | 'admin'
-    _w1.auth_selection = None
-    # styles: Unselected (red background) and Selected (non-red background)
-    style = ttk.Style()
-    try:
-        style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
-        style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
-    except Exception:
-        # Some themes ignore background; ensure foregrounds are set
-        style.configure('Unselected.TButton', foreground='white')
-        style.configure('Selected.TButton', foreground='black')
-    ## ----------------------------------------------------------------
-    
     mobility_manager = MobilityManager("data/entries.csv")
     mobility_manager.load_universities()
     mobility_manager.load_users()
@@ -262,7 +248,20 @@ def main(*args):
     def show_admin():
         _w1.AD_bg.lift()
 
+    def initialize_login_ui_state():
+        """Initialize auth selection state and button styles for the login screen."""
+        _w1.auth_selection = None
+        style = ttk.Style()
+        try:
+            style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
+            style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
+        except Exception:
+            # Some themes ignore background; ensure foregrounds are set
+            style.configure('Unselected.TButton', foreground='white')
+            style.configure('Selected.TButton', foreground='black')
+
     def show_login():
+        initialize_login_ui_state()
         _w1.LG_bg.lift()
         # Show selection buttons and form, hide all login buttons initially
         _w1.LG_student_button.place(relx=0.388, rely=0.323, height=86, width=125)
