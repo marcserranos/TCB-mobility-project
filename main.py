@@ -5,6 +5,7 @@ import pandas as pd
 import random
 import MobilityManager as mm
 import logic 
+from utilities import Utilities
 
 # This is a simple test to retrieve university data using the MobilityManager class.
 if __name__ == "__main__":
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 
     # Generate 20 random IDs with Utilities class
     for i in range(20):
-        random_id = logic.Utilities.generate_random_id()
+        random_id = Utilities.generate_random_id()
         print(f"Generated Random ID {i+1}: {random_id}")
 
     # Retrieve a specific university by name

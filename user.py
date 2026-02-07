@@ -1,5 +1,6 @@
 # --- USER HIERARCHY ---
 import logic
+from utilities import Utilities
 
 class User:
     def __init__(self, user_id, mail, pwd):
@@ -62,7 +63,7 @@ class Student(User):
         pass
 
     def new_student(self, user_id, mail, pwd):
-        new_user_id = "U" + logic.Utilities.generate_random_id()
+        new_user_id = "U" + Utilities.generate_random_id()
         print(new_user_id)
         pass
 

@@ -12,6 +12,7 @@ CURRENT REPO DISTRIBUTION:
 - GUI_support.py: Tkinter GUI implementation
 - scraping/: contains experimental code for data scraping (read SCRAPING_README.md)
 - data/: contains all csv files for database and persistence memory
+- images/: contains all the logo images for each university classified by Uni ID
 
 
 Aleix Ruf i Marc Serrano.

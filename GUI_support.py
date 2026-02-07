@@ -21,6 +21,7 @@ import sys
 import tkinter as tk
 import GUI
 import logic
+from utilities import Utilities
 
 def main(*args):
     '''Main entry point for the application.'''
@@ -178,7 +179,7 @@ def main(*args):
             new_data = get_admin_inputs_dict()
             if new_data:
                 # Generate a new unique ID
-                new_data["ID"] = logic.Utilities.generate_random_id()
+                new_data["ID"] = Utilities.generate_random_id()
                 mobility_manager.add_entry(new_data)
                 tk.messagebox.showinfo("Success", f"University '{new_data['Name']}' added with ID {new_data['ID']}.")
                 update_admin_uni_combobox()

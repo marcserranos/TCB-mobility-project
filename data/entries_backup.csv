@@ -1,3 +1,7 @@
+# This is purely a backup file for the original entries.csv which is used in the main code. 
+# It contains the same data but is not intended to be modified or used directly in the code. 
+# It serves as a safeguard against accidental changes to the original data.
+
 Name,ID,Country,City,Continent,Minimum grade,Website,Latitude,Longitude,Languages required,Spots available,University Ranking,Engineering Ranking,Weather,Nightlife,Cost of living,Previous cutoff grade,Duration (months)
 Universitat Pompeu Fabra,98FE9FHASN91U3,Spain,Barcelona,Europe,5.0,www.upf.edu,41.4039,2.1909,Catalan; Spanish; English,1,186,451-500,Mediterranean,9,8,5.0,10
 The University of Warwick,1CLBZF5AFVINTX,United Kingdom,Coventry,Europe,9.0,www.warwick.ac.uk,52.3793,-1.5615,English,2,74,144,Temperate/Rainy,6,7,9.0,10
