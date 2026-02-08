@@ -1,22 +1,9 @@
-import sys
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.constants import *
-from tkinter import messagebox
-
-import GUI
-from MobilityManager import MobilityManager
-
-# ! /usr/bin/env python3
-#  -*- coding: utf-8 -*-
-
-import sys
-import tkinter as tk
-import GUI
 from utilities import Utilities
 
 
-def admin_editdelete(_top1, _w1, root, mobility_manager):
+def admin_editdelete(_w1, mobility_manager):
     uni_name = _w1.AD_uni_combobox.get()
     uni_data = mobility_manager.get_uni_by_name(uni_name)
 
@@ -59,11 +46,11 @@ def admin_editdelete(_top1, _w1, root, mobility_manager):
     _w1.AD_duration_scale.set(uni_data["Duration (months)"])
     _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
 
-def clear_admin_entries(_top1, _w1, root, mobility_manager):
+def clear_admin_entries(_w1):
     _w1.AD_delete_button.config(state="disabled")
     _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
     _w1.AD_uni_combobox.set("Select University")
-    check_uni_selection()
+    check_uni_selection(_w1)
 
     _w1.AD_city_entry.delete(0, tk.END)
     _w1.AD_country_entry.delete(0, tk.END)
@@ -86,7 +73,7 @@ def clear_admin_entries(_top1, _w1, root, mobility_manager):
     _w1.AD_duration_scale.set(1.0)
     _w1.AD_nightlife_scale.set(1.0)
 
-def get_admin_inputs_dict(_top1, _w1, root, mobility_manager):
+def get_admin_inputs_dict(_w1):
     try:
         # Check if all required fields are filled
         name = _w1.AD_uniname_entry.get().strip()
@@ -131,40 +118,40 @@ def get_admin_inputs_dict(_top1, _w1, root, mobility_manager):
         tk.messagebox.showerror("Format error", f"Numerical fields must contain valid numbers separated by a dot.")
         return None
     
-def update_admin_uni_combobox(_top1, _w1, root, mobility_manager):
+def update_admin_uni_combobox(_w1, mobility_manager):
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
-def save_admin_entries(_top1, _w1, root, mobility_manager):
+def save_admin_entries(_w1, mobility_manager):
     if _w1.AD_uni_combobox.get() == "Select University":
         # Adding a new entry
-        new_data = get_admin_inputs_dict()
+        new_data = get_admin_inputs_dict(_w1)
         if new_data:
             # Generate a new unique ID
             new_data["ID"] = Utilities.generate_random_id()
             mobility_manager.add_entry(new_data)
             tk.messagebox.showinfo("Success", f"University '{new_data['Name']}' added with ID {new_data['ID']}.")
-            update_admin_uni_combobox()
+            update_admin_uni_combobox(_w1, mobility_manager)
 
     elif _w1.AD_uni_combobox.get() != "Select University":
         # Editing an existing entry
-        updated_data = get_admin_inputs_dict()
+        updated_data = get_admin_inputs_dict(_w1)
         if updated_data:
             mobility_manager.update_entry(updated_data["ID"], updated_data)
             tk.messagebox.showinfo("Success", f"University '{updated_data['Name']}' updated successfully.")
-            update_admin_uni_combobox()
+            update_admin_uni_combobox(_w1, mobility_manager)
 
-def delete_admin_entries(_top1, _w1, root, mobility_manager):
+def delete_admin_entries(_w1, mobility_manager):
     uni_name = _w1.AD_uni_combobox.get()
     uni_data = mobility_manager.get_uni_by_name(uni_name)
     confirm = tk.messagebox.askyesno("Confirm Deletion", f"Are you sure you want to delete '{uni_name}'?")
     if confirm:
         mobility_manager.delete_entry(uni_data["ID"])
         tk.messagebox.showinfo("Deleted", f"University '{uni_name}' has been deleted.")
-        clear_admin_entries()
-        update_admin_uni_combobox()
+        clear_admin_entries(_w1)
+        update_admin_uni_combobox(_w1, mobility_manager)
 
 
-def show_student_login(_top1, _w1, root, mobility_manager):
+def show_student_login(_w1, root):
     """Toggle Student selection: show student buttons or deselect if already selected."""
     if _w1.auth_selection == 'student':
         # deselect: hide panel entirely
@@ -190,7 +177,7 @@ def show_student_login(_top1, _w1, root, mobility_manager):
     _w1.LG_admin_button.configure(style='Unselected.TButton')
     root.update_idletasks()
 
-def show_admin_login(_top1, _w1, root, mobility_manager):
+def show_admin_login(_w1, root):
     """Toggle Admin selection: show admin login or deselect if already selected."""
     if _w1.auth_selection == 'admin':
         _w1.auth_selection = None
@@ -215,13 +202,13 @@ def show_admin_login(_top1, _w1, root, mobility_manager):
     _w1.LG_student_button.configure(style='Unselected.TButton')
     root.update_idletasks()
 
-def show_student(_top1, _w1, root, mobility_manager):
+def show_student(_w1):
     _w1.ST_bg.lift()
 
-def show_admin(_top1, _w1, root, mobility_manager):
+def show_admin(_w1):
     _w1.AD_bg.lift()
 
-def initialize_login_ui_state(_top1, _w1, root, mobility_manager):
+def initialize_login_ui_state(_w1):
     """Initialize auth selection state and button styles for the login screen."""
     _w1.auth_selection = None
     style = ttk.Style()
@@ -233,8 +220,8 @@ def initialize_login_ui_state(_top1, _w1, root, mobility_manager):
         style.configure('Unselected.TButton', foreground='white')
         style.configure('Selected.TButton', foreground='black')
 
-def show_login(_top1, _w1, root, mobility_manager):
-    initialize_login_ui_state()
+def show_login(_w1, root):
+    initialize_login_ui_state(_w1)
     _w1.LG_bg.lift()
     # Show selection buttons and form, hide all login buttons initially
     _w1.LG_student_button.place(relx=0.388, rely=0.323, height=86, width=125)
@@ -254,14 +241,14 @@ def show_login(_top1, _w1, root, mobility_manager):
         pass
     root.update_idletasks()
 
-def logout(_top1, _w1, root, mobility_manager):
-    clear_admin_entries()
+def logout(_w1, root):
+    clear_admin_entries(_w1)
     _w1.AD_entries_frame.place_forget()
     _w1.AD_uni_combobox.set("Select University")
-    show_login()
-    check_uni_selection()
+    show_login(_w1, root)
+    check_uni_selection(_w1)
 
-def check_uni_selection(_top1, _w1, root, mobility_manager):
+def check_uni_selection(_w1):
     """Enable/disable Edit/Delete button based on combobox selection"""
     if _w1.AD_uni_combobox.get() == "Select University" or _w1.AD_uni_combobox.get() == "":
         _w1.AD_editdelete_button.config(state="disabled")
@@ -270,7 +257,7 @@ def check_uni_selection(_top1, _w1, root, mobility_manager):
 
 
 # --- Authentication button handlers ---
-def admin_login_action(_top1, _w1, root, mobility_manager):
+def admin_login_action(_w1, mobility_manager):
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()
     if not email or not pwd:
@@ -284,15 +271,15 @@ def admin_login_action(_top1, _w1, root, mobility_manager):
             tk.messagebox.showerror("Error", f"Error during auth: {e}")
             return
         if ok:
-            show_admin()
+            show_admin(_w1)
         else:
             tk.messagebox.showerror("Authentication failed", "Invalid admin credentials.")
     else:
         # Fallback: simulate success
         tk.messagebox.showinfo("Not implemented", "verify_credentials not implemented yet — proceeding to Admin.")
-        show_admin()
+        show_admin(_w1)
 
-def student_login_action(_top1, _w1, root, mobility_manager):
+def student_login_action(_w1, mobility_manager):
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()
     if not email or not pwd:
@@ -305,14 +292,14 @@ def student_login_action(_top1, _w1, root, mobility_manager):
             tk.messagebox.showerror("Error", f"Error during auth: {e}")
             return
         if ok:
-            show_student()
+            show_student(_w1)
         else:
             tk.messagebox.showerror("Authentication failed", "Invalid student credentials.")
     else:
         tk.messagebox.showinfo("Not implemented", "verify_credentials not implemented yet — proceeding to Student.")
-        show_student()
+        show_student(_w1)
 
-def student_signup_action(_top1, _w1, root, mobility_manager):
+def student_signup_action(_w1, mobility_manager):
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()
     if not email or not pwd:
@@ -339,8 +326,8 @@ def student_signup_action(_top1, _w1, root, mobility_manager):
             tk.messagebox.showerror("Error", f"Error creating user: {e}")
             return
         tk.messagebox.showinfo("Success", "Account created — proceeding to Student screen.")
-        show_student()
+        show_student(_w1)
     else:
         # Fallback: simulate user creation
         tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")
-        show_student()
+        show_student(_w1)
