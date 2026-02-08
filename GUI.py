@@ -6,7 +6,7 @@ import os.path
 
 _location = os.path.dirname(__file__)
 
-import GUI_support
+import main
  
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
@@ -20,7 +20,7 @@ _style_code_ran = 0
 def _style_code():
     global _style_code_ran
     if _style_code_ran: return        
-    try: GUI_support.root.tk.call('source',
+    try: main.root.tk.call('source',
                 os.path.join(_location, 'themes', 'default.tcl'))
     except: pass
     style = ttk.Style()
@@ -1056,10 +1056,10 @@ def _on_shiftmouse(event, widget):
         elif event.num == 5:
             widget.xview_scroll(1, 'units')
 def start_up():
-    GUI_support.main()
+    main.main()
 
 if __name__ == '__main__':
-    GUI_support.main()
+    main.main()
 
 
 

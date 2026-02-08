@@ -1,3 +1,7 @@
+# GUI_logic.py
+# This module contains the logic for handling GUI interactions, such as button clicks and form submissions.
+# That way, the main.py file can focus on initializing the GUI and linking the logic, while this module focuses on the actual behavior of the application.
+
 import tkinter as tk
 import tkinter.ttk as ttk
 from utilities import Utilities
