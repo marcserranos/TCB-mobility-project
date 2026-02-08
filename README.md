@@ -21,3 +21,23 @@ CURRENT REPO DISTRIBUTION:
 Aleix Ruf i Marc Serrano.
 Enginyeria Biomèdica UPF
 
+
+## UML class diagram code (PlantUML)
+
+This repository now includes an automatic UML class diagram generator:
+
+- Script: `tools/generate_uml.py`
+- Output file: `uml/project_class_diagram.puml`
+
+To regenerate the diagram code after changes in any Python class:
+
+```bash
+python3 tools/generate_uml.py
+```
+
+The generated PlantUML includes:
+- Class attributes and methods with arguments
+- Encapsulation visibility (`+` public, `#` protected convention, `-` private convention)
+- Inheritance (`<|--`)
+- Composition (`*--`) and aggregation (`o--`) where inferable from class usage
+- Basic usage dependencies (`..>`) from object-typed method parameters

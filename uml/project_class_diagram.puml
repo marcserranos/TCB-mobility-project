@@ -1,0 +1,142 @@
+@startuml
+title TCB Mobility Project - Simplified Class Diagram
+skinparam classAttributeIconSize 0
+hide empty members
+
+' =========================
+' Domain and service classes
+' =========================
+
+class "User" as User <<user>> {
+  # _ID: user_id
+  # _mail: new_mail
+  # _pwd: new_pwd
+  --
+  + __init__(user_id, mail, pwd)
+  + create_user(user_id, mail, pwd)
+  + verify_credentials(email, pwd)
+  + logout()
+  + change_pwd(user_id, new_pwd)
+  + change_mail(new_mail)
+}
+
+class "Admin" as Admin <<user>> {
+  - __usertype: str
+  --
+  + __init__(user_id, mail, pwd)
+  + login_retrieve_info(user_id)
+  + add_university()
+  + edit_university()
+  + delete_university()
+}
+
+class "Student" as Student <<user>> {
+  - __usertype: str
+  - __degree: str
+  - __grade: float
+  - __lang: dict
+  - __continents: list
+  - __preferences: list
+  --
+  + __init__(user_id, mail, pwd)
+  + login_retrieve_info(user_id)
+  + new_student(user_id, mail, pwd)
+  + get_stud_att(attribute: str)
+}
+
+class "University" as University <<university>> {
+  - __id: uni_id
+  - __name: name
+  - __degree: degree
+  - __grade: float
+  - __lang: lang
+  - __cutoff_grade: float
+  - __website_url: url
+  - __logo_path: logo
+  - __location: loc_obj
+  --
+  + __init__(uni_id, name, degree, grade, lang, cutoff, url, logo, loc_obj)
+  + get_uni_att(attribute: str)
+}
+
+class "Location" as Location <<university>> {
+  - __city: city
+  - __country: country
+  - __continent: continent
+  - __coords: coords
+  --
+  + __init__(city, country, continent, coords)
+  + gen_map(coords_list: list)
+}
+
+class "MobilityManager" as MobilityManager <<MobilityManager>> {
+  - __file_path: uni_file_path
+  - __users_file_path: users_file_path
+  - __uni_df: Any
+  - __users_df: pd.concat
+  --
+  + __init__(uni_file_path = 'data/entries.csv', users_file_path = 'data/users.csv')
+  + load_universities()
+  + save_data()
+  + get_university_names()
+  + get_all_entries_as_list()
+  + get_uni_by_id(uni_id)
+  + get_uni_by_name(uni_name)
+  + add_entry(new_data_dict)
+  + update_entry(uni_id, updated_data_dict)
+  + delete_entry(uni_id)
+  + load_users()
+  + save_users()
+  + verify_credentials(email, pwd, user_type)
+  + check_new_user_email(email)
+  + add_user(user_data_dict)
+}
+
+class "ScoringEngine" as ScoringEngine <<socring>> {
+  - __ranking: list
+  --
+  + __init__()
+  + affinity_score(student_obj, university_obj): float
+  + risk_score(student_obj, university_obj): float
+  + rank(): tuple
+}
+
+class "Utilities" as Utilities <<utilities>> {
+  + generate_random_id(): str
+  + choose_random_id()
+  + send_mail()
+  + create_pdf()
+}
+
+' ============================================
+' GUI encapsulated in one simplified UML block
+' ============================================
+class "GUI" as GUI <<tkinter layer>> {
+}
+
+' =============
+' Relationships
+' =============
+
+User <|-- Admin
+User <|-- Student
+University "1" o-- "0..1" Location : location
+
+MobilityManager "1" --> "0..*" University : manages university records
+MobilityManager "1" --> "0..*" User : manages user records
+GUI ..> MobilityManager : invokes CRUD/auth operations
+
+ScoringEngine ..> Student : computes scores for
+ScoringEngine ..> University : computes scores for
+Student ..> Utilities : new_student()
+
+legend left
+  + public
+  # protected (by convention)
+  - private (name-mangled convention)
+  <|-- inheritance
+  o-- aggregation
+  --> association
+  ..> dependency
+endlegend
+@enduml
