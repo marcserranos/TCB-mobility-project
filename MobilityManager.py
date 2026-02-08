@@ -1,6 +1,7 @@
 # MobilityManager.py
 
-# This class handles all data operations related to university information,
+# This is the principal class of the application.
+# It is responsible for managing the university and user data,
 # including loading from and saving to a CSV file, as well as Create, Read,
 # Update, and Delete (CRUD) operations on university entries.
 

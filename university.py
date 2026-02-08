@@ -1,4 +1,7 @@
-# This class represents a university with various attributes and methods. 
+# university.py
+# This file contains the University and Location classes.
+
+# This class represents a university, encapsulating all relevant information such as name, degree requirements, grade requirements, language requirements, cutoff grade, website URL, logo path, and location.
 class University:
     def __init__(self, uni_id, name, degree, grade, lang, cutoff, url, logo, loc_obj):
         # Private attributes (-)

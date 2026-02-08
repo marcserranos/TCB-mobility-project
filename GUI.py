@@ -1,12 +1,16 @@
+# GUI.py
+# This file contains the GUI class, which defines the structure and layout of the graphical user interface using Tkinter.
+
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
 import os.path
+import main
+
 
 _location = os.path.dirname(__file__)
 
-import main
  
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'

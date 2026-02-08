@@ -1,5 +1,7 @@
-# --- USER HIERARCHY ---
-import logic
+# user.py
+# This module defines the User class hierarchy, including the base User class and the Admin and Student subclasses.
+
+
 from utilities import Utilities
 
 class User:
@@ -36,7 +38,6 @@ class Admin(User):
         pass
 
     def add_university(self): 
-        
         
         pass
 
