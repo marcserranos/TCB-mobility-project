@@ -7,7 +7,7 @@ import os.path
 _location = os.path.dirname(__file__)
 
 import GUI_support
-
+ 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
 _tabfg1 = 'black' 

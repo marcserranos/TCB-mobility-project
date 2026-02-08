@@ -1,11 +1,11 @@
 # MobilityManager.py
+
 # This class handles all data operations related to university information,
 # including loading from and saving to a CSV file, as well as Create, Read,
 # Update, and Delete (CRUD) operations on university entries.
 
 import pandas as pd
 import GUI
-import logic
 from utilities import Utilities
 
 class MobilityManager:
