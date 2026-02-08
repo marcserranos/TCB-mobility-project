@@ -39,34 +39,34 @@ def main(*args):
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
 
-    _w1.AD_editdelete_button.configure(command=admin_editdelete)    
-    _w1.AD_add_button.configure(command=clear_admin_entries)
+    _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
+    _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))
 
 
-    _w1.AD_save_button.configure(command=save_admin_entries)
-    _w1.AD_delete_button.configure(command=delete_admin_entries)
+    _w1.AD_save_button.configure(command=lambda: save_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
+    _w1.AD_delete_button.configure(command=lambda: delete_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
 
     
-    _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection())
+    _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection(_w1=_w1))
 
     # Link Login Screen Buttons
-    _w1.LG_student_button.configure(command=show_student_login)
-    _w1.LG_admin_button.configure(command=show_admin_login)
+    _w1.LG_student_button.configure(command=lambda: show_student_login(_w1=_w1, root=root))
+    _w1.LG_admin_button.configure(command=lambda: show_admin_login(_w1=_w1, root=root))
 
     # --- Authentication button handlers ---
 
     # Bind the auth button handlers
-    _w1.LG_adminlogin_button.configure(command=admin_login_action)
-    _w1.LG_studentlogin_button.configure(command=student_login_action)
-    _w1.LG_studentsingup_button.configure(command=student_signup_action)
+    _w1.LG_adminlogin_button.configure(command=lambda: admin_login_action(_w1=_w1, mobility_manager=mobility_manager))
+    _w1.LG_studentlogin_button.configure(command=lambda: student_login_action(_w1=_w1, mobility_manager=mobility_manager))
+    _w1.LG_studentsingup_button.configure(command=lambda: student_signup_action(_w1=_w1, mobility_manager=mobility_manager))
 
     # Link Logout Buttons
-    _w1.ST_logout_button.configure(command=logout)
-    _w1.AD_logout_button.configure(command=logout)
+    _w1.ST_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
+    _w1.AD_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
 
     # Set the initial view to the Login screen
-    show_login()
-    check_uni_selection()
+    show_login(_w1=_w1, root=root)
+    check_uni_selection(_w1=_w1)
 
     root.mainloop()
 
