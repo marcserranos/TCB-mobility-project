@@ -255,6 +255,46 @@ class FrameBP:
         self.ST_prefs_container.place(relx=0.07, rely=0.623, relheight=0.273, relwidth=0.853)
         self.ST_prefs_container.configure(relief='groove', borderwidth="2", background=self.THEME["BG_GREY"])
 
+        # STUDENT preference 1
+        self.pref_row1 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
+        self.pref_row1.pack(side="top", fill="both", expand=True, padx=2, pady=2)
+        self.pref_label1 = tk.Label(self.pref_row1, text="1. Cost of Living", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label1.pack(side="left", padx=10, fill="x", expand=True)
+        self.pref_down1 = tk.Button(self.pref_row1, text="▼", width=3)
+        self.pref_down1.pack(side="right", padx=5)
+        self.pref_up1 = tk.Button(self.pref_row1, text="▲", width=3, state="disabled")
+        self.pref_up1.pack(side="right", padx=2)
+
+        # STUDENT preference 2
+        self.pref_row2 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
+        self.pref_row2.pack(side="top", fill="both", expand=True, padx=2, pady=2)
+        self.pref_label2 = tk.Label(self.pref_row2, text="2. Nightlife", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label2.pack(side="left", padx=10, fill="x", expand=True)
+        self.pref_down2 = tk.Button(self.pref_row2, text="▼", width=3)
+        self.pref_down2.pack(side="right", padx=5)
+        self.pref_up2 = tk.Button(self.pref_row2, text="▲", width=3)
+        self.pref_up2.pack(side="right", padx=2)
+
+        # STUDENT preference 3
+        self.pref_row3 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
+        self.pref_row3.pack(side="top", fill="both", expand=True, padx=2, pady=2)
+        self.pref_label3 = tk.Label(self.pref_row3, text="3. Weather", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label3.pack(side="left", padx=10, fill="x", expand=True)
+        self.pref_down3 = tk.Button(self.pref_row3, text="▼", width=3)
+        self.pref_down3.pack(side="right", padx=5)
+        self.pref_up3 = tk.Button(self.pref_row3, text="▲", width=3)
+        self.pref_up3.pack(side="right", padx=2)
+
+        # STUDENT preference 4
+        self.pref_row4 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
+        self.pref_row4.pack(side="top", fill="both", expand=True, padx=2, pady=2)
+        self.pref_label4 = tk.Label(self.pref_row4, text="4. Academic Rank", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label4.pack(side="left", padx=10, fill="x", expand=True)
+        self.pref_down4 = tk.Button(self.pref_row4, text="▼", width=3, state="disabled")
+        self.pref_down4.pack(side="right", padx=5)
+        self.pref_up4 = tk.Button(self.pref_row4, text="▲", width=3)
+        self.pref_up4.pack(side="right", padx=2)
+
         # STUDENT Rank! button
         self.ST_rank_button = ttk.Button(self.ST_inputspanel_frame)
         self.ST_rank_button.place(relx=0.35, rely=0.914, height=46, width=125)

@@ -205,6 +205,46 @@ def remove_language_row(_w1, lang_name):
         widgets = _w1.added_languages.pop(lang_name)
         widgets[0].destroy()
 
+def move_pref_up(_w1, row_num):
+    # We can only move up if we aren't at the top (Row 1)
+    if row_num <= 1:
+        return
+
+    # 1. Identify the current label and the one above it
+    current_label = getattr(_w1, f"pref_label{row_num}")
+    above_label = getattr(_w1, f"pref_label{row_num-1}")
+
+    # 2. Get the text from both
+    current_text = current_label.cget("text")
+    above_text = above_label.cget("text")
+
+    # 3. Swap the text (keeping the numbers intact for clarity)
+    # Extract the name part after the ". "
+    name_current = current_text.split(". ")[1]
+    name_above = above_text.split(". ")[1]
+
+    current_label.configure(text=f"{row_num}. {name_above}")
+    above_label.configure(text=f"{row_num-1}. {name_current}")
+
+def move_pref_down(_w1, row_num):
+    # We can only move down if we aren't at the bottom (Row 4)
+    if row_num >= 4:
+        return
+
+    # 1. Identify the current label and the one below it
+    current_label = getattr(_w1, f"pref_label{row_num}")
+    below_label = getattr(_w1, f"pref_label{row_num+1}")
+
+    # 2. Get the text from both
+    current_text = current_label.cget("text")
+    below_text = below_label.cget("text")
+
+    # 3. Swap the text
+    name_current = current_text.split(". ")[1]
+    name_below = below_text.split(". ")[1]
+
+    current_label.configure(text=f"{row_num}. {name_below}")
+    below_label.configure(text=f"{row_num+1}. {name_current}")
 #_________________________________________________LOGIN LOGIC_________________________________________________________
 
 def show_student_login(_w1, root):

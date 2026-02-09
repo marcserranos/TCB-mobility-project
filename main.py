@@ -53,6 +53,13 @@ def main(*args):
 
     # Student page Buttons
     _w1.ST_lang_button.configure(command=lambda: add_language_row(_w1=_w1))
+    # Link Preference Buttons
+    _w1.pref_down1.configure(command=lambda: move_pref_down(_w1, 1))
+    _w1.pref_up2.configure(command=lambda: move_pref_up(_w1, 2))
+    _w1.pref_down2.configure(command=lambda: move_pref_down(_w1, 2))
+    _w1.pref_up3.configure(command=lambda: move_pref_up(_w1, 3))
+    _w1.pref_down3.configure(command=lambda: move_pref_down(_w1, 3))
+    _w1.pref_up4.configure(command=lambda: move_pref_up(_w1, 4))
 
     # Set the initial view to the Login screen
     show_login(_w1=_w1, root=root)
