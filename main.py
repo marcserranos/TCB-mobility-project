@@ -12,8 +12,6 @@ import GUI
 from MobilityManager import MobilityManager
 from GUI_logic import *
 
-
-
 def main(*args):
     '''Main entry point for the application.'''
     global root, _top1, _w1
@@ -29,7 +27,6 @@ def main(*args):
     mobility_manager.load_users()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
-
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))
 
@@ -37,7 +34,6 @@ def main(*args):
     _w1.AD_save_button.configure(command=lambda: save_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
     _w1.AD_delete_button.configure(command=lambda: delete_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
 
-    
     _w1.AD_uni_combobox.bind('<<ComboboxSelected>>', lambda e: check_uni_selection(_w1=_w1))
 
     # Link Login Screen Buttons
@@ -54,6 +50,9 @@ def main(*args):
     # Link Logout Buttons
     _w1.ST_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
     _w1.AD_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
+
+    # Student page Buttons
+    _w1.ST_lang_button.configure(command=lambda: add_language_row(_w1=_w1))
 
     # Set the initial view to the Login screen
     show_login(_w1=_w1, root=root)

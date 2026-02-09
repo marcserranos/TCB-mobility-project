@@ -154,6 +154,58 @@ def delete_admin_entries(_w1, mobility_manager):
         clear_admin_entries(_w1)
         update_admin_uni_combobox(_w1, mobility_manager)
 
+#______________________________________________STUDENT PAGE LOGIC_____________________________________________________
+
+def add_language_row(_w1):
+    selected_lang = _w1.lang_var.get()
+    
+    # 1. Basic Checks
+    if selected_lang == "Select Language" or selected_lang in _w1.added_languages:
+        return
+    
+    # 2. Limit to 8 languages total
+    current_count = len(_w1.added_languages)
+    if current_count >= 8:
+        return
+
+    # 3. Create the container for the language row
+    row_frame = tk.Frame(_w1.ST_lang_frame, background=_w1.THEME["BG_GREY"])
+
+    # 4. Simple Column Logic: 
+    # If we have 0-3 languages, go to Column 0. If 4-7, go to Column 1.
+    if current_count < 4:
+        target_column = 0
+        target_row = current_count
+    else:
+        target_column = 1
+        target_row = current_count - 4 # Resets row to 0 for the second column
+
+    row_frame.grid(row=target_row, column=target_column, sticky="w", padx=5, pady=2)
+
+    # 5. Add the internal widgets
+    # Language name
+    tk.Label(row_frame, text=selected_lang, width=8, anchor="w", 
+             background=_w1.THEME["BG_GREY"]).pack(side="left")
+
+    # Level selector
+    level_var = tk.StringVar(value="B2")
+    ttk.Combobox(row_frame, values=["B1", "B2", "C1", "C2"], 
+                 textvariable=level_var, state="readonly", width=4).pack(side="left", padx=2)
+
+    # Delete button
+    tk.Button(row_frame, text="X", bg="#ff4d4d", fg="white", bd=0,
+              command=lambda: remove_language_row(_w1, selected_lang)).pack(side="left", padx=5)
+
+    # 6. Save data
+    _w1.added_languages[selected_lang] = [row_frame, level_var]
+
+def remove_language_row(_w1, lang_name):
+    # Simply find the frame in our dictionary and destroy it
+    if lang_name in _w1.added_languages:
+        widgets = _w1.added_languages.pop(lang_name)
+        widgets[0].destroy()
+
+#_________________________________________________LOGIN LOGIC_________________________________________________________
 
 def show_student_login(_w1, root):
     """Toggle Student selection: show student buttons or deselect if already selected."""
@@ -223,6 +275,8 @@ def initialize_login_ui_state(_w1):
         # Some themes ignore background; ensure foregrounds are set
         style.configure('Unselected.TButton', foreground='white')
         style.configure('Selected.TButton', foreground='black')
+
+
 
 def show_login(_w1, root):
     initialize_login_ui_state(_w1)
