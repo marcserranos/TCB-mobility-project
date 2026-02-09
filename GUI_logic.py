@@ -49,6 +49,14 @@ def admin_editdelete(_w1, mobility_manager):
     _w1.AD_spots_scale.set(uni_data["Spots available"])
     _w1.AD_duration_scale.set(uni_data["Duration (months)"])
     _w1.AD_nightlife_scale.set(uni_data["Nightlife"])
+    _w1.AD_english_combobox.set(uni_data.get("English", ""))
+    _w1.AD_spanish_combobox.set(uni_data.get("Spanish", ""))
+    _w1.AD_french_combobox.set(uni_data.get("French", ""))
+    _w1.AD_german_combobox.set(uni_data.get("German", ""))
+    _w1.AD_portuguese_combobox.set(uni_data.get("Portuguese", ""))
+    _w1.AD_chinese_combobox.set(uni_data.get("Chinese", ""))
+    _w1.AD_japanese_combobox.set(uni_data.get("Japanese", ""))
+    _w1.AD_italian_combobox.set(uni_data.get("Italian", ""))
 
 def clear_admin_entries(_w1):
     _w1.AD_delete_button.config(state="disabled")
@@ -76,6 +84,14 @@ def clear_admin_entries(_w1):
     _w1.AD_spots_scale.set(1.0)
     _w1.AD_duration_scale.set(1.0)
     _w1.AD_nightlife_scale.set(1.0)
+    _w1.AD_english_combobox.set("")
+    _w1.AD_spanish_combobox.set("")
+    _w1.AD_french_combobox.set("")
+    _w1.AD_german_combobox.set("")
+    _w1.AD_portuguese_combobox.set("")
+    _w1.AD_chinese_combobox.set("")
+    _w1.AD_japanese_combobox.set("")
+    _w1.AD_italian_combobox.set("")
 
 def get_admin_inputs_dict(_w1):
     try:
@@ -115,7 +131,15 @@ def get_admin_inputs_dict(_w1):
             "Nightlife": int(_w1.AD_nightlife_scale.get()),
             "Cost of living": int(_w1.AD_cost_scale.get()),
             "Previous cutoff grade": float(_w1.AD_cutoff_entry.get() or 0),
-            "Duration (months)": int(_w1.AD_duration_scale.get())
+            "Duration (months)": int(_w1.AD_duration_scale.get()),
+            "English": _w1.AD_english_combobox.get(),
+            "Spanish": _w1.AD_spanish_combobox.get(),
+            "French": _w1.AD_french_combobox.get(),
+            "German": _w1.AD_german_combobox.get(),
+            "Portuguese": _w1.AD_portuguese_combobox.get(),
+            "Chinese": _w1.AD_chinese_combobox.get(),
+            "Japanese": _w1.AD_japanese_combobox.get(),
+            "Italian": _w1.AD_italian_combobox.get()
         }
         return data
     except ValueError as e:
