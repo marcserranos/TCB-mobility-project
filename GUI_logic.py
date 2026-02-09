@@ -8,6 +8,7 @@ from utilities import Utilities
 
 
 def admin_editdelete(_w1, mobility_manager):
+    '''Inputs the selected university data into the admin fields so the admin can edit them or delete the entry.'''
     uni_name = _w1.AD_uni_combobox.get()
     uni_data = mobility_manager.get_uni_by_name(uni_name)
 
@@ -59,6 +60,7 @@ def admin_editdelete(_w1, mobility_manager):
     _w1.AD_italian_combobox.set(uni_data["Italian"])
 
 def clear_admin_entries(_w1):
+    '''Clears the admin entries so the admin can add a new university from scratch.'''
     _w1.AD_delete_button.config(state="disabled")
     _w1.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948, relwidth=0.741)
     _w1.AD_uni_combobox.set("Select University")
@@ -94,6 +96,7 @@ def clear_admin_entries(_w1):
     _w1.AD_italian_combobox.set("")
 
 def get_admin_inputs_dict(_w1):
+    '''Gets the admin inputs as a dictionary'''
     try:
         # Check if all required fields are filled
         name = _w1.AD_uniname_entry.get().strip()
@@ -147,6 +150,7 @@ def get_admin_inputs_dict(_w1):
         return None
     
 def update_admin_uni_combobox(_w1, mobility_manager):
+    '''Updates the combobox for universities after adding/editing/deleting entries'''
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
 
 def save_admin_entries(_w1, mobility_manager):
@@ -181,94 +185,73 @@ def delete_admin_entries(_w1, mobility_manager):
 #______________________________________________STUDENT PAGE LOGIC_____________________________________________________
 
 def add_language_row(_w1):
+    '''Handles adding languages in the student languages frame dynamically, with a label, combobox to select
+    the certification level, and delete button. Handles space in two columns so no scrolled menu is needed for
+    a number of certified languages between 5 and 8 where 8 is the maximum.'''
     selected_lang = _w1.lang_var.get()
-    
-    # 1. Basic Checks
     if selected_lang == "Select Language" or selected_lang in _w1.added_languages:
         return
-    
-    # 2. Limit to 8 languages total
     current_count = len(_w1.added_languages)
     if current_count >= 8:
         return
-
-    # 3. Create the container for the language row
     row_frame = tk.Frame(_w1.ST_lang_frame, background=_w1.THEME["BG_GREY"])
-
-    # 4. Simple Column Logic: 
-    # If we have 0-3 languages, go to Column 0. If 4-7, go to Column 1.
     if current_count < 4:
         target_column = 0
         target_row = current_count
     else:
         target_column = 1
-        target_row = current_count - 4 # Resets row to 0 for the second column
-
+        target_row = current_count - 4
     row_frame.grid(row=target_row, column=target_column, sticky="w", padx=5, pady=2)
 
-    # 5. Add the internal widgets
-    # Language name
     tk.Label(row_frame, text=selected_lang, width=8, anchor="w", 
              background=_w1.THEME["BG_GREY"]).pack(side="left")
-
-    # Level selector
     level_var = tk.StringVar(value="B2")
     ttk.Combobox(row_frame, values=["B1", "B2", "C1", "C2"], 
                  textvariable=level_var, state="readonly", width=4).pack(side="left", padx=2)
-
-    # Delete button
     tk.Button(row_frame, text="X", bg="#ff4d4d", fg="white", bd=0,
               command=lambda: remove_language_row(_w1, selected_lang)).pack(side="left", padx=5)
-
-    # 6. Save data
     _w1.added_languages[selected_lang] = [row_frame, level_var]
 
 def remove_language_row(_w1, lang_name):
+    '''Deletes a language'''
     # Simply find the frame in our dictionary and destroy it
     if lang_name in _w1.added_languages:
         widgets = _w1.added_languages.pop(lang_name)
         widgets[0].destroy()
 
 def move_pref_up(_w1, row_num):
+    '''Moves a preference up in the hierearchy (only changing the visual labels)'''
     # We can only move up if we aren't at the top (Row 1)
     if row_num <= 1:
         return
-
-    # 1. Identify the current label and the one above it
     current_label = getattr(_w1, f"pref_label{row_num}")
     above_label = getattr(_w1, f"pref_label{row_num-1}")
-
-    # 2. Get the text from both
     current_text = current_label.cget("text")
     above_text = above_label.cget("text")
 
-    # 3. Swap the text (keeping the numbers intact for clarity)
-    # Extract the name part after the ". "
+    # Swap their texts (but not numbers)
     name_current = current_text.split(". ")[1]
     name_above = above_text.split(". ")[1]
-
     current_label.configure(text=f"{row_num}. {name_above}")
     above_label.configure(text=f"{row_num-1}. {name_current}")
 
 def move_pref_down(_w1, row_num):
+    '''Moves a preference down in the hierearchy (only changing the visual labels)'''
     # We can only move down if we aren't at the bottom (Row 4)
     if row_num >= 4:
         return
-
-    # 1. Identify the current label and the one below it
+    # See and save label and below label
     current_label = getattr(_w1, f"pref_label{row_num}")
     below_label = getattr(_w1, f"pref_label{row_num+1}")
-
-    # 2. Get the text from both
     current_text = current_label.cget("text")
     below_text = below_label.cget("text")
 
-    # 3. Swap the text
+    # Swap the text
     name_current = current_text.split(". ")[1]
     name_below = below_text.split(". ")[1]
-
     current_label.configure(text=f"{row_num}. {name_below}")
     below_label.configure(text=f"{row_num+1}. {name_current}")
+
 #_________________________________________________LOGIN LOGIC_________________________________________________________
 
 def show_student_login(_w1, root):
@@ -340,8 +323,6 @@ def initialize_login_ui_state(_w1):
         style.configure('Unselected.TButton', foreground='white')
         style.configure('Selected.TButton', foreground='black')
 
-
-
 def show_login(_w1, root):
     initialize_login_ui_state(_w1)
     _w1.LG_bg.lift()
@@ -377,8 +358,8 @@ def check_uni_selection(_w1):
     else:
         _w1.AD_editdelete_button.config(state="normal")
 
+#_____________________________________________AUTHENTICATION BUTTON HANDLERS____________________________________________
 
-# --- Authentication button handlers ---
 def admin_login_action(_w1, mobility_manager):
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()

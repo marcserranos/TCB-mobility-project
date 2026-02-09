@@ -30,7 +30,6 @@ def main(*args):
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))
 
-
     _w1.AD_save_button.configure(command=lambda: save_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
     _w1.AD_delete_button.configure(command=lambda: delete_admin_entries(_w1=_w1, mobility_manager=mobility_manager))
 
@@ -40,7 +39,7 @@ def main(*args):
     _w1.LG_student_button.configure(command=lambda: show_student_login(_w1=_w1, root=root))
     _w1.LG_admin_button.configure(command=lambda: show_admin_login(_w1=_w1, root=root))
 
-    # --- Authentication button handlers ---
+    #________________________________________AUTHENTICATION BUTTON HANDLERS________________________________________________
 
     # Bind the auth button handlers
     _w1.LG_adminlogin_button.configure(command=lambda: admin_login_action(_w1=_w1, mobility_manager=mobility_manager))
