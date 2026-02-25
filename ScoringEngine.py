@@ -1,5 +1,3 @@
-# scoring.py
-
 # This class is responsible for scoring and ranking universities based on student profiles.
 class ScoringEngine:
     def __init__(self):
@@ -17,4 +15,3 @@ class ScoringEngine:
     def rank(self) -> tuple:
         """Returns a list of tuples with both the risk_score and the overall ranking of each university"""
         return ()
-    

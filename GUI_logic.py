@@ -238,19 +238,27 @@ def move_pref_up(_w1, row_num):
 def move_pref_down(_w1, row_num):
     '''Moves a preference down in the hierearchy (only changing the visual labels)'''
     # We can only move down if we aren't at the bottom (Row 4)
-    if row_num >= 4:
-        return
-    # See and save label and below label
-    current_label = getattr(_w1, f"pref_label{row_num}")
-    below_label = getattr(_w1, f"pref_label{row_num+1}")
-    current_text = current_label.cget("text")
-    below_text = below_label.cget("text")
 
-    # Swap the text
-    name_current = current_text.split(". ")[1]
-    name_below = below_text.split(". ")[1]
-    current_label.configure(text=f"{row_num}. {name_below}")
-    below_label.configure(text=f"{row_num+1}. {name_current}")
+
+def print_student_attributes(gui_frame):
+    """Create a temporary Student object, populate it from the GUI and
+    print all of its stored attributes to stdout.
+
+    This can be used as the command for the "Rank !" button during
+    development to verify that the GUI state is being captured correctly.
+    """
+    from user import Student
+
+    # instantiate with dummy credentials; they're not used here
+    student = Student("", "", "")
+    student.load_from_gui(gui_frame)
+
+    # gather known attributes and print them
+    attrs = ["degree", "grade", "lang", "continents", "preferences"]
+    print("--- student data ---")
+    for a in attrs:
+        print(f"{a}: {student.get_stud_att(a)}")
+    print("--------------------")
 
 #_________________________________________________LOGIN LOGIC_________________________________________________________
 

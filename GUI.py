@@ -7,6 +7,7 @@ import tkinter.ttk as ttk
 from tkinter.constants import *
 import os.path
 import main
+import GUI_logic
 
 
 _location = os.path.dirname(__file__)
@@ -159,6 +160,7 @@ class FrameBP:
 
         # STUDENT Languages selector (TO DO)
         language_pool = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese", "Japanese"]
+        degree_pool = ["Biomedical Engineering", "Mathematical Engineering", "Computer Engineering", "Telecommunications Engineering", "Audiovisual Engineering"]
 
         # STUDENT Languages selector
         self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame, values=language_pool)
@@ -191,10 +193,10 @@ class FrameBP:
         self.ST_lang_button.configure(text='''Add''', compound='left')
 
         # STUDENT Degree menu
-        self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame)
+        self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame, values=degree_pool)
         self.ST_degree_menu.place(relx=0.21, rely=0.066, relheight=0.035
                 , relwidth=0.743)
-        self.ST_degree_menu.configure(exportselection="0", textvariable=self.degree_var)
+        self.ST_degree_menu.configure(exportselection="0", textvariable=self.degree_var, state="readonly")
 
         # STUDENT Degree label
         self.ST_degree_label = tk.Label(self.ST_inputspanel_frame)
@@ -300,6 +302,8 @@ class FrameBP:
         self.ST_rank_button.place(relx=0.35, rely=0.914, height=46, width=125)
         self.ST_rank_button.configure(text='''Rank !''')
         self.ST_rank_button.configure(compound='left')
+        # print student attributes when clicked (for debugging / ranking)
+        self.ST_rank_button.configure(command=lambda: GUI_logic.print_student_attributes(self))
 
         # STUDENT visual separators
         self.ST_separator1 = ttk.Separator(self.ST_inputspanel_frame)

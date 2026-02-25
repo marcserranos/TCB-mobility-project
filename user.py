@@ -70,3 +70,53 @@ class Student(User):
 
     def get_stud_att(self, attribute: str):
         return getattr(self, f"_Student__{attribute}", None)
+
+    def load_from_gui(self, gui_frame):
+        """Populate this student's data from a FrameBP instance.
+
+        The frame should be the object created in `GUI.FrameBP` which
+        exposes the widgets used in the student page (degree_var,
+        ST_grade_entry, added_languages, continent variables and the
+        pref_label1..pref_label4 labels). After calling this method the
+        student's private attributes will reflect the values chosen by
+        the user.
+        """
+        # degree & grade
+        self.__degree = gui_frame.degree_var.get()
+        try:
+            self.__grade = float(gui_frame.ST_grade_entry.get())
+        except Exception:
+            self.__grade = 0.0
+
+        # languages
+        langs = {}
+        for lang, (frm, level_var) in gui_frame.added_languages.items():
+            langs[lang] = level_var.get()
+        self.__lang = langs
+
+        # continents based on IntVar flags
+        continents = []
+        mapping = {
+            "Europe": gui_frame.var_EU,
+            "North America": gui_frame.var_NA,
+            "Asia": gui_frame.var_AS,
+            "South America": gui_frame.var_SA,
+            "Oceania": gui_frame.var_OC,
+            "Africa": gui_frame.var_AF,
+        }
+        for name, var in mapping.items():
+            if var.get():
+                continents.append(name)
+        self.__continents = continents
+
+        # preferences from pref_label1..pref_label4
+        prefs = []
+        for i in range(1, 5):
+            lbl = getattr(gui_frame, f"pref_label{i}", None)
+            if lbl is not None:
+                txt = lbl.cget("text")
+                if ". " in txt:
+                    prefs.append(txt.split(". ", 1)[1])
+                else:
+                    prefs.append(txt)
+        self.__preferences = prefs

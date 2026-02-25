@@ -118,6 +118,3 @@ class MobilityManager:
         if self.__users_df.empty:
             return False
         return not self.__users_df[self.__users_df['email'] == email].empty
-    
-
-    
