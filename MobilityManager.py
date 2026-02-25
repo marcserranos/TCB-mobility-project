@@ -1,4 +1,4 @@
-# MobilityManager.py
+# mobilityManager.py
 
 # This is the principal class of the application.
 # It is responsible for managing the university and user data,
@@ -9,7 +9,7 @@ import pandas as pd
 import GUI
 from utilities import Utilities
 
-class MobilityManager:
+class mobilityManager:
     def __init__(self, uni_file_path="data/entries.csv", users_file_path="data/users.csv"):
         
         self.__file_path = uni_file_path

@@ -374,7 +374,7 @@ def admin_login_action(_w1, mobility_manager):
     if not email or not pwd:
         tk.messagebox.showerror("Missing fields", "Please enter email and password.")
         return
-    # Prefer MobilityManager.verify_credentials if implemented
+    # Prefer mobilityManager.verify_credentials if implemented
     if hasattr(mobility_manager, 'verify_credentials'):
         try:
             ok = mobility_manager.verify_credentials(email, pwd, 'admin')
@@ -425,7 +425,7 @@ def student_signup_action(_w1, mobility_manager):
         except Exception as e:
             tk.messagebox.showerror("Error", f"Error checking email: {e}")
             return
-    # Call MobilityManager.add_user if available
+    # Call mobilityManager.add_user if available
     if hasattr(mobility_manager, 'add_user'):
         try:
             mobility_manager.add_user({

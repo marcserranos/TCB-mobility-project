@@ -1,6 +1,6 @@
 # main.py
 # This is the main entry point for the application. It initializes the GUI and links the button handlers to the appropriate functions in GUI_logic.py.
-# It also initializes the MobilityManager which loads the university and user data, so that the GUI can display the relevant information when needed.
+# It also initializes the mobilityManager which loads the university and user data, so that the GUI can display the relevant information when needed.
 
 import sys
 import tkinter as tk
@@ -9,7 +9,7 @@ from tkinter.constants import *
 from tkinter import messagebox
 
 import GUI
-from MobilityManager import MobilityManager
+from mobilityManager import mobilityManager
 from GUI_logic import *
 
 def main(*args):
@@ -22,7 +22,7 @@ def main(*args):
     _top1 = root
     _w1 = GUI.FrameBP(_top1)
 
-    mobility_manager = MobilityManager("data/entries.csv")
+    mobility_manager = mobilityManager("data/entries.csv")
     mobility_manager.load_universities()
     mobility_manager.load_users()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()

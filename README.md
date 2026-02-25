@@ -6,7 +6,7 @@ An app that scrapes, processes, enriches and displays erasmus and mobility progr
 
 CURRENT REPO DISTRIBUTION: 
 - main.py: application entry point; initializes the GUI and wires interface actions.
-- MobilityManager.py: central class, manager of universities/users and CSV persistence.
+- mobilityManager.py: central class, manager of universities/users and CSV persistence.
 - GUI.py: Tkinter visual layout and widgets.
 - GUI_logic.py: GUI behavior, navigation, authentication, and admin/student actions.
 - user.py: base user, admin, and student class definitions.
