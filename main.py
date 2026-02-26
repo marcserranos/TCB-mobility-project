@@ -59,6 +59,8 @@ def main(*args):
     _w1.pref_up3.configure(command=lambda: move_pref_up(_w1, 3))
     _w1.pref_down3.configure(command=lambda: move_pref_down(_w1, 3))
     _w1.pref_up4.configure(command=lambda: move_pref_up(_w1, 4))
+    # even though the fourth down-button starts disabled, bind it for completeness
+    _w1.pref_down4.configure(command=lambda: move_pref_down(_w1, 4))
 
     # Set the initial view to the Login screen
     show_login(_w1=_w1, root=root)

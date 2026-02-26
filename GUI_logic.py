@@ -238,6 +238,18 @@ def move_pref_up(_w1, row_num):
 def move_pref_down(_w1, row_num):
     '''Moves a preference down in the hierearchy (only changing the visual labels)'''
     # We can only move down if we aren't at the bottom (Row 4)
+    if row_num >= 4:
+        return
+    current_label = getattr(_w1, f"pref_label{row_num}")
+    below_label = getattr(_w1, f"pref_label{row_num+1}")
+    current_text = current_label.cget("text")
+    below_text = below_label.cget("text")
+
+    # swap the descriptive portion but keep the numbers attached to the rows
+    name_current = current_text.split(". ")[1]
+    name_below = below_text.split(". ")[1]
+    current_label.configure(text=f"{row_num}. {name_below}")
+    below_label.configure(text=f"{row_num+1}. {name_current}")
 
 
 def print_student_attributes(gui_frame):
