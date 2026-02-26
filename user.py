@@ -56,11 +56,12 @@ class Student(User):
         self.__usertype = "student"
         self.__degree = ""
         self.__grade = 0.0
-        self.__lang = {}
+        self.__lang = []
         self.__continents = []
         self.__preferences = []
 
     def login_retrieve_info(self, user_id):
+        
         pass
 
     def new_student(self, user_id, mail, pwd):
