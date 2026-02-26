@@ -328,6 +328,38 @@ class FrameBP:
         self.ScrolledwindowRUP.create_window(0, 0, anchor='nw',
                                            window=self.ScrolledwindowRUP_f)
 
+        # STUDENT Ranking rows (10 rows with university name, affinity score, and action button)
+        for row in range(1, 11):
+            # Row frame containing name, score, and button
+            row_frame = tk.Frame(self.ScrolledwindowRUP_f, background=self.color, height=40)
+            row_frame.pack(side='top', fill='x', padx=5, pady=12)
+            
+            # University name label (left side, expands)
+            uni_label = tk.Label(row_frame)
+            uni_label.pack(side='left', expand=True, fill='x', padx=5)
+            uni_label.configure(activebackground=self.THEME["BG_GREY"],
+                    activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
+                    compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                    foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                    highlightcolor=self.THEME["TEXT_DARK"], text=f'''University Name {row}''')
+            setattr(self, f'ST_rankrow{row}_uniname_label', uni_label)
+            
+            # Affinity score label (right side)
+            score_label = tk.Label(row_frame)
+            score_label.pack(side='left', padx=150)
+            score_label.configure(activebackground=self.THEME["BG_GREY"],
+                    activeforeground="black", anchor='e', background=self.THEME["BG_GREY"],
+                    compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                    foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                    highlightcolor=self.THEME["TEXT_DARK"], text=f'''0.00''', width=6)
+            setattr(self, f'ST_rankrow{row}_score_label', score_label)
+            
+            # Action button (far right)
+            action_button = ttk.Button(row_frame)
+            action_button.pack(side='right', padx=20)
+            action_button.configure(text='''More Info''', width=10)
+            setattr(self, f'ST_rankrow{row}_button', action_button)
+
  #-----------------------------------------------------STUDENT PAGE, UNI STATS--------------------------------------------------
         
         # STUDENT University facts frame
