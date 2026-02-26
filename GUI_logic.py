@@ -4,6 +4,7 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import messagebox
 from utilities import Utilities
 
 
@@ -258,6 +259,8 @@ def print_student_attributes(gui_frame):
 
     This can be used as the command for the "Rank !" button during
     development to verify that the GUI state is being captured correctly.
+    
+    Validates that all required fields are filled before proceeding.
     """
     from user import Student
 
@@ -265,7 +268,33 @@ def print_student_attributes(gui_frame):
     student = Student("", "", "")
     student.load_from_gui(gui_frame)
 
-    # gather known attributes and print them
+    # Validate required fields
+    degree = student.get_stud_att("degree")
+    grade = student.get_stud_att("grade")
+    lang = student.get_stud_att("lang")
+    continents = student.get_stud_att("continents")
+
+    # Check degree
+    if not degree or degree == "Select Degree":
+        messagebox.showerror("Missing Data", "Please select a degree.")
+        return
+
+    # Check grade is valid number
+    if grade is None or grade == 0.0:
+        messagebox.showerror("Missing Data", "Please enter a valid grade (number).")
+        return
+
+    # Check at least one language
+    if not lang or len(lang) == 0:
+        messagebox.showerror("Missing Data", "Please select at least one language certification.")
+        return
+
+    # Check at least one continent
+    if not continents or len(continents) == 0:
+        messagebox.showerror("Missing Data", "Please select at least one continent.")
+        return
+
+    # All validations passed, print data
     attrs = ["degree", "grade", "lang", "continents", "preferences"]
     print("--- student data ---")
     for a in attrs:
