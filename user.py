@@ -72,7 +72,7 @@ class Student(User):
         This method reads the CSV and populates the student's attributes.
         """
         try:
-            df = pd.read_csv(filepath)
+            df = pd.read_csv(filepath, dtype=str)
             # Find the row matching this student's UID
             student_row = df[df['UID'] == self._ID]
             
@@ -155,7 +155,7 @@ class Student(User):
         try:
             # Try to load existing CSV
             try:
-                df = pd.read_csv(filepath)
+                df = pd.read_csv(filepath, dtype=str)
             except FileNotFoundError:
                 # Create new DataFrame with headers if file doesn't exist
                 df = pd.DataFrame()
@@ -169,8 +169,8 @@ class Student(User):
             # Prepare the data dictionary for this student
             student_data = {
                 'UID': self._ID,
-                'degree': self.__degree,
-                'grade': self.__grade,
+                'degree': str(self.__degree),
+                'grade': str(self.__grade),
             }
             
             # Add language columns with their levels
