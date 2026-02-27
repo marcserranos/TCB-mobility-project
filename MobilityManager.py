@@ -104,6 +104,15 @@ class mobilityManager:
         user = self.__users_df[(self.__users_df['email'] == email) & (self.__users_df['password'] == pwd) & (self.__users_df['user_type'] == user_type)]
         return not user.empty
     
+    def get_user_by_credentials(self, email, pwd, user_type):
+        """Retrieves user data (as a dictionary) by email, password, and user_type."""
+        if self.__users_df.empty:
+            return None
+        user = self.__users_df[(self.__users_df['email'] == email) & (self.__users_df['password'] == pwd) & (self.__users_df['user_type'] == user_type)]
+        if not user.empty:
+            return user.iloc[0].to_dict()
+        return None
+    
     def add_user(self, user_data_dict):
         """Adds a new user to the users DataFrame and saves it."""
         #Generate random ID for the new user
@@ -112,6 +121,7 @@ class mobilityManager:
         new_user_row = pd.DataFrame([user_data_dict])
         self.__users_df = pd.concat([self.__users_df, new_user_row], ignore_index=True)
         self.save_users()
+        return user_data_dict['UID']
 
     def check_new_user_email(self, email):
         """Checks if the provided email already exists in the users DataFrame."""

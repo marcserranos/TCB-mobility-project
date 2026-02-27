@@ -6,6 +6,10 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 from utilities import Utilities
+from user import Student
+
+# Global variable to store the current logged-in student instance
+current_student = None
 
 
 def admin_editdelete(_w1, mobility_manager):
@@ -34,6 +38,7 @@ def admin_editdelete(_w1, mobility_manager):
     _w1.AD_engrank_entry.insert(0, uni_data["Engineering Ranking"])
     _w1.AD_ID_entry.configure(state="normal")
     _w1.AD_ID_entry.delete(0, tk.END)
+
     _w1.AD_ID_entry.insert(0, uni_data["ID"])
     _w1.AD_ID_entry.configure(state="readonly")
     _w1.AD_uniname_entry.delete(0, tk.END)
@@ -253,6 +258,99 @@ def move_pref_down(_w1, row_num):
     below_label.configure(text=f"{row_num+1}. {name_current}")
 
 
+def rank_button_action(_w1):
+    """
+    Handle the Rank! button click. This function:
+    1. Validates that all required student fields are filled
+    2. Loads the student data from the GUI into the current_student instance
+    3. Saves the student data to CSV
+    4. Calls the scoring engine to rank universities (future integration)
+    
+    This ensures data persistence before ranking.
+    """
+    global current_student
+    
+    if current_student is None:
+        tk.messagebox.showerror("Error", "No student logged in. Please log in first.")
+        return
+    
+    try:
+        # Load current GUI values into the student instance
+        current_student.load_from_gui(_w1)
+        
+        # Validate required fields
+        degree = current_student.get_degree()
+        grade = current_student.get_grade()
+        lang = current_student.get_languages()
+        continents = current_student.get_continents()
+        preferences = current_student.get_preferences()
+        
+        # Check required fields
+        if not degree or degree == "":
+            tk.messagebox.showerror("Missing field", "Please select a degree.")
+            return
+        
+        if grade == 0.0 or grade == "":
+            tk.messagebox.showerror("Missing field", "Please enter a valid grade.")
+            return
+        
+        if not lang or len(lang) == 0:
+            tk.messagebox.showerror("Missing field", "Please select at least one language.")
+            return
+        
+        if not continents or len(continents) == 0:
+            tk.messagebox.showerror("Missing field", "Please select at least one continent.")
+            return
+        
+        if not preferences or len(preferences) == 0:
+            tk.messagebox.showerror("Missing field", "Please select and rank your preferences.")
+            return
+        
+        # Save to CSV
+        success = current_student.save_to_csv()
+        
+        if success:
+            # Print summary for user
+            summary = f"Profile saved successfully!\n\nDegree: {degree}\nGrade: {grade}\n"
+            summary += f"Languages: {', '.join([f'{lang}: {level}' for lang, level in lang.items()])}\n"
+            summary += f"Continents: {', '.join(continents)}\n"
+            summary += f"Preferences: {', '.join([f'{i+1}. {pref}' for i, pref in enumerate(preferences)])}\n\n"
+            summary += "Computing rankings..."
+            
+            # TODO: Integrate with scoring engine to rank universities
+            # For now, just show the success message
+            tk.messagebox.showinfo("Ranking", summary)
+        else:
+            tk.messagebox.showerror("Error", "Failed to save profile.")
+            
+    except Exception as e:
+        tk.messagebox.showerror("Error", f"Error during ranking process: {e}")
+
+def save_student_profile(_w1):
+    """
+    Save the current student's profile data from GUI to CSV.
+    This should be called before ranking or whenever student data is updated.
+    Updates the global current_student with GUI values and saves to CSV.
+    """
+    global current_student
+    
+    if current_student is None:
+        tk.messagebox.showerror("Error", "No student logged in. Please log in first.")
+        return False
+    
+    try:
+        # Load current GUI values into the student instance
+        current_student.load_from_gui(_w1)
+        
+        # Save to CSV
+        current_student.save_to_csv()
+        
+        tk.messagebox.showinfo("Success", "Profile saved successfully!")
+        return True
+    except Exception as e:
+        tk.messagebox.showerror("Error", f"Error saving profile: {e}")
+        return False
+
 def print_student_attributes(gui_frame):
     """Create a temporary Student object, populate it from the GUI and
     print all of its stored attributes to stdout.
@@ -394,6 +492,12 @@ def show_login(_w1, root):
     root.update_idletasks()
 
 def logout(_w1, root):
+    global current_student
+    # Save student data before logout if a student is logged in
+    if current_student is not None:
+        current_student.save_to_csv()
+        current_student = None
+    
     clear_admin_entries(_w1)
     _w1.AD_entries_frame.place_forget()
     _w1.AD_uni_combobox.set("Select University")
@@ -432,6 +536,8 @@ def admin_login_action(_w1, mobility_manager):
         show_admin(_w1)
 
 def student_login_action(_w1, mobility_manager):
+    global current_student
+    
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()
     if not email or not pwd:
@@ -444,7 +550,23 @@ def student_login_action(_w1, mobility_manager):
             tk.messagebox.showerror("Error", f"Error during auth: {e}")
             return
         if ok:
-            show_student(_w1)
+            # Get user data including UID
+            user_data = mobility_manager.get_user_by_credentials(email, pwd, 'student')
+            if user_data:
+                # Create a Student instance
+                uid = user_data.get('UID')
+                current_student = Student(uid, email, pwd)
+                
+                # Load student data from CSV
+                current_student.load_from_csv()
+                
+                # Clear login fields and show student page
+                _w1.LG_mail_entry.delete(0, tk.END)
+                _w1.LG_pwd_entry.delete(0, tk.END)
+                show_student(_w1)
+                tk.messagebox.showinfo("Login success", f"Welcome back, {email}!")
+            else:
+                tk.messagebox.showerror("Error", "Could not retrieve user data.")
         else:
             tk.messagebox.showerror("Authentication failed", "Invalid student credentials.")
     else:
@@ -452,6 +574,8 @@ def student_login_action(_w1, mobility_manager):
         show_student(_w1)
 
 def student_signup_action(_w1, mobility_manager):
+    global current_student
+    
     email = _w1.LG_mail_entry.get().strip()
     pwd = _w1.LG_pwd_entry.get().strip()
     if not email or not pwd:
@@ -469,16 +593,27 @@ def student_signup_action(_w1, mobility_manager):
     # Call mobilityManager.add_user if available
     if hasattr(mobility_manager, 'add_user'):
         try:
-            mobility_manager.add_user({
+            uid = mobility_manager.add_user({
                 'email': email,
                 'password': pwd,
                 'user_type': 'student'
             })
+            
+            # Create a Student instance with the new UID
+            current_student = Student(uid, email, pwd)
+            
+            # Initialize student data (empty but ready to be filled)
+            # The load_from_csv will return False for new students, which is expected
+            current_student.load_from_csv()
+            
+            # Clear login fields and show student page
+            _w1.LG_mail_entry.delete(0, tk.END)
+            _w1.LG_pwd_entry.delete(0, tk.END)
+            tk.messagebox.showinfo("Success", "Account created successfully!")
+            show_student(_w1)
         except Exception as e:
             tk.messagebox.showerror("Error", f"Error creating user: {e}")
             return
-        tk.messagebox.showinfo("Success", "Account created — proceeding to Student screen.")
-        show_student(_w1)
     else:
         # Fallback: simulate user creation
         tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")

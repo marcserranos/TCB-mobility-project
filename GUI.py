@@ -302,8 +302,8 @@ class FrameBP:
         self.ST_rank_button.place(relx=0.35, rely=0.914, height=46, width=125)
         self.ST_rank_button.configure(text='''Rank !''')
         self.ST_rank_button.configure(compound='left')
-        # print student attributes when clicked (for debugging / ranking)
-        self.ST_rank_button.configure(command=lambda: GUI_logic.print_student_attributes(self))
+        # Rank button handler - saves student data and initiates ranking
+        self.ST_rank_button.configure(command=lambda: GUI_logic.rank_button_action(self))
 
         # STUDENT visual separators
         self.ST_separator1 = ttk.Separator(self.ST_inputspanel_frame)

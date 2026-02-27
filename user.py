@@ -1,7 +1,7 @@
 # user.py
 # This module defines the User class hierarchy, including the base User class and the Admin and Student subclasses.
 
-
+import pandas as pd
 from utilities import Utilities
 
 class User:
@@ -56,9 +56,181 @@ class Student(User):
         self.__usertype = "student"
         self.__degree = ""
         self.__grade = 0.0
-        self.__lang = []
+        self.__lang = {}
         self.__continents = []
         self.__preferences = []
+        # Languages available
+        self.__available_languages = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese", "Japanese"]
+        # Continents available
+        self.__available_continents = ["Europe", "South America", "Asia", "Africa", "North America", "Oceania"]
+        # Path to student info CSV
+        self.__student_info_file = "data/student_info.csv"
+
+    def load_from_csv(self, filepath="data/student_info.csv"):
+        """
+        Load student information from the student_info.csv file based on UID.
+        This method reads the CSV and populates the student's attributes.
+        """
+        try:
+            df = pd.read_csv(filepath)
+            # Find the row matching this student's UID
+            student_row = df[df['UID'] == self._ID]
+            
+            if student_row.empty:
+                # No existing data for this student, will initialize on first save
+                print(f"No existing data found for student {self._ID}. Data will be initialized on save.")
+                return False
+            
+            # Extract and set attributes
+            row = student_row.iloc[0]
+            
+            # Load degree
+            if pd.notna(row.get('degree')) and row.get('degree') != '':
+                self.__degree = str(row['degree'])
+            
+            # Load grade
+            try:
+                grade_val = row.get('grade')
+                if pd.notna(grade_val) and grade_val != '':
+                    self.__grade = float(grade_val)
+            except (ValueError, TypeError):
+                self.__grade = 0.0
+            
+            # Load languages
+            langs = {}
+            for lang in self.__available_languages:
+                if lang in row.index:
+                    lang_val = row.get(lang)
+                    if pd.notna(lang_val) and lang_val != '':
+                        langs[lang] = str(lang_val)
+            self.__lang = langs
+            
+            # Load continents
+            continents = []
+            for continent in self.__available_continents:
+                if continent in row.index:
+                    cont_val = row.get(continent)
+                    if pd.notna(cont_val) and cont_val != '':
+                        continents.append(continent)
+            self.__continents = continents
+            
+            # Load preferences - they are stored as priority numbers, reconstruct the list
+            prefs = []
+            pref_fields = ['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank']
+            # Get priorities and sort by them
+            pref_priorities = {}
+            for pref in pref_fields:
+                if pref in row.index:
+                    pref_val = row.get(pref)
+                    if pd.notna(pref_val) and pref_val != '':
+                        try:
+                            priority = int(float(pref_val))
+                            pref_priorities[pref] = priority
+                        except (ValueError, TypeError):
+                            pass
+            
+            # Sort by priority and extract the preference names
+            if pref_priorities:
+                sorted_prefs = sorted(pref_priorities.items(), key=lambda x: x[1])
+                prefs = [pref_name for pref_name, _ in sorted_prefs]
+            
+            self.__preferences = prefs
+            
+            print(f"Successfully loaded student data for {self._ID}")
+            return True
+            
+        except FileNotFoundError:
+            print(f"student_info.csv not found at {filepath}")
+            return False
+        except Exception as e:
+            print(f"Error loading student data: {e}")
+            return False
+
+    def save_to_csv(self, filepath="data/student_info.csv"):
+        """
+        Save the student's current attributes back to the student_info.csv file.
+        This method updates or creates a row based on the student's UID.
+        Preferences are stored as priority numbers (1, 2, 3, 4) based on their order in the list.
+        """
+        try:
+            # Try to load existing CSV
+            try:
+                df = pd.read_csv(filepath)
+            except FileNotFoundError:
+                # Create new DataFrame with headers if file doesn't exist
+                df = pd.DataFrame()
+            
+            # Define all expected columns in order
+            all_columns = ['UID', 'degree', 'grade']
+            all_columns.extend(self.__available_languages)
+            all_columns.extend(self.__available_continents)
+            all_columns.extend(['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank'])
+            
+            # Prepare the data dictionary for this student
+            student_data = {
+                'UID': self._ID,
+                'degree': self.__degree,
+                'grade': self.__grade,
+            }
+            
+            # Add language columns with their levels
+            for lang in self.__available_languages:
+                student_data[lang] = self.__lang.get(lang, '')
+            
+            # Add continent columns - store the continent name if selected, empty otherwise
+            for continent in self.__available_continents:
+                student_data[continent] = continent if continent in self.__continents else ''
+            
+            # Add preference columns - store priority numbers based on list order
+            # The preferences list is already in priority order (index 0 = highest priority = 1)
+            pref_fields = ['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank']
+            for i, pref_field in enumerate(pref_fields):
+                # Find the priority of this preference (1-based index)
+                if pref_field in self.__preferences:
+                    priority = self.__preferences.index(pref_field) + 1
+                    student_data[pref_field] = str(priority)
+                else:
+                    student_data[pref_field] = ''
+            
+            # Check if student already exists in the dataframe
+            if not df.empty and 'UID' in df.columns and self._ID in df['UID'].values:
+                # Update existing row
+                idx = df.index[df['UID'] == self._ID][0]
+                for key, value in student_data.items():
+                    df.at[idx, key] = value
+            else:
+                # Add new row - ensure all columns exist
+                if df.empty:
+                    # Create new dataframe with all columns
+                    df = pd.DataFrame(columns=all_columns)
+                else:
+                    # Add missing columns to existing dataframe
+                    for col in all_columns:
+                        if col not in df.columns:
+                            df[col] = ''
+                
+                # Add the new student row
+                new_row = pd.DataFrame([student_data])
+                df = pd.concat([df, new_row], ignore_index=True)
+            
+            # Ensure all columns are present in the final dataframe
+            for col in all_columns:
+                if col not in df.columns:
+                    df[col] = ''
+            
+            # Reorder columns to match expected order
+            df = df[all_columns]
+            
+            # Save back to CSV
+            df.to_csv(filepath, index=False)
+            print(f"Successfully saved student data for {self._ID}")
+            return True
+            
+        except Exception as e:
+            print(f"Error saving student data: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
 
     def login_retrieve_info(self, user_id):
         
@@ -71,6 +243,40 @@ class Student(User):
 
     def get_stud_att(self, attribute: str):
         return getattr(self, f"_Student__{attribute}", None)
+
+    # Getter methods for GUI and other components
+    def get_degree(self):
+        return self.__degree
+    
+    def set_degree(self, degree):
+        self.__degree = degree
+    
+    def get_grade(self):
+        return self.__grade
+    
+    def set_grade(self, grade):
+        try:
+            self.__grade = float(grade)
+        except (ValueError, TypeError):
+            self.__grade = 0.0
+    
+    def get_languages(self):
+        return self.__lang
+    
+    def set_languages(self, languages_dict):
+        self.__lang = languages_dict
+    
+    def get_continents(self):
+        return self.__continents
+    
+    def set_continents(self, continents_list):
+        self.__continents = continents_list
+    
+    def get_preferences(self):
+        return self.__preferences
+    
+    def set_preferences(self, preferences_list):
+        self.__preferences = preferences_list
 
     def load_from_gui(self, gui_frame):
         """Populate this student's data from a FrameBP instance.
