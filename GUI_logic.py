@@ -258,20 +258,108 @@ def move_pref_down(_w1, row_num):
     below_label.configure(text=f"{row_num+1}. {name_current}")
 
 
+def clear_student_page(_w1):
+    """
+    Clear all student page widgets and reset them to default state.
+    This ensures a clean form when switching between users.
+    """
+    # Clear degree
+    _w1.degree_var.set('Select Degree')
+    
+    # Clear grade
+    _w1.ST_grade_entry.delete(0, tk.END)
+    
+    # Clear all added languages
+    for lang_frame, level_var in _w1.added_languages.values():
+        lang_frame.destroy()
+    _w1.added_languages.clear()
+    
+    # Clear continent checkboxes
+    _w1.var_EU.set(0)
+    _w1.var_NA.set(0)
+    _w1.var_AS.set(0)
+    _w1.var_SA.set(0)
+    _w1.var_OC.set(0)
+    _w1.var_AF.set(0)
+    
+    # Reset preference labels
+    _w1.pref_label1.config(text="1. Cost of Living")
+    _w1.pref_label2.config(text="2. Weather")
+    _w1.pref_label3.config(text="3. Nightlife")
+    _w1.pref_label4.config(text="4. Academic Rank")
+    
+    # Clear language menu
+    _w1.lang_var.set('')
+
+def populate_student_page_from_profile(_w1, student):
+    """
+    Populate student page widgets with the student's saved profile data.
+    This is called after login to restore a student's previous entries.
+    Kept simple to avoid any unintended triggers.
+    """
+    try:
+        # Set degree
+        degree = student.get_degree()
+        if degree and degree != "":
+            _w1.degree_var.set(degree)
+        
+        # Set grade
+        grade = student.get_grade()
+        if grade and grade != 0.0 and grade != "":
+            _w1.ST_grade_entry.delete(0, tk.END)
+            _w1.ST_grade_entry.insert(0, str(grade))
+        
+        # Set languages by adding rows for each saved language
+        langs = student.get_languages()
+        if langs:
+            for lang, level in langs.items():
+                # Add the language row
+                add_language_row(_w1)
+                # Set the level on the newly added row
+                if lang in _w1.added_languages:
+                    frame, level_var = _w1.added_languages[lang]
+                    level_var.set(level)
+        
+        # Set continents
+        continents = student.get_continents()
+        continent_mapping = {
+            "Europe": _w1.var_EU,
+            "North America": _w1.var_NA,
+            "Asia": _w1.var_AS,
+            "South America": _w1.var_SA,
+            "Oceania": _w1.var_OC,
+            "Africa": _w1.var_AF,
+        }
+        for continent, var in continent_mapping.items():
+            if continent in continents:
+                var.set(1)
+            else:
+                var.set(0)
+        
+        # Set preferences
+        preferences = student.get_preferences()
+        if preferences:
+            pref_fields = ['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank']
+            for i, pref in enumerate(preferences):
+                if i < 4:
+                    label = getattr(_w1, f"pref_label{i+1}")
+                    label.config(text=f"{i+1}. {pref}")
+    
+    except Exception as e:
+        print(f"Error populating student page: {e}")
+
 def rank_button_action(_w1):
     """
-    Handle the Rank! button click. This function:
-    1. Validates that all required student fields are filled
-    2. Loads the student data from the GUI into the current_student instance
+    Handle the Rank! button click silently. This function:
+    1. Loads the student data from the GUI into the current_student instance
+    2. Validates that all required student fields are filled
     3. Saves the student data to CSV
-    4. Calls the scoring engine to rank universities (future integration)
-    
-    This ensures data persistence before ranking.
+    4. TODO: Calls the scoring engine to rank universities (future integration)
+    No popup messages are shown - data is saved silently.
     """
     global current_student
     
     if current_student is None:
-        tk.messagebox.showerror("Error", "No student logged in. Please log in first.")
         return
     
     try:
@@ -285,8 +373,8 @@ def rank_button_action(_w1):
         continents = current_student.get_continents()
         preferences = current_student.get_preferences()
         
-        # Check required fields
-        if not degree or degree == "":
+        # Check required fields - silently return if any missing
+        if not degree or degree == "" or degree == "Select Degree":
             tk.messagebox.showerror("Missing field", "Please select a degree.")
             return
         
@@ -306,25 +394,14 @@ def rank_button_action(_w1):
             tk.messagebox.showerror("Missing field", "Please select and rank your preferences.")
             return
         
-        # Save to CSV
-        success = current_student.save_to_csv()
+        # Save to CSV (silently)
+        current_student.save_to_csv()
         
-        if success:
-            # Print summary for user
-            summary = f"Profile saved successfully!\n\nDegree: {degree}\nGrade: {grade}\n"
-            summary += f"Languages: {', '.join([f'{lang}: {level}' for lang, level in lang.items()])}\n"
-            summary += f"Continents: {', '.join(continents)}\n"
-            summary += f"Preferences: {', '.join([f'{i+1}. {pref}' for i, pref in enumerate(preferences)])}\n\n"
-            summary += "Computing rankings..."
-            
-            # TODO: Integrate with scoring engine to rank universities
-            # For now, just show the success message
-            tk.messagebox.showinfo("Ranking", summary)
-        else:
-            tk.messagebox.showerror("Error", "Failed to save profile.")
+        # TODO: Integrate with scoring engine to rank universities
+        # For now, data is just saved silently
             
     except Exception as e:
-        tk.messagebox.showerror("Error", f"Error during ranking process: {e}")
+        print(f"Error during ranking process: {e}")
 
 def save_student_profile(_w1):
     """
@@ -498,6 +575,9 @@ def logout(_w1, root):
         current_student.save_to_csv()
         current_student = None
     
+    # Clear all student page widgets
+    clear_student_page(_w1)
+    
     clear_admin_entries(_w1)
     _w1.AD_entries_frame.place_forget()
     _w1.AD_uni_combobox.set("Select University")
@@ -553,12 +633,18 @@ def student_login_action(_w1, mobility_manager):
             # Get user data including UID
             user_data = mobility_manager.get_user_by_credentials(email, pwd, 'student')
             if user_data:
+                # Clear student page first
+                clear_student_page(_w1)
+                
                 # Create a Student instance
                 uid = user_data.get('UID')
                 current_student = Student(uid, email, pwd)
                 
                 # Load student data from CSV
                 current_student.load_from_csv()
+                
+                # Populate student page with saved data
+                populate_student_page_from_profile(_w1, current_student)
                 
                 # Clear login fields and show student page
                 _w1.LG_mail_entry.delete(0, tk.END)
@@ -598,6 +684,9 @@ def student_signup_action(_w1, mobility_manager):
                 'password': pwd,
                 'user_type': 'student'
             })
+            
+            # Clear student page for new user
+            clear_student_page(_w1)
             
             # Create a Student instance with the new UID
             current_student = Student(uid, email, pwd)
