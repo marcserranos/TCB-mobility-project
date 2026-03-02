@@ -190,11 +190,17 @@ def delete_admin_entries(_w1, mobility_manager):
 
 #______________________________________________STUDENT PAGE LOGIC_____________________________________________________
 
-def add_language_row(_w1):
-    '''Handles adding languages in the student languages frame dynamically, with a label, combobox to select
-    the certification level, and delete button. Handles space in two columns so no scrolled menu is needed for
-    a number of certified languages between 5 and 8 where 8 is the maximum.'''
-    selected_lang = _w1.lang_var.get()
+def add_language_row(_w1, language=None):
+    '''
+    Handles adding languages in the student languages frame dynamically.
+    If ``language`` is provided it is used directly, otherwise the current
+    value of ``_w1.lang_var`` (the combobox) is read.  A label for the
+    language, a combobox for the certification level and a delete button are
+    placed.  The layout uses two columns to avoid scrolling when several
+    languages are present (maximum eight supported).
+    '''
+    # determine which language to add
+    selected_lang = language if language is not None else _w1.lang_var.get()
     if selected_lang == "Select Language" or selected_lang in _w1.added_languages:
         return
     current_count = len(_w1.added_languages)
@@ -217,6 +223,19 @@ def add_language_row(_w1):
     tk.Button(row_frame, text="X", bg="#ff4d4d", fg="white", bd=0,
               command=lambda: remove_language_row(_w1, selected_lang)).pack(side="left", padx=5)
     _w1.added_languages[selected_lang] = [row_frame, level_var]
+    # reset the language selector for convenience
+    try:
+        _w1.lang_var.set('Select Language')
+    except Exception:
+        # some callers may not want to modify the combobox state
+        pass
+    # additionally clear any visual selection and move focus away so the
+    # combobox does not stay highlighted (blue box)
+    try:
+        _w1.ST_lang_menu.selection_clear()
+        _w1.ST_grade_entry.focus_set()
+    except Exception:
+        pass
 
 def remove_language_row(_w1, lang_name):
     '''Deletes a language'''
@@ -289,7 +308,8 @@ def clear_student_page(_w1):
     _w1.pref_label4.config(text="4. Academic Rank")
     
     # Clear language menu
-    _w1.lang_var.set('')
+    # use the same placeholder used when the GUI is first created
+    _w1.lang_var.set('Select Language')
 
 def populate_student_page_from_profile(_w1, student):
     """
@@ -313,8 +333,10 @@ def populate_student_page_from_profile(_w1, student):
         langs = student.get_languages()
         if langs:
             for lang, level in langs.items():
-                # Add the language row
-                add_language_row(_w1)
+                # Add the language row with explicit language name so the
+                # label does not end up empty (combobox may not yet have the
+                # correct value during profile restoration).
+                add_language_row(_w1, language=lang)
                 # Set the level on the newly added row
                 if lang in _w1.added_languages:
                     frame, level_var = _w1.added_languages[lang]
@@ -344,6 +366,13 @@ def populate_student_page_from_profile(_w1, student):
                 if i < 4:
                     label = getattr(_w1, f"pref_label{i+1}")
                     label.config(text=f"{i+1}. {pref}")
+        # Ensure language combobox is visually cleared after populating
+        try:
+            _w1.lang_var.set('Select Language')
+            _w1.ST_lang_menu.selection_clear()
+            _w1.ST_grade_entry.focus_set()
+        except Exception:
+            pass
     
     except Exception as e:
         print(f"Error populating student page: {e}")
@@ -358,48 +387,47 @@ def rank_button_action(_w1):
     No popup messages are shown - data is saved silently.
     """
     global current_student
-    
+
     if current_student is None:
         return
-    
+
     try:
         # Load current GUI values into the student instance
         current_student.load_from_gui(_w1)
-        
+
         # Validate required fields
         degree = current_student.get_degree()
         grade = current_student.get_grade()
         lang = current_student.get_languages()
         continents = current_student.get_continents()
         preferences = current_student.get_preferences()
-        
+
         # Check required fields - silently return if any missing
         if not degree or degree == "" or degree == "Select Degree":
             tk.messagebox.showerror("Missing field", "Please select a degree.")
             return
-        
+
         if grade == 0.0 or grade == "":
             tk.messagebox.showerror("Missing field", "Please enter a valid grade.")
             return
-        
+
         if not lang or len(lang) == 0:
             tk.messagebox.showerror("Missing field", "Please select at least one language.")
             return
-        
+
         if not continents or len(continents) == 0:
             tk.messagebox.showerror("Missing field", "Please select at least one continent.")
             return
-        
+
         if not preferences or len(preferences) == 0:
             tk.messagebox.showerror("Missing field", "Please select and rank your preferences.")
             return
-        
+
         # Save to CSV (silently)
         current_student.save_to_csv()
-        
+
         # TODO: Integrate with scoring engine to rank universities
         # For now, data is just saved silently
-            
     except Exception as e:
         print(f"Error during ranking process: {e}")
 
@@ -570,9 +598,18 @@ def show_login(_w1, root):
 
 def logout(_w1, root):
     global current_student
-    # Save student data before logout if a student is logged in
+    # Save student data before logout if a student is logged in.
+    # Make sure GUI current values are loaded into the Student instance
+    # (same behavior as the Rank action) before persisting.
     if current_student is not None:
-        current_student.save_to_csv()
+        try:
+            current_student.load_from_gui(_w1)
+        except Exception:
+            pass
+        try:
+            current_student.save_to_csv()
+        except Exception:
+            pass
         current_student = None
     
     # Clear all student page widgets
