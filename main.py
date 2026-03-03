@@ -11,6 +11,8 @@ from tkinter import messagebox
 import GUI
 from mobilityManager import mobilityManager
 from GUI_logic import *
+from university import Catalog  # used for building catalog when ranking
+from scoringEngine import ScoringEngine
 
 def main(*args):
     '''Main entry point for the application.'''
@@ -26,6 +28,18 @@ def main(*args):
     mobility_manager.load_universities()
     mobility_manager.load_users()
     _w1.AD_uni_combobox['values'] = mobility_manager.get_university_names()
+
+    # create catalog and scoring engine; passed later to the ranking handler
+    catalog = Catalog("data/entries.csv")
+    engine = ScoringEngine()
+
+    # override the rank button handler to pass the catalog and engine instances
+    # to GUI_logic.rank_button_action.  GUI.py sets a default earlier which we
+    # replace here safely inside a try/except.
+    try:
+        _w1.ST_rank_button.configure(command=lambda: rank_button_action(_w1, catalog, engine))
+    except Exception:
+        pass
 
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))

@@ -7,6 +7,10 @@ import tkinter.ttk as ttk
 from tkinter import messagebox
 from utilities import Utilities
 from user import Student
+# we need university catalog and scoring engine for ranking; imported here to avoid circular imports
+from university import Catalog
+from scoringEngine import ScoringEngine
+from scoringEngine import ScoringEngine
 
 # Global variable to store the current logged-in student instance
 current_student = None
@@ -377,14 +381,18 @@ def populate_student_page_from_profile(_w1, student):
     except Exception as e:
         print(f"Error populating student page: {e}")
 
-def rank_button_action(_w1):
+def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
     """
     Handle the Rank! button click silently. This function:
     1. Loads the student data from the GUI into the current_student instance
     2. Validates that all required student fields are filled
     3. Saves the student data to CSV
-    4. TODO: Calls the scoring engine to rank universities (future integration)
-    No popup messages are shown - data is saved silently.
+    4. Instantiates/uses a Catalog to load university objects and prints them
+       (minimal proof-of-concept until the scoring engine is hooked up)
+
+    The ``catalog`` parameter is optional; if provided (e.g. by main.py) the
+    same instance will be reused.  If it is ``None`` the function will still
+    behave normally but no catalog operations will occur.
     """
     global current_student
 
@@ -426,8 +434,23 @@ def rank_button_action(_w1):
         # Save to CSV (silently)
         current_student.save_to_csv()
 
-        # TODO: Integrate with scoring engine to rank universities
-        # For now, data is just saved silently
+        # print student preferences to show their structure
+        print("--- student preferences ---")
+        print(preferences)
+        print("--- end student preferences ---")
+
+        # Test eligibility and affinity score for all universities
+        if catalog is not None and engine is not None:
+            catalog.load()
+            print("\n--- Test Results: Eligibility and Affinity Score ---")
+            print(f"Student Preferences: {preferences}")
+            print()
+            for uni in catalog.all():
+                name = uni.get_uni_att('name')
+                elig = engine.is_eligible(current_student, uni)
+                score = engine.affinity_score(current_student, uni)
+                print(f"{name:50s} | Eligible: {str(elig):5s} | Score: {score:.2f}")
+            print("--- End of Test ---\n")
     except Exception as e:
         print(f"Error during ranking process: {e}")
 

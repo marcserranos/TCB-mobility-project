@@ -3,7 +3,7 @@
 
 # This class represents a university, encapsulating all relevant information such as name, degree requirements, grade requirements, language requirements, cutoff grade, website URL, logo path, and location.
 class University:
-    def __init__(self, uni_id, name, degree, grade, lang, cutoff, url, logo, loc_obj,
+    def __init__(self, uni_id, name, degree, grade, lang, lang_levels, cutoff, url, logo, loc_obj,
                  ranking=None, weather=None, nightlife=None, cost=None):
         # Private attributes (-)
         self.__id = uni_id
@@ -13,6 +13,8 @@ class University:
         # languages required by the university; the CSV stores a semicolon-separated
         # string which the Catalog will parse into a list.
         self.__lang = lang
+        # dictionary mapping language name to required level (e.g. {'English':'B2'})
+        self.__lang_levels = lang_levels or {}
         self.__cutoff_grade = float(cutoff)
         self.__website_url = url
         self.__logo_path = logo
@@ -69,7 +71,14 @@ class University:
         return True
 
     def to_dict(self) -> dict:
-        """Flattenable representation for GUI tables or exports."""
+        """Flattenable representation for GUI tables or exports.
+
+        The keys used here mirror the student's preference names where
+        appropriate so that inspecting the output side-by-side makes it
+        easy to see how the two data structures line up.  For example a
+        student's preference list contains strings like "Cost of Living"
+        and "Academic Rank"; this representation uses the same labels.
+        """
         return {
             "id": self.__id,
             "name": self.__name,
@@ -85,10 +94,12 @@ class University:
                 "continent": self.__location.get_continent() if self.__location else None,
                 "coords": self.__location._Location__coords if self.__location else None,
             },
-            "ranking": self.__ranking,
-            "weather": self.__weather,
-            "nightlife": self.__nightlife,
-            "cost_of_living": self.__cost_of_living,
+            # preference-related values use the same labels the student
+            # preferences list contains so comparison later is natural.
+            "Academic Rank": self.__ranking,
+            "Weather": self.__weather,
+            "Nightlife": self.__nightlife,
+            "Cost of Living": self.__cost_of_living,
         }
 
 # This class represents the location of a university, encapsulating city, country, continent, and coordinates. We still have to discuss whether we merge it with the University class or keep it separate.
@@ -140,6 +151,12 @@ class Catalog:
             if 'Languages required' in row and pd.notna(row['Languages required']):
                 langs = [l.strip() for l in str(row['Languages required']).split(';') if l.strip()]
 
+            # build language level requirements from individual columns
+            lang_levels = {}
+            for lang_col in ['English','Spanish','French','German','Italian','Portuguese','Chinese','Japanese']:
+                if lang_col in row and pd.notna(row[lang_col]) and str(row[lang_col]).strip() != '':
+                    lang_levels[lang_col] = str(row[lang_col]).strip()
+
             loc = Location(
                 city=row.get('City', ''),
                 country=row.get('Country', ''),
@@ -153,6 +170,7 @@ class Catalog:
                 degree=[d.strip() for d in str(row.get('Degree', '')).split(';') if d.strip()] if 'Degree' in row else [],
                 grade=row.get('Minimum grade', 0.0),
                 lang=langs,
+                lang_levels=lang_levels,
                 cutoff=row.get('Previous cutoff grade', row.get('Minimum grade', 0.0)),
                 url=row.get('Website', ''),
                 logo=row.get('Logo', ''),
@@ -169,8 +187,19 @@ class Catalog:
     def all(self) -> list[University]:
         return list(self._universities)
 
-    def filter_for(self, student) -> list[University]:
-        return [u for u in self._universities if u.is_eligible(student)]
+    def filter_for(self, student, engine=None) -> list[University]:
+        """Return universities matching student's basic eligibility.
+
+        ``engine`` may be supplied; if provided its ``is_eligible`` method will
+        be used instead of the old ``University.is_eligible`` helper.  This
+        allows the filtering logic to evolve in the scoring engine while
+        keeping legacy support.
+        """
+        if engine is not None:
+            return [u for u in self._universities if engine.is_eligible(student, u)]
+        else:
+            # fall back to previous behaviour until callers are updated
+            return [u for u in self._universities if u.is_eligible(student)]
 
     def rank(self, student, engine) -> list[tuple[University, float]]:
         eligible = self.filter_for(student)
