@@ -31,45 +31,6 @@ class University:
         """Returns the value of the requested attribute if it exists, else None."""
         return getattr(self, f"_{self.__class__.__name__}__{attribute}", None)
 
-    def is_eligible(self, student) -> bool:
-        """Basic eligibility check used by the catalog filter.
-
-        - student grade must meet or exceed cutoff
-        - degree (if both sides have a value) must match
-        - continent and language restrictions may also be applied.
-        """
-        # cutoff
-        if student.get_grade() < self.__cutoff_grade:
-            return False
-
-        # degree check
-        stud_deg = student.get_degree()
-        if stud_deg and self.__degree:
-            if stud_deg not in self.__degree:
-                return False
-
-        # continent check
-        cont = None
-        if self.__location is not None:
-            cont = self.__location.get_continent()
-        if cont and student.get_continents():
-            if cont not in student.get_continents():
-                return False
-
-        # language check: all required languages must appear in student's profile
-        req_langs = []
-        if isinstance(self.__lang, list):
-            req_langs = self.__lang
-        elif isinstance(self.__lang, str):
-            # sometimes stored as semicolon-separated string
-            req_langs = [l.strip() for l in self.__lang.split(";") if l.strip()]
-
-        for l in req_langs:
-            if l and l not in student.get_languages():
-                return False
-
-        return True
-
     def to_dict(self) -> dict:
         """Flattenable representation for GUI tables or exports.
 
@@ -186,20 +147,6 @@ class Catalog:
 
     def all(self) -> list[University]:
         return list(self._universities)
-
-    def filter_for(self, student, engine=None) -> list[University]:
-        """Return universities matching student's basic eligibility.
-
-        ``engine`` may be supplied; if provided its ``is_eligible`` method will
-        be used instead of the old ``University.is_eligible`` helper.  This
-        allows the filtering logic to evolve in the scoring engine while
-        keeping legacy support.
-        """
-        if engine is not None:
-            return [u for u in self._universities if engine.is_eligible(student, u)]
-        else:
-            # fall back to previous behaviour until callers are updated
-            return [u for u in self._universities if u.is_eligible(student)]
 
     def rank(self, student, engine) -> list[tuple[University, float]]:
         eligible = self.filter_for(student)

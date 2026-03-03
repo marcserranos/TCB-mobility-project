@@ -81,7 +81,7 @@ class ScoringEngine:
     def calculate_academic_score(rank, max_rank=1500, decay_factor=5.5):
         """Transform a raw academic rank into a 0-10 score.
 
-        Uses the provided power-log formula to create a plateau at the top.
+        Uses the specified power-log formula to create a plateau at the top.
         """
         try:
             rank = float(rank)
@@ -135,6 +135,8 @@ class ScoringEngine:
         The method compares information from both objects rather than relying on
         a single class:
 
+        * **minimum_grade** - the student's grade must be equal or greater than
+          the university's minimum grade requirement.
         * **degree** - the student's degree string must appear in the
           university's list of accepted degrees (if either side has data).
         * **continents** - the university's continent (from its location) should
@@ -146,10 +148,17 @@ class ScoringEngine:
           ordering is: ``B1 < B2 < C1 < C2``.  If the university only lists
           languages without levels, any presence of that language in the
           student's profile is sufficient.
-
-        This implementation effectively replaces the old ``University.is_eligible``
-        method; the catalog and ranking code should call the engine instead.
         """
+
+        # minimum grade check
+        stud_grade = student_obj.get_grade()
+        uni_min_grade = university_obj.get_uni_att('grade')
+        try:
+            uni_min_grade = float(uni_min_grade) if uni_min_grade is not None else 0.0
+        except Exception:
+            uni_min_grade = 0.0
+        if stud_grade < uni_min_grade:
+            return False
 
         # ara per ara ho eliminem fins que no sabem que fer amb el degree
         # degree matching
