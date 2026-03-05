@@ -19,6 +19,13 @@ try:
 except ImportError:
     PIL_AVAILABLE = False
 
+# For map display
+try:
+    import tkintermapview
+    MAP_AVAILABLE = True
+except ImportError:
+    MAP_AVAILABLE = False
+
 # Global variable to store the current logged-in student instance
 current_student = None
 # Global variable to store the current displayed university for the "More Info" section
@@ -96,6 +103,75 @@ def display_university_info(_w1, university_obj):
             _w1.ST_logo_label.configure(image="", text="Logo not found")
     else:
         _w1.ST_logo_label.configure(image="", text="Logo not available")
+
+
+def show_university_map():
+    """Display a map popup showing the currently selected university's location.
+    
+    Creates a new window with a TkinterMapView centered on the Mediterranean,
+    with a marker at the university's coordinates.
+    """
+    global current_university
+    
+    if current_university is None:
+        messagebox.showwarning("No Selection", "Please select a university first using the More Info button.")
+        return
+    
+    if not MAP_AVAILABLE:
+        messagebox.showerror("Map Not Available", "TkinterMapView library is not installed.")
+        return
+    
+    # Get university location
+    location = current_university.get_uni_att('location')
+    if not location:
+        messagebox.showerror("No Location", "University location data not available.")
+        return
+    
+    # Extract coordinates
+    if isinstance(location, dict):
+        coords = location.get('coords', [None, None])
+        uni_name = current_university.get_uni_att('name') or "University"
+    elif hasattr(location, 'get_coords'):
+        coords = location.get_coords()
+        uni_name = current_university.get_uni_att('name') or "University"
+    else:
+        messagebox.showerror("No Coordinates", "Location coordinates not available.")
+        return
+    
+    lat, lon = coords if coords else [None, None]
+    
+    if lat is None or lon is None:
+        messagebox.showerror("Invalid Coordinates", "University coordinates are not valid.")
+        return
+    
+    # Create popup window
+    map_window = tk.Toplevel()
+    map_window.title(f"Map - {uni_name}")
+    map_window.geometry("800x600")
+    
+    try:
+        # Create map widget
+        map_widget = tkintermapview.TkinterMapView(map_window)
+        map_widget.pack(fill="both", expand=True)
+        
+        # Center on Mediterranean (zoom out view)
+        map_widget.set_position(35, 15)
+        map_widget.set_zoom(2)
+        
+        # Add marker at university location
+        try:
+            lat = float(lat)
+            lon = float(lon)
+            map_widget.set_marker(lat, lon, text=uni_name)
+        except (ValueError, TypeError):
+            messagebox.showerror("Invalid Coordinates", f"Cannot plot coordinates: {lat}, {lon}")
+            map_window.destroy()
+            return
+            
+    except Exception as e:
+        messagebox.showerror("Map Error", f"Error displaying map: {e}")
+        map_window.destroy()
+        return
 
 
 def admin_editdelete(_w1, mobility_manager):
