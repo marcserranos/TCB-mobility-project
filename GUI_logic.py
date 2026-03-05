@@ -26,6 +26,9 @@ try:
 except ImportError:
     MAP_AVAILABLE = False
 
+# For opening websites
+import webbrowser
+
 # Global variable to store the current logged-in student instance
 current_student = None
 # Global variable to store the current displayed university for the "More Info" section
@@ -53,39 +56,35 @@ def display_university_info(_w1, university_obj):
     location = university_obj.get_uni_att('location')
     city = ""
     country = ""
-    if location:
-        if isinstance(location, dict):
-            city = location.get('city', '')
-            country = location.get('country', '')
-        elif hasattr(location, 'get_city'):
-            city = location.get_city()
-            country = location.get_country()
+    continent = ""
+    if location and hasattr(location, 'get_city'):
+        city = location.get_city() or ""
+        country = location.get_country() or ""
+        continent = location.get_continent() or ""
     
     # Update university name and location
     uni_display = f"{uni_name}, {city}, {country}"
     _w1.ST_uniname_label.configure(text=uni_display)
     
-    # Get and display statistics
+    # Get and display statistics using available attributes
     ranking = university_obj.get_uni_att('ranking')
     cost = university_obj.get_uni_att('cost_of_living')
     nightlife = university_obj.get_uni_att('nightlife')
     cutoff = university_obj.get_uni_att('cutoff_grade')
+    weather = university_obj.get_uni_att('weather')
+    min_grade = university_obj.get_uni_att('grade')
+    spots = university_obj.get_uni_att('spots')
     
-    _w1.ST_stat11_label.configure(text=f"Ranking\n{ranking or 'N/A'}")
-    _w1.ST_stat12_label.configure(text=f"Cost of living\n{cost or 'N/A'}")
+    _w1.ST_stat11_label.configure(text=f"Academic Ranking\n{ranking or 'N/A'}")
+    _w1.ST_stat12_label.configure(text=f"Cost of Living\n{cost or 'N/A'}")
     _w1.ST_stat13_label.configure(text=f"Nightlife\n{nightlife or 'N/A'}")
-    _w1.ST_stat23_label.configure(text=f"Previous cutoff grade\n{cutoff or 'N/A'}")
+    _w1.ST_stat23_label.configure(text=f"Cutoff Grade\n{cutoff or 'N/A'}")
     
-    # Engineering Ranking, Available spots, Duration - these may not be in current structure
-    engineering_ranking = university_obj.get_uni_att('engineering_ranking') or "N/A"
-    available_spots = university_obj.get_uni_att('available_spots') or "N/A"
-    duration = university_obj.get_uni_att('duration') or "N/A"
-    weather = university_obj.get_uni_att('weather') or "N/A"
-    
-    _w1.ST_stat21_label.configure(text=f"Engineering Ranking\n{engineering_ranking}")
-    _w1.ST_stat14_label.configure(text=f"Available spots\n{available_spots}")
-    _w1.ST_stat24_label.configure(text=f"Duration\n{duration}")
-    _w1.ST_stat22_label.configure(text=f"Weather\n{weather}")
+    # Use available fields for the remaining labels
+    _w1.ST_stat21_label.configure(text=f"Minimum Grade\n{min_grade or 'N/A'}")
+    _w1.ST_stat14_label.configure(text=f"Spots\n{spots or 'N/A'}")
+    _w1.ST_stat24_label.configure(text=f"Continent\n{continent or 'N/A'}")
+    _w1.ST_stat22_label.configure(text=f"Weather\n{weather or 'N/A'}")
     
     # Load and display logo
     logo_path = university_obj.get_logo_path()
@@ -169,6 +168,38 @@ def show_university_map():
         messagebox.showerror("Map Error", f"Error displaying map: {e}")
         map_window.destroy()
         return
+
+
+def open_university_website():
+    """Open the currently selected university's website in the default browser."""
+    global current_university
+    
+    if current_university is None:
+        messagebox.showwarning("No Selection", "Please select a university first using the More Info button.")
+        return
+    
+    # Get university website URL
+    website_url = current_university.get_uni_att('website_url')
+    print(f"Raw website URL: {website_url}")
+    
+    if not website_url or website_url.strip() == "":
+        messagebox.showerror("No Website", "Website URL not available for this university.")
+        return
+    
+    # Clean and ensure URL has proper protocol
+    website_url = website_url.strip()
+    if not website_url.startswith(('http://', 'https://')):
+        website_url = 'https://' + website_url
+    
+    print(f"Opening website: {website_url}")
+    try:
+        result = webbrowser.open(website_url)
+        print(f"Webbrowser open result: {result}")
+        if not result:
+            messagebox.showwarning("Warning", "Could not open browser. Please check your default browser settings.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Could not open website: {e}")
+        print(f"Error opening website: {e}")
 
 
 def admin_editdelete(_w1, mobility_manager):

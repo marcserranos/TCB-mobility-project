@@ -4,7 +4,7 @@
 # This class represents a university, encapsulating all relevant information such as name, degree requirements, grade requirements, language requirements, cutoff grade, website URL, logo path, and location.
 class University:
     def __init__(self, uni_id, name, degree, grade, lang, lang_levels, cutoff, url, logo, loc_obj,
-                 ranking=None, weather=None, nightlife=None, cost=None):
+                 ranking=None, weather=None, nightlife=None, cost=None, spots=None):
         # Private attributes (-)
         self.__id = uni_id
         self.__name = name
@@ -25,6 +25,7 @@ class University:
         self.__weather = weather          # textual description
         self.__nightlife = nightlife      # numeric
         self.__cost_of_living = cost      # numeric
+        self.__spots = spots              # number of available spots
 
     # Public method (+) to safely access private attributes
     def get_uni_att(self, attribute: str):
@@ -81,10 +82,6 @@ class Location:
         self.__country = country
         self.__continent = continent
         self.__coords = coords # list: [lat, lon]
-
-    # Public method (+) to interact with map libraries
-    def gen_map(self, coords_list: list):
-        print(f"Generating map for coordinates: {coords_list}")
 
     # accessors helpful for serialization and filtering
     def get_city(self):
@@ -150,6 +147,7 @@ class Catalog:
                 weather=row.get('Weather', None),
                 nightlife=row.get('Nightlife', None),
                 cost=row.get('Cost of living', None),
+                spots=row.get('Spots available', None),
             )
             cats.append(u)
 

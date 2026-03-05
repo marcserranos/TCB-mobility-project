@@ -47,6 +47,14 @@ def main(*args):
     except Exception:
         pass
 
+    # Link Website Button
+    try:
+        _w1.ST_web_button.configure(command=open_university_website)
+        print("Website button configured successfully")
+    except Exception as e:
+        print(f"Error configuring website button: {e}")
+        pass
+
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))
 
