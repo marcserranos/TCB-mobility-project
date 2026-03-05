@@ -30,7 +30,7 @@ def _style_code():
     except: pass
     style = ttk.Style()
     style.theme_use('default')
-    style.configure('.', font = "TkDefaultFont")
+    style.configure('.', font = "{Lexend} 10")
     if sys.platform == "win32":
        style.theme_use('winnative')    
     _style_code_ran = 1
@@ -94,31 +94,31 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"])
 
         # STUDENT help button
-        self.ST_help_button = tk.Button(self.ST_menubar)
+        self.ST_help_button = tk.Button(self.ST_menubar, font="{Lexend} 10")
         self.ST_help_button.place(relx=0.902, rely=0.143, height=26, width=47)
         self.ST_help_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Help''')
 
         # STUDENT export button
-        self.ST_export_button = tk.Button(self.ST_menubar)
+        self.ST_export_button = tk.Button(self.ST_menubar, font="{Lexend} 10")
         self.ST_export_button.place(relx=0.947, rely=0.143, height=26
                 , width=47)
         self.ST_export_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Export''')
 
-        # STUDENT export button
-        self.ST_logout_button = tk.Button(self.ST_menubar)
+        # STUDENT logout button
+        self.ST_logout_button = tk.Button(self.ST_menubar, font="{Lexend} 10")
         self.ST_logout_button.place(relx=0.013, rely=0.143, height=26
                 , width=47)
         self.ST_logout_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Log out''')
 
@@ -144,7 +144,7 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Student''')
 
         # STUDENT grade entry
-        self.ST_grade_entry = ttk.Entry(self.ST_inputspanel_frame)
+        self.ST_grade_entry = ttk.Entry(self.ST_inputspanel_frame, font="{Lexend} 10")
         self.ST_grade_entry.place(relx=0.164, rely=0.106, relheight=0.028
                 , relwidth=0.785)
         self.ST_grade_entry.configure(exportselection="0",cursor="ibeam")
@@ -155,7 +155,7 @@ class FrameBP:
         self.ST_grade_label.configure(activebackground=self.THEME["BG_GREY"],
                                     activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                                     compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                                    foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                                    font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
                                     highlightcolor=self.THEME["TEXT_DARK"], text='''Grade''')
 
         # STUDENT Languages selector (TO DO)
@@ -163,7 +163,7 @@ class FrameBP:
         degree_pool = ["Biomedical Engineering", "Mathematical Engineering", "Computer Engineering", "Telecommunications Engineering", "Audiovisual Engineering"]
 
         # STUDENT Languages selector
-        self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame, values=language_pool)
+        self.ST_lang_menu = ttk.Combobox(self.ST_inputspanel_frame, values=language_pool, font="{Lexend} 10")
         self.ST_lang_menu.place(relx=0.07, rely=0.225, relheight=0.025, relwidth=0.343)
         self.ST_lang_menu.configure(exportselection="0", textvariable=self.lang_var, state="readonly")
         self.lang_var.set('Select Language')
@@ -185,15 +185,17 @@ class FrameBP:
         self.ST_lang_label.configure(activebackground=self.THEME["BG_GREY"],
                                         activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                                         compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                                        foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                                        font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
                                         highlightcolor=self.THEME["TEXT_DARK"], text='''Languages''')
         self.ST_lang_button = ttk.Button(self.ST_inputspanel_frame)
         self.ST_lang_button.place(relx=0.444, rely=0.221, height=26
                                        , width=65)
-        self.ST_lang_button.configure(text='''Add''', compound='left')
+        self.ST_lang_button.configure(text='''Add''', compound='left', cursor="hand2", width=5)
+        style = ttk.Style()
+        style.configure('TButton', font="{Lexend} 10")
 
         # STUDENT Degree menu
-        self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame, values=degree_pool)
+        self.ST_degree_menu = ttk.Combobox(self.ST_inputspanel_frame, values=degree_pool, font="{Lexend} 10")
         self.ST_degree_menu.place(relx=0.21, rely=0.066, relheight=0.035
                 , relwidth=0.743)
         self.ST_degree_menu.configure(exportselection="0", textvariable=self.degree_var, state="readonly")
@@ -204,7 +206,7 @@ class FrameBP:
         self.ST_degree_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Degree''')
 
         # STUDENT continents label
@@ -213,10 +215,12 @@ class FrameBP:
         self.ST_continents_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Continents''')
         
         # STUDENT continent checkbutton (EU)
+        style = ttk.Style()
+        style.configure('TCheckbutton', font="{Lexend} 10")
         self.ST_europe_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_europe_check.place(relx=0.093, rely=0.503, relwidth=0.25
                 , relheight=0.0, height=26)
@@ -226,31 +230,31 @@ class FrameBP:
         self.ST_southamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_southamerica_check.place(relx=0.376, rely=0.503, relwidth=0.25
                 , relheight=0.0, height=26)
-        self.ST_southamerica_check.configure(variable=self.var_SA, text='''South America''', compound='left')
+        self.ST_southamerica_check.configure(variable=self.var_SA, text='''South America''', compound='left', style='TCheckbutton')
 
         # STUDENT continent checkbutton (AS)
         self.ST_asia_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_asia_check.place(relx=0.657, rely=0.503, relwidth=0.25
                 , relheight=0.0, height=26)
-        self.ST_asia_check.configure(variable=self.var_AS, text='''Asia''', compound='left')
+        self.ST_asia_check.configure(variable=self.var_AS, text='''Asia''', compound='left', style='TCheckbutton')
 
         # STUDENT continents checkbutton (AF)
         self.ST_africa_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_africa_check.place(relx=0.093, rely=0.531, relwidth=0.25
                 , relheight=0.0, height=26)
-        self.ST_africa_check.configure(variable=self.var_AF, text='''Africa''', compound='left')
+        self.ST_africa_check.configure(variable=self.var_AF, text='''Africa''', compound='left', style='TCheckbutton')
 
         # STUDENT continent checkbutton (NA)
         self.ST_northamerica_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_northamerica_check.place(relx=0.376, rely=0.531, relwidth=0.25
                 , relheight=0.0, height=26)
-        self.ST_northamerica_check.configure(variable=self.var_NA, text='''North America''', compound='left')
+        self.ST_northamerica_check.configure(variable=self.var_NA, text='''North America''', compound='left', style='TCheckbutton')
 
         # STUDENT continent checkbutton (OC)
         self.ST_oceania_check = ttk.Checkbutton(self.ST_inputspanel_frame)
         self.ST_oceania_check.place(relx=0.657, rely=0.531, relwidth=0.25
                 , relheight=0.0, height=26)
-        self.ST_oceania_check.configure(variable=self.var_OC, text='''Oceania''', compound='left')
+        self.ST_oceania_check.configure(variable=self.var_OC, text='''Oceania''', compound='left', style='TCheckbutton')
 
         # STUDENT preferences container frame
         self.ST_prefs_container = tk.Frame(self.ST_inputspanel_frame)
@@ -260,48 +264,48 @@ class FrameBP:
         # STUDENT preference 1
         self.pref_row1 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row1.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label1 = tk.Label(self.pref_row1, text="1. Cost of Living", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label1 = tk.Label(self.pref_row1, text="1. Cost of Living", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
         self.pref_label1.pack(side="left", padx=10, fill="x", expand=True)
-        self.pref_down1 = tk.Button(self.pref_row1, text="▼", width=3)
+        self.pref_down1 = tk.Button(self.pref_row1, text="▼", width=3, font="{Lexend} 10")
         self.pref_down1.pack(side="right", padx=5)
-        self.pref_up1 = tk.Button(self.pref_row1, text="▲", width=3, state="disabled")
+        self.pref_up1 = tk.Button(self.pref_row1, text="▲", width=3, state="disabled", font="{Lexend} 10")
         self.pref_up1.pack(side="right", padx=2)
 
         # STUDENT preference 2
         self.pref_row2 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row2.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label2 = tk.Label(self.pref_row2, text="2. Nightlife", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label2 = tk.Label(self.pref_row2, text="2. Nightlife", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
         self.pref_label2.pack(side="left", padx=10, fill="x", expand=True)
-        self.pref_down2 = tk.Button(self.pref_row2, text="▼", width=3)
+        self.pref_down2 = tk.Button(self.pref_row2, text="▼", width=3, font="{Lexend} 10")
         self.pref_down2.pack(side="right", padx=5)
-        self.pref_up2 = tk.Button(self.pref_row2, text="▲", width=3)
+        self.pref_up2 = tk.Button(self.pref_row2, text="▲", width=3, font="{Lexend} 10")
         self.pref_up2.pack(side="right", padx=2)
 
         # STUDENT preference 3
         self.pref_row3 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row3.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label3 = tk.Label(self.pref_row3, text="3. Weather", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label3 = tk.Label(self.pref_row3, text="3. Weather", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
         self.pref_label3.pack(side="left", padx=10, fill="x", expand=True)
-        self.pref_down3 = tk.Button(self.pref_row3, text="▼", width=3)
+        self.pref_down3 = tk.Button(self.pref_row3, text="▼", width=3, font="{Lexend} 10")
         self.pref_down3.pack(side="right", padx=5)
-        self.pref_up3 = tk.Button(self.pref_row3, text="▲", width=3)
+        self.pref_up3 = tk.Button(self.pref_row3, text="▲", width=3, font="{Lexend} 10")
         self.pref_up3.pack(side="right", padx=2)
 
         # STUDENT preference 4
         self.pref_row4 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row4.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label4 = tk.Label(self.pref_row4, text="4. Academic Rank", background=self.THEME["BG_GREY"], anchor="w")
+        self.pref_label4 = tk.Label(self.pref_row4, text="4. Academic Rank", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
         self.pref_label4.pack(side="left", padx=10, fill="x", expand=True)
-        self.pref_down4 = tk.Button(self.pref_row4, text="▼", width=3, state="disabled")
+        self.pref_down4 = tk.Button(self.pref_row4, text="▼", width=3, state="disabled", font="{Lexend} 10")
         self.pref_down4.pack(side="right", padx=5)
-        self.pref_up4 = tk.Button(self.pref_row4, text="▲", width=3)
+        self.pref_up4 = tk.Button(self.pref_row4, text="▲", width=3, font="{Lexend} 10")
         self.pref_up4.pack(side="right", padx=2)
 
         # STUDENT Rank! button
-        self.ST_rank_button = ttk.Button(self.ST_inputspanel_frame)
+        self.ST_rank_button = ttk.Button(self.ST_inputspanel_frame, style='TButton')
         self.ST_rank_button.place(relx=0.35, rely=0.914, height=46, width=125)
         self.ST_rank_button.configure(text='''Rank !''')
-        self.ST_rank_button.configure(compound='left')
+        self.ST_rank_button.configure(compound='left', cursor="hand2")
         # Rank button handler - saves student data and initiates ranking
         self.ST_rank_button.configure(command=lambda: GUI_logic.rank_button_action(self))
 
@@ -335,7 +339,7 @@ class FrameBP:
             row_frame.pack(side='top', fill='x', padx=5, pady=12)
             
             # University name label (left side, expands)
-            uni_label = tk.Label(row_frame)
+            uni_label = tk.Label(row_frame, font="{Lexend} 10")
             uni_label.pack(side='left', expand=True, fill='x', padx=5)
             uni_label.configure(activebackground=self.THEME["BG_GREY"],
                     activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -345,7 +349,7 @@ class FrameBP:
             setattr(self, f'ST_rankrow{row}_uniname_label', uni_label)
             
             # Affinity score label (right side)
-            score_label = tk.Label(row_frame)
+            score_label = tk.Label(row_frame, font="{Lexend} 10")
             score_label.pack(side='left', padx=150)
             score_label.configure(activebackground=self.THEME["BG_GREY"],
                     activeforeground="black", anchor='e', background=self.THEME["BG_GREY"],
@@ -357,7 +361,7 @@ class FrameBP:
             # Action button (far right)
             action_button = ttk.Button(row_frame)
             action_button.pack(side='right', padx=20)
-            action_button.configure(text='''More Info''', width=10)
+            action_button.configure(text='''More Info''', width=10, cursor="hand2", style='TButton')
             setattr(self, f'ST_rankrow{row}_button', action_button)
 
  #-----------------------------------------------------STUDENT PAGE, UNI STATS--------------------------------------------------
@@ -370,7 +374,7 @@ class FrameBP:
                 background=self.THEME["BG_GREY"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"])
 
-        self.ST_uniname_label = tk.Label(self.ST_facts_frame)
+        self.ST_uniname_label = tk.Label(self.ST_facts_frame, font="{Lexend} 10")
         self.ST_uniname_label.place(relx=0.031, rely=0.085, height=21, width=352)
         self.ST_uniname_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -383,11 +387,11 @@ class FrameBP:
         self.ST_unistats_label.place(relx=0.218, rely=0.256, relheight=0.658
                 , relwidth=0.76)
         self.ST_unistats_label.configure(relief='groove', borderwidth="2",
-                background=self.THEME["BG_GREY"], cursor="fleur",
+                background=self.THEME["BG_GREY"], cursor="arrow",
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
         
         # STUDENT Stats11 label
-        self.ST_stat11_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat11_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat11_label.place(relx=0.014, rely=0.052, height=65, width=154)
         self.ST_stat11_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -396,7 +400,7 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Ranking''')
         
         # STUDENT Stats21 label
-        self.ST_stat21_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat21_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat21_label.place(relx=0.014, rely=0.552, height=65, width=155)
         self.ST_stat21_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -405,7 +409,7 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking''')
         
         # STUDENT Stats12 label
-        self.ST_stat12_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat12_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat12_label.place(relx=0.259, rely=0.052, height=65, width=155)
         self.ST_stat12_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -414,52 +418,52 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Cost of living''')
         
         # STUDENT Stats22 label
-        self.ST_stat22_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat22_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat22_label.place(relx=0.259, rely=0.552, height=65, width=155)
         self.ST_stat22_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Weather''')
         
         # STUDENT Stats13 label
-        self.ST_stat13_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat13_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat13_label.place(relx=0.503, rely=0.052, height=65, width=154)
         self.ST_stat13_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Nightlife''')
         
         # STUDENT Stats23 label
-        self.ST_stat23_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat23_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat23_label.place(relx=0.503, rely=0.552, height=65, width=154)
         self.ST_stat23_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade''')
         
         # STUDENT Stats14 label
-        self.ST_stat14_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat14_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat14_label.place(relx=0.748, rely=0.052, height=65, width=154)
         self.ST_stat14_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Available spots''')
         
         # STUDENT Stats24 label
-        self.ST_stat24_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat24_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
         self.ST_stat24_label.place(relx=0.748, rely=0.552, height=65, width=155)
         self.ST_stat24_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Duration''')
         
         # STUDENT University logo label
-        self.ST_logo_label = tk.Label(self.ST_facts_frame)
+        self.ST_logo_label = tk.Label(self.ST_facts_frame, font="{Lexend} 10")
         self.ST_logo_label.place(relx=0.024, rely=0.239, height=160, width=160)
         self.ST_logo_label.configure(activebackground=self.THEME["UPF_red"],
                 activeforeground=self.THEME["UPF_red"], anchor='w', background=self.THEME["BG_GREY"],
@@ -468,16 +472,16 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University LOGO (image)''')
         
         # STUDENT Map button
-        self.ST_map_button = ttk.Button(self.ST_facts_frame)
+        self.ST_map_button = ttk.Button(self.ST_facts_frame, style='TButton')
         self.ST_map_button.place(relx=0.913, rely=0.085, height=26, width=65)
-        self.ST_map_button.configure(takefocus="")
+        self.ST_map_button.configure(takefocus="", cursor="hand2")
         self.ST_map_button.configure(text='''Map''')
         self.ST_map_button.configure(compound='left')
 
         # STUDENT Website button
-        self.ST_web_button = ttk.Button(self.ST_facts_frame)
+        self.ST_web_button = ttk.Button(self.ST_facts_frame, style='TButton')
         self.ST_web_button.place(relx=0.83, rely=0.085, height=26, width=65)
-        self.ST_web_button.configure(takefocus="")
+        self.ST_web_button.configure(takefocus="", cursor="hand2")
         self.ST_web_button.configure(text='''Website''')
         self.ST_web_button.configure(compound='left')
 
@@ -500,51 +504,48 @@ class FrameBP:
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
 
         # LOGIN mail label
-        self.LG_mail_label = ttk.Label(self.LG_sublabelframe)
-        self.LG_mail_label.place(relx=0.181, rely=0.216, height=17, width=34
+        self.LG_mail_label = ttk.Label(self.LG_sublabelframe, font="{Lexend} 10")
+        self.LG_mail_label.place(relx=0.181, rely=0.216, height=17, width=40
                 , bordermode='ignore')
-        self.LG_mail_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Email:''', compound='left')
+        self.LG_mail_label.configure(font="{Lexend} 10", relief="flat",
+                text='''Email:''', compound='left', background=self.THEME["UPF_red"], foreground="white")
         
         # LOGIN mail entry
-        self.LG_mail_entry = ttk.Entry(self.LG_sublabelframe)
+        self.LG_mail_entry = ttk.Entry(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_mail_entry.place(relx=0.181, rely=0.278, relheight=0.065
                 , relwidth=0.646, bordermode='ignore')
         self.LG_mail_entry.configure(exportselection="0", cursor="ibeam")
 
         # LOGIN password label
-        self.LG_pwd_label = ttk.Label(self.LG_sublabelframe)
+        self.LG_pwd_label = ttk.Label(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_pwd_label.place(relx=0.181, rely=0.432, height=17, width=64
                 , bordermode='ignore')
-        self.LG_pwd_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Password:''', compound='left')
+        self.LG_pwd_label.configure(font="{Lexend} 10", relief="flat",
+                text='''Password:''', compound='left', background=self.THEME["UPF_red"], foreground="white")
         
         # LOGIN password entry
-        self.LG_pwd_entry = ttk.Entry(self.LG_sublabelframe)
+        self.LG_pwd_entry = ttk.Entry(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_pwd_entry.place(relx=0.181, rely=0.494, relheight=0.065
                 , relwidth=0.646, bordermode='ignore')
-        self.LG_pwd_entry.configure(exportselection="0", cursor="ibeam")
+        self.LG_pwd_entry.configure(exportselection="0", cursor="ibeam", show="*")
 
         # LOGIN student login button
-        self.LG_studentlogin_button = ttk.Button(self.LG_sublabelframe)
+        self.LG_studentlogin_button = tk.Button(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_studentlogin_button.place(relx=0.178, rely=0.772, height=56, width=125
                 , bordermode='ignore')
-        self.LG_studentlogin_button.configure(text='''Log In (S)''')
-        self.LG_studentlogin_button.configure(compound='left')
+        self.LG_studentlogin_button.configure(text='''Log In (S)''', font="{Lexend} 10", background=self.THEME["UPF_red"], foreground="white", cursor="hand2", compound='left', activebackground=self.THEME["UPF_red"], activeforeground="white", relief="raised", bd=2, highlightthickness=0)
 
         # LOGIN admin login button
-        self.LG_adminlogin_button = ttk.Button(self.LG_sublabelframe)
+        self.LG_adminlogin_button = tk.Button(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_adminlogin_button.place(relx=0.392, rely=0.772, height=56
                 , width=125, bordermode='ignore')
-        self.LG_adminlogin_button.configure(text='''Log In (A)''')
-        self.LG_adminlogin_button.configure(compound='left')
+        self.LG_adminlogin_button.configure(text='''Log In (A)''', font="{Lexend} 10", background=self.THEME["UPF_red"], foreground="white", cursor="hand2", compound='left', activebackground=self.THEME["UPF_red"], activeforeground="white", relief="raised", bd=2, highlightthickness=0)
 
         # LOGIN student sign up button
-        self.LG_studentsingup_button = ttk.Button(self.LG_sublabelframe)
+        self.LG_studentsingup_button = tk.Button(self.LG_sublabelframe, font="{Lexend} 10")
         self.LG_studentsingup_button.place(relx=0.606, rely=0.772, height=56, width=125
                 , bordermode='ignore')
-        self.LG_studentsingup_button.configure(text='''Sign Up (S)''')
-        self.LG_studentsingup_button.configure(compound='left')
+        self.LG_studentsingup_button.configure(text='''Sign Up (S)''', font="{Lexend} 10", background=self.THEME["UPF_red"], foreground="white", cursor="hand2", compound='left', activebackground=self.THEME["UPF_red"], activeforeground="white", relief="raised", bd=2, highlightthickness=0)
 
         # LOGIN title label
         self.LG_title_label = tk.Label(self.LG_bg)
@@ -552,23 +553,20 @@ class FrameBP:
         self.LG_title_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='center', background=self.THEME["UPF_red"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                font="-family {Microsoft YaHei} -size 48 -weight bold",
+                font="{Lexend} 48 bold",
                 foreground=self.THEME["TEXT_LIGHT"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''UPF Mobility Agent''')
 
         # LOGIN admin selection button
-        self.LG_admin_button = ttk.Button(self.LG_bg)
+        self.LG_admin_button = tk.Button(self.LG_bg, font="{Lexend} 12")
         self.LG_admin_button.place(relx=0.54, rely=0.323, height=86, width=125)
-        self.LG_admin_button.configure(text='''Admin''')
-        self.LG_admin_button.configure(compound='left')
+        self.LG_admin_button.configure(text='''Admin''', font="{Lexend} 12", background=self.THEME["UPF_red"], foreground="white", cursor="hand2", compound='left', activebackground=self.THEME["UPF_red"], activeforeground="white", relief="raised", bd=2, highlightthickness=0)
 
         # LOGIN student selection button
-        self.LG_student_button = ttk.Button(self.LG_bg)
+        self.LG_student_button = tk.Button(self.LG_bg, font="{Lexend} 12")
         self.LG_student_button.place(relx=0.388, rely=0.323, height=86
                 , width=125)
-        self.LG_student_button.configure(text='''Student''')
-        self.LG_student_button.configure(compound='left')
-        self.LG_student_button.configure(cursor="fleur")
+        self.LG_student_button.configure(text='''Student''', font="{Lexend} 12", background=self.THEME["UPF_red"], foreground="white", cursor="hand2", compound='left', activebackground=self.THEME["UPF_red"], activeforeground="white", relief="raised", bd=2, highlightthickness=0)
 
  #___________________________________________________________ADMIN PAGE__________________________________________________________
 
@@ -591,25 +589,25 @@ class FrameBP:
 #----------------------------------------------------ADMIN PAGE, ADD/EDIT/DELETE---------------------------------------------------
 
         # ADMIN Edit/Delete button
-        self.AD_editdelete_button = ttk.Button(self.AD_subframe)
+        self.AD_editdelete_button = ttk.Button(self.AD_subframe, style='TButton')
         self.AD_editdelete_button.place(relx=0.028, rely=0.224, height=86, width=275)
-        self.AD_editdelete_button.configure(text='''Edit / Delete''', compound='left',takefocus="")
+        self.AD_editdelete_button.configure(text='''Edit / Delete''', compound='left',takefocus="", cursor="hand2")
 
         # ADMIN Add button
-        self.AD_add_button = ttk.Button(self.AD_subframe)
+        self.AD_add_button = ttk.Button(self.AD_subframe, style='TButton')
         self.AD_add_button.place(relx=0.029, rely=0.598, height=86, width=275)
-        self.AD_add_button.configure(takefocus="", text='''Add''',compound='left', cursor="fleur")
+        self.AD_add_button.configure(takefocus="", text='''Add''',compound='left', cursor="hand2")
 
         # ADMIN uni selector combobox
-        self.AD_uni_combobox = ttk.Combobox(self.AD_subframe)
+        self.AD_uni_combobox = ttk.Combobox(self.AD_subframe, font="{Lexend} 10")
         self.AD_uni_combobox.place(relx=0.028, rely=0.345, relheight=0.027
                 , relwidth=0.198)
         self.AD_uni_combobox.configure(background="white", takefocus="", height=10, state="readonly", textvariable=self.uni_var)
 
         # ADMIN title label
-        self.AD_title_label = ttk.Label(self.AD_subframe)
+        self.AD_title_label = ttk.Label(self.AD_subframe, font="{Lexend} 12")
         self.AD_title_label.place(relx=0.014, rely=0.027, height=28, width=143)
-        self.AD_title_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_title_label.configure(font="{Lexend} 12", relief="flat",
                 text='''Admin Settings''', compound='left')
 
 #-----------------------------------------------------ADMIN PAGE, INPUTS---------------------------------------------------------
@@ -618,17 +616,16 @@ class FrameBP:
         self.AD_entries_frame = ttk.Frame(self.AD_subframe)
         self.AD_entries_frame.place(relx=0.244, rely=0.027, relheight=0.948
                 , relwidth=0.741)
-        self.AD_entries_frame.configure(relief='groove', borderwidth="2",
-                cursor="fleur")
+        self.AD_entries_frame.configure(relief='groove', borderwidth="2")
         self.AD_entries_frame.place_forget()
 
         # ADMIN uni name label
         self.AD_uniname_label = ttk.Label(self.AD_entries_frame)
         self.AD_uniname_label.place(relx=0.058, rely=0.07, height=17, width=263)
-        self.AD_uniname_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Official name''', compound='left', cursor="fleur")
+        self.AD_uniname_label.configure(font="{Lexend} 10", relief="flat",
+                text='''Official name''', compound='left')
         # ADMIN uni name entry
-        self.AD_uniname_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_uniname_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_uniname_entry.place(relx=0.058, rely=0.098, relheight=0.029
                 , relwidth=0.248)
         self.AD_uniname_entry.configure(exportselection="0", cursor="ibeam")
@@ -636,10 +633,10 @@ class FrameBP:
         # ADMIN uni ID label
         self.AD_ID_label = ttk.Label(self.AD_entries_frame)
         self.AD_ID_label.place(relx=0.058, rely=0.196, height=17, width=263)
-        self.AD_ID_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_ID_label.configure(font="{Lexend} 10", relief="flat",
                 text='''ID''', compound='left')
         # ADMIN uni ID entry
-        self.AD_ID_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_ID_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_ID_entry.place(relx=0.058, rely=0.224, relheight=0.029
                 , relwidth=0.248)
         self.AD_ID_entry.configure(exportselection="0", cursor="ibeam", state="readonly")
@@ -647,10 +644,10 @@ class FrameBP:
         # ADMIN country label
         self.AD_country_label = ttk.Label(self.AD_entries_frame)
         self.AD_country_label.place(relx=0.058, rely=0.322, height=17, width=263)
-        self.AD_country_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_country_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Country''', compound='left')
         # ADMIN country entry
-        self.AD_country_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_country_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_country_entry.place(relx=0.058, rely=0.35, relheight=0.029
                 , relwidth=0.248)
         self.AD_country_entry.configure(exportselection="0", cursor="ibeam")
@@ -658,10 +655,10 @@ class FrameBP:
         # ADMIN city label
         self.AD_city_label = ttk.Label(self.AD_entries_frame)
         self.AD_city_label.place(relx=0.058, rely=0.448, height=18, width=263)
-        self.AD_city_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_city_label.configure(font="{Lexend} 10", relief="flat",
                 text='''City''', compound='left')
         # ADMIN city entry
-        self.AD_city_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_city_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_city_entry.place(relx=0.058, rely=0.476, relheight=0.029
                 , relwidth=0.248)
         self.AD_city_entry.configure(exportselection="0", cursor="ibeam")
@@ -670,10 +667,10 @@ class FrameBP:
         self.AD_continent_label = ttk.Label(self.AD_entries_frame)
         self.AD_continent_label.place(relx=0.058, rely=0.573, height=17
                 , width=263)
-        self.AD_continent_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_continent_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Continent''', compound='left')
         # ADMIN continent combobox
-        self.AD_continent_menu = ttk.Combobox(self.AD_entries_frame, values=["Europe", "North America", "South America", "Asia", "Africa", "Oceania"])
+        self.AD_continent_menu = ttk.Combobox(self.AD_entries_frame, values=["Europe", "North America", "South America", "Asia", "Africa", "Oceania"], font="{Lexend} 10")
         self.AD_continent_menu.place(relx=0.058, rely=0.601, relheight=0.028
                 , relwidth=0.248)
         self.AD_continent_menu.configure(background="white", takefocus="", height=10, state="readonly", textvariable=self.continent_var)
@@ -682,10 +679,10 @@ class FrameBP:
         self.AD_mingrade_label = ttk.Label(self.AD_entries_frame)
         self.AD_mingrade_label.place(relx=0.058, rely=0.699, height=17
                 , width=263)
-        self.AD_mingrade_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_mingrade_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Minimum grade''', compound='left')
         # ADMIN minimum grade entry
-        self.AD_mingrade_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_mingrade_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_mingrade_entry.place(relx=0.058, rely=0.727, relheight=0.028
                 , relwidth=0.248)
         self.AD_mingrade_entry.configure(exportselection="0", cursor="ibeam")
@@ -693,10 +690,10 @@ class FrameBP:
         # ADMIN website label
         self.AD_web_label = ttk.Label(self.AD_entries_frame)
         self.AD_web_label.place(relx=0.058, rely=0.825, height=17, width=263)
-        self.AD_web_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_web_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Website URL''', compound='left')
         # ADMIN website entry
-        self.AD_web_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_web_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_web_entry.place(relx=0.058, rely=0.853, relheight=0.029
                 , relwidth=0.248)
         self.AD_web_entry.configure(exportselection="0", cursor="ibeam")
@@ -704,22 +701,22 @@ class FrameBP:
         # ADMIN latitude label
         self.AD_lat_label = ttk.Label(self.AD_entries_frame)
         self.AD_lat_label.place(relx=0.358, rely=0.07, height=17, width=263)
-        self.AD_lat_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_lat_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Latitude''', compound='left')
         # ADMIN latitude entry
-        self.AD_lat_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_lat_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_lat_entry.place(relx=0.358, rely=0.098, relheight=0.029
                 , relwidth=0.257)
-        self.AD_lat_entry.configure(exportselection="0", cursor="fleur")
+        self.AD_lat_entry.configure(exportselection="0")
 
         # ADMIN longitude label
         self.AD_long_label = ttk.Label(self.AD_entries_frame)
         self.AD_long_label.place(relx=0.358, rely=0.196, height=17
                 , width=263)
-        self.AD_long_label.configure(font="TkDefaultFont", relief="flat",
-                text='''Longitude''', compound='left', cursor="fleur")
+        self.AD_long_label.configure(font="{Lexend} 10", relief="flat",
+                text='''Longitude''', compound='left')
         # ADMIN longitude entry
-        self.AD_long_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_long_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_long_entry.place(relx=0.358, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_long_entry.configure(exportselection="0", cursor="ibeam")
@@ -728,7 +725,7 @@ class FrameBP:
         self.AD_lang_label = ttk.Label(self.AD_entries_frame)
         self.AD_lang_label.place(relx=0.358, rely=0.322, height=17
                 , width=263)
-        self.AD_lang_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_lang_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Languages required''', compound='left')
         # ADMIN languages frame
         self.AD_lang_frame = ttk.Frame(self.AD_entries_frame)
@@ -739,90 +736,90 @@ class FrameBP:
         # ADMIN English label
         self.AD_english_label = ttk.Label(self.AD_lang_frame)
         self.AD_english_label.place(relx=0.02, rely=0.01, height=25, relwidth=0.35)
-        self.AD_english_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_english_label.configure(font="{Lexend} 10", relief="flat",
                 text='''English''', compound='left')
         # ADMIN English combobox
-        self.AD_english_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_english_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_english_combobox.place(relx=0.40, rely=0.01, relheight=0.08, relwidth=0.58)
         self.AD_english_combobox.configure(state="readonly")
 
         # ADMIN Spanish label
         self.AD_spanish_label = ttk.Label(self.AD_lang_frame)
         self.AD_spanish_label.place(relx=0.02, rely=0.11, height=25, relwidth=0.35)
-        self.AD_spanish_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_spanish_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Spanish''', compound='left')
         # ADMIN Spanish combobox
-        self.AD_spanish_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_spanish_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_spanish_combobox.place(relx=0.40, rely=0.11, relheight=0.08, relwidth=0.58)
         self.AD_spanish_combobox.configure(state="readonly")
 
         # ADMIN French label
         self.AD_french_label = ttk.Label(self.AD_lang_frame)
         self.AD_french_label.place(relx=0.02, rely=0.21, height=25, relwidth=0.35)
-        self.AD_french_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_french_label.configure(font="{Lexend} 10", relief="flat",
                 text='''French''', compound='left')
         # ADMIN French combobox
-        self.AD_french_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_french_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_french_combobox.place(relx=0.40, rely=0.21, relheight=0.08, relwidth=0.58)
         self.AD_french_combobox.configure(state="readonly")
 
         # ADMIN German label
         self.AD_german_label = ttk.Label(self.AD_lang_frame)
         self.AD_german_label.place(relx=0.02, rely=0.31, height=25, relwidth=0.35)
-        self.AD_german_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_german_label.configure(font="{Lexend} 10", relief="flat",
                 text='''German''', compound='left')
         # ADMIN German combobox
-        self.AD_german_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_german_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_german_combobox.place(relx=0.40, rely=0.31, relheight=0.08, relwidth=0.58)
         self.AD_german_combobox.configure(state="readonly")
 
         # ADMIN Portuguese label
         self.AD_portuguese_label = ttk.Label(self.AD_lang_frame)
         self.AD_portuguese_label.place(relx=0.02, rely=0.41, height=25, relwidth=0.35)
-        self.AD_portuguese_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_portuguese_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Portuguese''', compound='left')
         # ADMIN Portuguese combobox
-        self.AD_portuguese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_portuguese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_portuguese_combobox.place(relx=0.40, rely=0.41, relheight=0.08, relwidth=0.58)
         self.AD_portuguese_combobox.configure(state="readonly")
 
         # ADMIN Chinese label
         self.AD_chinese_label = ttk.Label(self.AD_lang_frame)
         self.AD_chinese_label.place(relx=0.02, rely=0.51, height=25, relwidth=0.35)
-        self.AD_chinese_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_chinese_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Chinese''', compound='left')
         # ADMIN Chinese combobox
-        self.AD_chinese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_chinese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_chinese_combobox.place(relx=0.40, rely=0.51, relheight=0.08, relwidth=0.58)
         self.AD_chinese_combobox.configure(state="readonly")
 
         # ADMIN Japanese label
         self.AD_japanese_label = ttk.Label(self.AD_lang_frame)
         self.AD_japanese_label.place(relx=0.02, rely=0.61, height=25, relwidth=0.35)
-        self.AD_japanese_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_japanese_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Japanese''', compound='left')
         # ADMIN Japanese combobox
-        self.AD_japanese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_japanese_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_japanese_combobox.place(relx=0.40, rely=0.61, relheight=0.08, relwidth=0.58)
         self.AD_japanese_combobox.configure(state="readonly")
 
         # ADMIN Italian label
         self.AD_italian_label = ttk.Label(self.AD_lang_frame)
         self.AD_italian_label.place(relx=0.02, rely=0.71, height=25, relwidth=0.35)
-        self.AD_italian_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_italian_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Italian''', compound='left')
         # ADMIN Italian combobox
-        self.AD_italian_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"])
+        self.AD_italian_combobox = ttk.Combobox(self.AD_lang_frame, values=["","B1","B2","C1","C2"], font="{Lexend} 10")
         self.AD_italian_combobox.place(relx=0.40, rely=0.71, relheight=0.08, relwidth=0.58)
         self.AD_italian_combobox.configure(state="readonly")
 
         # ADMIN spots label
         self.AD_spots_label = ttk.Label(self.AD_entries_frame)
         self.AD_spots_label.place(relx=0.358, rely=0.797, height=17, width=263)
-        self.AD_spots_label.configure(font="TkDefaultFont", relief="flat",
+        self.AD_spots_label.configure(font="{Lexend} 10", relief="flat",
                 text='''Spots available''', compound='left')
         # ADMIN spots scale
-        self.AD_spots_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0)
+        self.AD_spots_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0, font="{Lexend} 10")
         self.AD_spots_scale.place(relx=0.358, rely=0.825, relheight=0.059
                 , relwidth=0.258)
         self.AD_spots_scale.configure(activebackground=self.THEME["BG_GREY"],
@@ -831,7 +828,7 @@ class FrameBP:
                 length="267", orient="horizontal", troughcolor=self.THEME["SCALE_GREY"], from_=1, to=25, resolution=1)
 
         # ADMIN academic rank label
-        self.AD_rank_label = tk.Label(self.AD_entries_frame)
+        self.AD_rank_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_rank_label.place(relx=0.667, rely=0.07, height=21, width=263)
         self.AD_rank_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -839,14 +836,14 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University Ranking (input 0 if N/A)''')
         # ADMIN academic rank entry
-        self.AD_rank_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_rank_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_rank_entry.place(relx=0.667, rely=0.098, relheight=0.029
                 , relwidth=0.257)
         self.AD_rank_entry.configure(exportselection="0", takefocus="",
                 cursor="ibeam")
 
         # ADMIN engineering rank label
-        self.AD_engrank_label = tk.Label(self.AD_entries_frame)
+        self.AD_engrank_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_engrank_label.place(relx=0.667, rely=0.196, height=21
                 , width=263)
         self.AD_engrank_label.configure(activebackground=self.THEME["BG_GREY"],
@@ -855,29 +852,29 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking (input 0 if N/A)''')
         # ADMIN engineering rank entry
-        self.AD_engrank_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_engrank_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_engrank_entry.place(relx=0.667, rely=0.224, relheight=0.029
                 , relwidth=0.257)
         self.AD_engrank_entry.configure(exportselection="0", takefocus="",
                 cursor="ibeam")
 
         # ADMIN weather label
-        self.AD_weather_label = tk.Label(self.AD_entries_frame)
+        self.AD_weather_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_weather_label.place(relx=0.667, rely=0.322, height=21, width=263)
         self.AD_weather_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Weather (qualitative description)''')
         # ADMIN weather entry
-        self.AD_weather_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_weather_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_weather_entry.place(relx=0.667, rely=0.35, relheight=0.029
                 , relwidth=0.257)
         self.AD_weather_entry.configure(exportselection="0", takefocus="",
                 cursor="ibeam")
 
         # ADMIN nightlife label
-        self.AD_nightlife_label = tk.Label(self.AD_entries_frame)
+        self.AD_nightlife_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_nightlife_label.place(relx=0.667, rely=0.448, height=21
                 , width=263)
         self.AD_nightlife_label.configure(activebackground=self.THEME["BG_GREY"],
@@ -886,7 +883,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Nightlife''')
         # ADMIN nightlife scale
-        self.AD_nightlife_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0)
+        self.AD_nightlife_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0, font="{Lexend} 10")
         self.AD_nightlife_scale.place(relx=0.667, rely=0.476, relheight=0.06
                 , relwidth=0.255)
         self.AD_nightlife_scale.configure(activebackground=self.THEME["BG_GREY"],
@@ -896,7 +893,7 @@ class FrameBP:
                 from_=1.0, to=10.0, resolution=1.0)
         
         # ADMIN cost of living label
-        self.AD_cost_label = tk.Label(self.AD_entries_frame)
+        self.AD_cost_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_cost_label.place(relx=0.667, rely=0.573, height=20, width=263)
         self.AD_cost_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -904,7 +901,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Cost of living''')
         # ADMIN cost of living scale
-        self.AD_cost_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0)
+        self.AD_cost_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0, font="{Lexend} 10")
         self.AD_cost_scale.place(relx=0.667, rely=0.601, relheight=0.059
                 , relwidth=0.256)
         self.AD_cost_scale.configure(activebackground=self.THEME["BG_GREY"],
@@ -914,7 +911,7 @@ class FrameBP:
                 from_=1.0, to=10.0, resolution=1.0)
 
         # ADMIN previous cutoff grade label
-        self.AD_cutoff_label = tk.Label(self.AD_entries_frame)
+        self.AD_cutoff_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_cutoff_label.place(relx=0.667, rely=0.699, height=21, width=263)
         self.AD_cutoff_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
@@ -922,14 +919,14 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade (input 0 if N/A)''')
         # ADMIN previous cutoff grade entry
-        self.AD_cutoff_entry = ttk.Entry(self.AD_entries_frame)
+        self.AD_cutoff_entry = ttk.Entry(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_cutoff_entry.place(relx=0.667, rely=0.727, relheight=0.029
                 , relwidth=0.257)
         self.AD_cutoff_entry.configure(exportselection="0", takefocus="",
                 cursor="ibeam")
 
         # ADMIN duration label
-        self.AD_duration_label = tk.Label(self.AD_entries_frame)
+        self.AD_duration_label = tk.Label(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_duration_label.place(relx=0.667, rely=0.797, height=21
                 , width=263)
         self.AD_duration_label.configure(activebackground=self.THEME["BG_GREY"],
@@ -938,7 +935,7 @@ class FrameBP:
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Duration (months)''')
         # ADMIN duration scale
-        self.AD_duration_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0)
+        self.AD_duration_scale =  tk.Scale(self.AD_entries_frame, from_=0.0, to=100.0, resolution=1.0, font="{Lexend} 10")
         self.AD_duration_scale.place(relx=0.667, rely=0.825, relheight=0.059
                 , relwidth=0.256)
         self.AD_duration_scale.configure(activebackground=self.THEME["BG_GREY"],
@@ -950,21 +947,21 @@ class FrameBP:
 #-----------------------------------------------------ADMIN PAGE, ACTION BUTTONS------------------------------------------------------
       
         # ADMIN save button
-        self.AD_save_button = tk.Button(self.AD_entries_frame)
+        self.AD_save_button = tk.Button(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_save_button.place(relx=0.909, rely=0.923, height=36, width=67)
         self.AD_save_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Save''')
 
         # ADMIN delete button
-        self.AD_delete_button = tk.Button(self.AD_entries_frame)
+        self.AD_delete_button = tk.Button(self.AD_entries_frame, font="{Lexend} 10")
         self.AD_delete_button.place(relx=0.822, rely=0.923, height=36
                 , width=67)
         self.AD_delete_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground=self.THEME["TEXT_DARK"], highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Delete''')
 
@@ -979,20 +976,20 @@ class FrameBP:
                 highlightcolor=self.THEME["TEXT_DARK"])
 
         # ADMIN Help button
-        self.AD_help_button = tk.Button(self.AD_menubar)
+        self.AD_help_button = tk.Button(self.AD_menubar, font="{Lexend} 10")
         self.AD_help_button.place(relx=0.947, rely=0.114, height=26, width=47)
         self.AD_help_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', cursor="fleur", disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Help''')
 
         # Admin Log out button
-        self.AD_logout_button = tk.Button(self.AD_menubar)
+        self.AD_logout_button = tk.Button(self.AD_menubar, font="{Lexend} 10")
         self.AD_logout_button.place(relx=0.013, rely=0.143, height=26, width=47)
         self.AD_logout_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
+                compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
                 foreground="white", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Log out''')
 
