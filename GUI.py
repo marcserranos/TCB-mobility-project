@@ -363,6 +363,9 @@ class FrameBP:
             action_button.pack(side='right', padx=20)
             action_button.configure(text='''More Info''', width=10, cursor="hand2", style='TButton')
             setattr(self, f'ST_rankrow{row}_button', action_button)
+        
+        # Hide ranking frame initially
+        self.ScrolledwindowRUP.place_forget()
 
  #-----------------------------------------------------STUDENT PAGE, UNI STATS--------------------------------------------------
         
@@ -404,7 +407,7 @@ class FrameBP:
             "anchor": "center",
             "justify": "center",
             "relief": "solid",
-            "borderwidth": 2
+            "borderwidth": 1
         }
 
         # Row 1 (Top) - rely=0.25
@@ -463,6 +466,9 @@ class FrameBP:
         self.ST_web_button.configure(takefocus="", cursor="hand2")
         self.ST_web_button.configure(text='''Website''')
         self.ST_web_button.configure(compound='left')
+        
+        # Hide stats frame initially
+        self.ST_facts_frame.place_forget()
 
 #___________________________________________________________LOGIN PAGE__________________________________________________________
 
@@ -1087,7 +1093,3 @@ def start_up():
 
 if __name__ == '__main__':
     main.main()
-
-
-
-
