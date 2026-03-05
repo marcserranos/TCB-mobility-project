@@ -55,6 +55,14 @@ def main(*args):
         print(f"Error configuring website button: {e}")
         pass
 
+    # Link Export Button
+    try:
+        _w1.ST_export_button.configure(command=lambda: export_rankings_pdf(_w1, catalog, engine))
+        print("Export button configured")
+    except Exception as e:
+        print(f"Error configuring export button: {e}")
+        pass
+
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))
 

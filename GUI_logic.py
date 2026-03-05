@@ -205,6 +205,42 @@ def open_university_website():
         print(f"Error opening website: {e}")
 
 
+def export_rankings_pdf(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
+    """Handler for the Export button.  Prompts for save location and
+    writes a minimal PDF containing the top‑10 ranked universities."""
+    global current_student
+    from tkinter.filedialog import asksaveasfilename
+
+    if current_student is None:
+        messagebox.showwarning("No Student", "No student is logged in.")
+        return
+    if catalog is None or engine is None:
+        messagebox.showwarning("Unavailable", "Catalog/engine not provided.")
+        return
+
+    # ensure student info up to date
+    current_student.save_to_csv()
+
+    catalog.load()
+    ranked = catalog.rank(current_student, engine)
+    if not ranked:
+        messagebox.showinfo("Empty", "No universities to export.")
+        return
+
+    path = asksaveasfilename(defaultextension=".pdf",
+                             filetypes=[("PDF files", "*.pdf")],
+                             title="Save ranking as PDF")
+    if not path:
+        return
+
+    try:
+        Utilities.export_ranking_pdf(ranked, path)
+        messagebox.showinfo("Exported", f"Ranking exported to {path}")
+    except Exception as e:
+        messagebox.showerror("Export Error", f"Failed to create PDF: {e}")
+
+
+
 def admin_editdelete(_w1, mobility_manager):
     '''Inputs the selected university data into the admin fields so the admin can edit them or delete the entry.'''
     uni_name = _w1.AD_uni_combobox.get()
