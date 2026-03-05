@@ -7,7 +7,7 @@ class ScoringEngine:
         # None, we simply weight by position in the preference list.
         self._weights = weights or {}
 
-    def affinity_score(self, student_obj, university_obj) -> float:
+    def score(self, student_obj, university_obj) -> float:
         """Compute affinity score based on student preferences.
 
         Each preference value from the university (0-10 range) is multiplied by
@@ -19,9 +19,15 @@ class ScoringEngine:
 
         Max score is 100 (when all uni attributes are 10 and all weights sum to 10).
         Min score is 0.
+        
+        If the university is not eligible for the student, the score is 0.
         """
         prefs = student_obj.get_preferences()
         if not prefs:
+            return 0.0
+
+        # Check eligibility - if not eligible, score is 0
+        if not self.is_eligible(student_obj, university_obj):
             return 0.0
 
         # weights reflect inverse of position importance: 1st pref has weight 4
@@ -116,15 +122,11 @@ class ScoringEngine:
         """Score and sort a list of universities for a given student.
 
         The returned value is a list of ``(university, score)`` tuples sorted in
-        descending order of score.  Basic eligibility is checked via
-        :meth:`is_eligible` so callers can provide a full catalog or the result
-        of :meth:`Catalog.filter_for` as they wish.
+        descending order of score. Ineligible universities will have a score of 0.
         """
         scored = []
         for uni in universities:
-            if not self.is_eligible(student_obj, uni):
-                continue
-            score = self.affinity_score(student_obj, uni)
+            score = self.score(student_obj, uni)
             scored.append((uni, score))
         scored.sort(key=lambda t: t[1], reverse=True)
         return scored

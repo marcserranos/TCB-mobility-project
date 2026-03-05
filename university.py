@@ -149,8 +149,7 @@ class Catalog:
         return list(self._universities)
 
     def rank(self, student, engine) -> list[tuple[University, float]]:
-        eligible = self.filter_for(student)
-        scored = [(u, engine.score(student, u)) for u in eligible]
+        scored = [(u, engine.score(student, u)) for u in self._universities]
         scored.sort(key=lambda t: t[1], reverse=True)
         return scored
 

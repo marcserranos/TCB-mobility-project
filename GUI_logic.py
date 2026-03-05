@@ -439,18 +439,48 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
         print(preferences)
         print("--- end student preferences ---")
 
-        # Test eligibility and affinity score for all universities
+        # Get ranked universities
         if catalog is not None and engine is not None:
             catalog.load()
-            print("\n--- Test Results: Eligibility and Affinity Score ---")
-            print(f"Student Preferences: {preferences}")
-            print()
-            for uni in catalog.all():
-                name = uni.get_uni_att('name')
-                elig = engine.is_eligible(current_student, uni)
-                score = engine.affinity_score(current_student, uni)
-                print(f"{name:50s} | Eligible: {str(elig):5s} | Score: {score:.2f}")
-            print("--- End of Test ---\n")
+            ranked_universities = catalog.rank(current_student, engine)
+            
+            # Separate available (score > 0) and unavailable (score == 0)
+            available = [(uni, score) for uni, score in ranked_universities if score > 0]
+            unavailable = [(uni, score) for uni, score in ranked_universities if score == 0]
+            
+            # Display first 10: available first, then random unavailable
+            import random
+            for i in range(10):
+                if i < len(available):
+                    uni, score = available[i]
+                    uni_name = uni.get_uni_att('name')
+                    is_available = True
+                elif unavailable:
+                    # Pick random unavailable
+                    uni, score = random.choice(unavailable)
+                    uni_name = uni.get_uni_att('name')
+                    is_available = False
+                else:
+                    # No more options
+                    uni_name = "No more options available"
+                    score = 0.0
+                    is_available = False
+                
+                # Update GUI labels
+                uni_label = getattr(_w1, f'ST_rankrow{i+1}_uniname_label')
+                score_label = getattr(_w1, f'ST_rankrow{i+1}_score_label')
+                
+                uni_label.configure(text=uni_name)
+                score_label.configure(text=f'{score:.2f}')
+                
+                # Set color based on availability
+                if is_available:
+                    uni_label.configure(foreground="white")
+                    score_label.configure(foreground="white")
+                else:
+                    uni_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
+                    score_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
+                    
     except Exception as e:
         print(f"Error during ranking process: {e}")
 
