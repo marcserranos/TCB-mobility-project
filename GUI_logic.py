@@ -39,6 +39,9 @@ def display_university_info(_w1, university_obj):
     if university_obj is None:
         return
     
+    # Show the stats frame
+    _w1.ST_facts_frame.place(relx=0.319, rely=0.683, relheight=0.281, relwidth=0.668)
+    
     current_university = university_obj
     
     # Get university information
@@ -365,6 +368,10 @@ def clear_student_page(_w1):
     Clear all student page widgets and reset them to default state.
     This ensures a clean form when switching between users.
     """
+    # Hide ranking and stats frames
+    _w1.ScrolledwindowRUP.place_forget()
+    _w1.ST_facts_frame.place_forget()
+    
     # Clear degree
     _w1.degree_var.set('Select Degree')
     
@@ -460,6 +467,24 @@ def populate_student_page_from_profile(_w1, student):
     except Exception as e:
         print(f"Error populating student page: {e}")
 
+def get_score_color(score):
+    """
+    Map affinity score to a color for visualization.
+    100: green, 80: lime, 60: yellow, 40: orange, 20: dark orange, 0: red
+    """
+    if score >= 90:
+        return "#00cc00"  # green
+    elif score >= 70:
+        return "#ccff00"  # lime
+    elif score >= 50:
+        return "#ffff00"  # yellow
+    elif score >= 30:
+        return "#ff8800"  # orange
+    elif score >= 10:
+        return "#ff6600"  # dark orange
+    else:
+        return "#ff0000"  # red
+
 def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
     """
     Handle the Rank! button click silently. This function:
@@ -522,6 +547,9 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
         if catalog is not None and engine is not None:
             global ranked_universities_display
             
+            # Show the ranking frame
+            _w1.ScrolledwindowRUP.place(relx=0.319, rely=0.06, relheight=0.606, relwidth=0.668)
+            
             catalog.load()
             ranked_universities = catalog.rank(current_student, engine)
             
@@ -562,7 +590,9 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
                 # Set color based on availability
                 if is_available:
                     uni_label.configure(foreground="black")
-                    score_label.configure(foreground="black")
+                    # Apply colormap to score label with bold black text
+                    score_color = get_score_color(score)
+                    score_label.configure(foreground="black", background=score_color, font="{Lexend} 10 bold", padx=5, pady=2)
                     action_button.configure(state='normal')
                     # Store university for button callback
                     ranked_universities_display[i + 1] = uni
@@ -570,7 +600,7 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
                     action_button.configure(command=lambda u=uni, w=_w1: display_university_info(w, u))
                 else:
                     uni_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
-                    score_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
+                    score_label.configure(foreground=_w1.THEME["DISABLED_GREY"], background=_w1.THEME["BG_GREY"], font="{Lexend} 10")
                     action_button.configure(state='disabled')
                     
     except Exception as e:
