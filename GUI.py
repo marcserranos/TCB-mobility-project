@@ -99,7 +99,7 @@ class FrameBP:
         self.ST_help_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
                 compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Help''')
 
         # STUDENT export button
@@ -109,7 +109,7 @@ class FrameBP:
         self.ST_export_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
                 compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Export''')
 
         # STUDENT logout button
@@ -119,7 +119,7 @@ class FrameBP:
         self.ST_logout_button.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", background=self.THEME["BG_GREY"],
                 compound='left', cursor="hand2", disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Log out''')
 
 #-----------------------------------------------------STUDENT PAGE, INPUTS------------------------------------------------------
@@ -140,7 +140,7 @@ class FrameBP:
         self.ST_inputspanel_title.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Student''')
 
         # STUDENT grade entry
@@ -155,7 +155,7 @@ class FrameBP:
         self.ST_grade_label.configure(activebackground=self.THEME["BG_GREY"],
                                     activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                                     compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                                    font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                                    font="{Lexend} 10", foreground="black", highlightbackground=self.THEME["BG_GREY"],
                                     highlightcolor=self.THEME["TEXT_DARK"], text='''Grade''')
 
         # STUDENT Languages selector (TO DO)
@@ -185,7 +185,7 @@ class FrameBP:
         self.ST_lang_label.configure(activebackground=self.THEME["BG_GREY"],
                                         activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                                         compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                                        font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                                        font="{Lexend} 10", foreground="black", highlightbackground=self.THEME["BG_GREY"],
                                         highlightcolor=self.THEME["TEXT_DARK"], text='''Languages''')
         self.ST_lang_button = ttk.Button(self.ST_inputspanel_frame)
         self.ST_lang_button.place(relx=0.444, rely=0.221, height=26
@@ -206,7 +206,7 @@ class FrameBP:
         self.ST_degree_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                font="{Lexend} 10", foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Degree''')
 
         # STUDENT continents label
@@ -215,7 +215,7 @@ class FrameBP:
         self.ST_continents_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                font="{Lexend} 10", foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                font="{Lexend} 10", foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''Continents''')
         
         # STUDENT continent checkbutton (EU)
@@ -264,7 +264,7 @@ class FrameBP:
         # STUDENT preference 1
         self.pref_row1 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row1.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label1 = tk.Label(self.pref_row1, text="1. Cost of Living", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
+        self.pref_label1 = tk.Label(self.pref_row1, text="1. Cost of Living", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10", foreground="black")
         self.pref_label1.pack(side="left", padx=10, fill="x", expand=True)
         self.pref_down1 = tk.Button(self.pref_row1, text="▼", width=3, font="{Lexend} 10")
         self.pref_down1.pack(side="right", padx=5)
@@ -274,7 +274,7 @@ class FrameBP:
         # STUDENT preference 2
         self.pref_row2 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row2.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label2 = tk.Label(self.pref_row2, text="2. Nightlife", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
+        self.pref_label2 = tk.Label(self.pref_row2, text="2. Nightlife", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10", foreground="black")
         self.pref_label2.pack(side="left", padx=10, fill="x", expand=True)
         self.pref_down2 = tk.Button(self.pref_row2, text="▼", width=3, font="{Lexend} 10")
         self.pref_down2.pack(side="right", padx=5)
@@ -284,7 +284,7 @@ class FrameBP:
         # STUDENT preference 3
         self.pref_row3 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row3.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label3 = tk.Label(self.pref_row3, text="3. Weather", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
+        self.pref_label3 = tk.Label(self.pref_row3, text="3. Weather", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10", foreground="black")
         self.pref_label3.pack(side="left", padx=10, fill="x", expand=True)
         self.pref_down3 = tk.Button(self.pref_row3, text="▼", width=3, font="{Lexend} 10")
         self.pref_down3.pack(side="right", padx=5)
@@ -294,7 +294,7 @@ class FrameBP:
         # STUDENT preference 4
         self.pref_row4 = tk.Frame(self.ST_prefs_container, relief="groove", borderwidth=2, background=self.THEME["BG_GREY"])
         self.pref_row4.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        self.pref_label4 = tk.Label(self.pref_row4, text="4. Academic Rank", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10")
+        self.pref_label4 = tk.Label(self.pref_row4, text="4. Academic Rank", background=self.THEME["BG_GREY"], anchor="w", font="{Lexend} 10", foreground="black")
         self.pref_label4.pack(side="left", padx=10, fill="x", expand=True)
         self.pref_down4 = tk.Button(self.pref_row4, text="▼", width=3, state="disabled", font="{Lexend} 10")
         self.pref_down4.pack(side="right", padx=5)
@@ -344,7 +344,7 @@ class FrameBP:
             uni_label.configure(activebackground=self.THEME["BG_GREY"],
                     activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                     compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                    foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                    foreground="black", highlightbackground=self.THEME["BG_GREY"],
                     highlightcolor=self.THEME["TEXT_DARK"], text=f'''University Name {row}''')
             setattr(self, f'ST_rankrow{row}_uniname_label', uni_label)
             
@@ -354,7 +354,7 @@ class FrameBP:
             score_label.configure(activebackground=self.THEME["BG_GREY"],
                     activeforeground="black", anchor='e', background=self.THEME["BG_GREY"],
                     compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                    foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                    foreground="black", highlightbackground=self.THEME["BG_GREY"],
                     highlightcolor=self.THEME["TEXT_DARK"], text=f'''0.00''', width=6)
             setattr(self, f'ST_rankrow{row}_score_label', score_label)
             
@@ -379,7 +379,7 @@ class FrameBP:
         self.ST_uniname_label.configure(activebackground=self.THEME["BG_GREY"],
                 activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University, City, Country''')
 
         # STUDENT University stats subframe
@@ -390,77 +390,54 @@ class FrameBP:
                 background=self.THEME["BG_GREY"], cursor="arrow",
                 highlightbackground=self.THEME["BG_GREY"], highlightcolor=self.THEME["TEXT_DARK"])
         
-        # STUDENT Stats11 label
-        self.ST_stat11_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat11_label.place(relx=0.014, rely=0.052, height=65, width=154)
-        self.ST_stat11_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Ranking''')
+        # ------------------- STUDENT UNI STATS 4x2 GRID -------------------
         
-        # STUDENT Stats21 label
-        self.ST_stat21_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat21_label.place(relx=0.014, rely=0.552, height=65, width=155)
-        self.ST_stat21_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Engineering Ranking''')
-        
-        # STUDENT Stats12 label
-        self.ST_stat12_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat12_label.place(relx=0.259, rely=0.052, height=65, width=155)
-        self.ST_stat12_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Cost of living''')
-        
-        # STUDENT Stats22 label
-        self.ST_stat22_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat22_label.place(relx=0.259, rely=0.552, height=65, width=155)
-        self.ST_stat22_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Weather''')
-        
-        # STUDENT Stats13 label
-        self.ST_stat13_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat13_label.place(relx=0.503, rely=0.052, height=65, width=154)
-        self.ST_stat13_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Nightlife''')
-        
-        # STUDENT Stats23 label
-        self.ST_stat23_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat23_label.place(relx=0.503, rely=0.552, height=65, width=154)
-        self.ST_stat23_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Previous cutoff grade''')
-        
-        # STUDENT Stats14 label
-        self.ST_stat14_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat14_label.place(relx=0.748, rely=0.052, height=65, width=154)
-        self.ST_stat14_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Available spots''')
-        
-        # STUDENT Stats24 label
-        self.ST_stat24_label = tk.Label(self.ST_unistats_label, font="{Lexend} 10")
-        self.ST_stat24_label.place(relx=0.748, rely=0.552, height=65, width=155)
-        self.ST_stat24_label.configure(activebackground=self.THEME["BG_GREY"],
-                activeforeground="black", anchor='w', background=self.THEME["BG_GREY"],
-                compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], text='''Duration''')
+        # Base configuration for all stat labels to keep code clean
+        stat_config = {
+            "activebackground": self.THEME["BG_GREY"],
+            "activeforeground": "black",
+            "background": self.THEME["BG_GREY"],
+            "foreground": self.THEME["TEXT_DARK"], # Fixed: Changed from "white" to dark for visibility on light grey
+            "disabledforeground": self.THEME["DISABLED_GREY"],
+            "highlightbackground": self.THEME["BG_GREY"],
+            "highlightcolor": self.THEME["TEXT_DARK"],
+            "anchor": "center",
+            "justify": "center"  # Ensures the value stays centered under the title
+        }
+
+        # Row 1 (Top) - rely=0.25
+        self.ST_stat11_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat11_label.place(relx=0.125, rely=0.25, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat11_label.configure(**stat_config, text='''Ranking''')
+
+        self.ST_stat12_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat12_label.place(relx=0.375, rely=0.25, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat12_label.configure(**stat_config, text='''Cost of living''')
+
+        self.ST_stat13_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat13_label.place(relx=0.625, rely=0.25, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat13_label.configure(**stat_config, text='''Nightlife''')
+
+        self.ST_stat14_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat14_label.place(relx=0.875, rely=0.25, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat14_label.configure(**stat_config, text='''Available spots''')
+
+        # Row 2 (Bottom) - rely=0.75
+        self.ST_stat21_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat21_label.place(relx=0.125, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat21_label.configure(**stat_config, text='''Engineering\nRanking''') # Added \n for better fit
+
+        self.ST_stat22_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat22_label.place(relx=0.375, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat22_label.configure(**stat_config, text='''Weather''')
+
+        self.ST_stat23_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat23_label.place(relx=0.625, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat23_label.configure(**stat_config, text='''Previous cutoff\ngrade''') # Added \n for better fit
+
+        self.ST_stat24_label = tk.Label(self.ST_unistats_label)
+        self.ST_stat24_label.place(relx=0.875, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
+        self.ST_stat24_label.configure(**stat_config, text='''Duration''')
         
         # STUDENT University logo label
         self.ST_logo_label = tk.Label(self.ST_facts_frame, font="{Lexend} 10")
@@ -468,7 +445,7 @@ class FrameBP:
         self.ST_logo_label.configure(activebackground=self.THEME["UPF_red"],
                 activeforeground=self.THEME["UPF_red"], anchor='w', background=self.THEME["BG_GREY"],
                 compound='left', disabledforeground=self.THEME["DISABLED_GREY"],
-                foreground="white", highlightbackground=self.THEME["BG_GREY"],
+                foreground="black", highlightbackground=self.THEME["BG_GREY"],
                 highlightcolor=self.THEME["TEXT_DARK"], text='''University LOGO (image)''')
         
         # STUDENT Map button
