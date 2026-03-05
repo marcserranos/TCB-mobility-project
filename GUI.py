@@ -394,15 +394,17 @@ class FrameBP:
         
         # Base configuration for all stat labels to keep code clean
         stat_config = {
-            "activebackground": self.THEME["BG_GREY"],
+            "activebackground": "#ffd9d9",
             "activeforeground": "black",
-            "background": self.THEME["BG_GREY"],
-            "foreground": self.THEME["TEXT_DARK"], # Fixed: Changed from "white" to dark for visibility on light grey
+            "background": "#ffd9d9",
+            "foreground": self.THEME["TEXT_DARK"],
             "disabledforeground": self.THEME["DISABLED_GREY"],
-            "highlightbackground": self.THEME["BG_GREY"],
+            "highlightbackground": "#ffd9d9",
             "highlightcolor": self.THEME["TEXT_DARK"],
             "anchor": "center",
-            "justify": "center"  # Ensures the value stays centered under the title
+            "justify": "center",
+            "relief": "solid",
+            "borderwidth": 2
         }
 
         # Row 1 (Top) - rely=0.25
@@ -425,7 +427,7 @@ class FrameBP:
         # Row 2 (Bottom) - rely=0.75
         self.ST_stat21_label = tk.Label(self.ST_unistats_label)
         self.ST_stat21_label.place(relx=0.125, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
-        self.ST_stat21_label.configure(**stat_config, text='''Engineering\nRanking''') # Added \n for better fit
+        self.ST_stat21_label.configure(**stat_config, text='''Engineering\nRanking''')
 
         self.ST_stat22_label = tk.Label(self.ST_unistats_label)
         self.ST_stat22_label.place(relx=0.375, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
@@ -433,7 +435,7 @@ class FrameBP:
 
         self.ST_stat23_label = tk.Label(self.ST_unistats_label)
         self.ST_stat23_label.place(relx=0.625, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)
-        self.ST_stat23_label.configure(**stat_config, text='''Previous cutoff\ngrade''') # Added \n for better fit
+        self.ST_stat23_label.configure(**stat_config, text='''Previous cutoff\ngrade''')
 
         self.ST_stat24_label = tk.Label(self.ST_unistats_label)
         self.ST_stat24_label.place(relx=0.875, rely=0.75, anchor="center", relwidth=0.24, relheight=0.45)

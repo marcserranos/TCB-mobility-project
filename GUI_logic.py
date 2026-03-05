@@ -561,8 +561,8 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
                 
                 # Set color based on availability
                 if is_available:
-                    uni_label.configure(foreground="white")
-                    score_label.configure(foreground="white")
+                    uni_label.configure(foreground="black")
+                    score_label.configure(foreground="black")
                     action_button.configure(state='normal')
                     # Store university for button callback
                     ranked_universities_display[i + 1] = uni
