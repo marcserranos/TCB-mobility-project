@@ -12,8 +12,87 @@ from university import Catalog
 from scoringEngine import ScoringEngine
 from scoringEngine import ScoringEngine
 
+# For image handling
+try:
+    from PIL import Image, ImageTk
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
+
 # Global variable to store the current logged-in student instance
 current_student = None
+# Global variable to store the current displayed university for the "More Info" section
+current_university = None
+current_photo = None  # Keep reference to prevent garbage collection
+# Store ranked universities for the "More Info" buttons
+ranked_universities_display = {}  # Maps row number (1-10) to (university, score) tuple
+
+
+def display_university_info(_w1, university_obj):
+    """Display university information in the ST_facts_frame section.
+    
+    Updates all the GUI labels with information from the university object,
+    including name, city, country, and various statistics.
+    """
+    global current_university, current_photo
+    
+    if university_obj is None:
+        return
+    
+    current_university = university_obj
+    
+    # Get university information
+    uni_name = university_obj.get_uni_att('name') or "N/A"
+    location = university_obj.get_uni_att('location')
+    city = ""
+    country = ""
+    if location:
+        if isinstance(location, dict):
+            city = location.get('city', '')
+            country = location.get('country', '')
+        elif hasattr(location, 'get_city'):
+            city = location.get_city()
+            country = location.get_country()
+    
+    # Update university name and location
+    uni_display = f"{uni_name}, {city}, {country}"
+    _w1.ST_uniname_label.configure(text=uni_display)
+    
+    # Get and display statistics
+    ranking = university_obj.get_uni_att('ranking')
+    cost = university_obj.get_uni_att('cost_of_living')
+    nightlife = university_obj.get_uni_att('nightlife')
+    cutoff = university_obj.get_uni_att('cutoff_grade')
+    
+    _w1.ST_stat11_label.configure(text=f"Ranking\n{ranking or 'N/A'}")
+    _w1.ST_stat12_label.configure(text=f"Cost of living\n{cost or 'N/A'}")
+    _w1.ST_stat13_label.configure(text=f"Nightlife\n{nightlife or 'N/A'}")
+    _w1.ST_stat23_label.configure(text=f"Previous cutoff grade\n{cutoff or 'N/A'}")
+    
+    # Engineering Ranking, Available spots, Duration - these may not be in current structure
+    engineering_ranking = university_obj.get_uni_att('engineering_ranking') or "N/A"
+    available_spots = university_obj.get_uni_att('available_spots') or "N/A"
+    duration = university_obj.get_uni_att('duration') or "N/A"
+    weather = university_obj.get_uni_att('weather') or "N/A"
+    
+    _w1.ST_stat21_label.configure(text=f"Engineering Ranking\n{engineering_ranking}")
+    _w1.ST_stat14_label.configure(text=f"Available spots\n{available_spots}")
+    _w1.ST_stat24_label.configure(text=f"Duration\n{duration}")
+    _w1.ST_stat22_label.configure(text=f"Weather\n{weather}")
+    
+    # Load and display logo
+    logo_path = university_obj.get_logo_path()
+    if PIL_AVAILABLE and logo_path:
+        try:
+            img = Image.open(logo_path)
+            img.thumbnail((160, 160), Image.Resampling.LANCZOS)
+            current_photo = ImageTk.PhotoImage(img)
+            _w1.ST_logo_label.configure(image=current_photo, text="")
+        except Exception as e:
+            print(f"Could not load logo from {logo_path}: {e}")
+            _w1.ST_logo_label.configure(image="", text="Logo not found")
+    else:
+        _w1.ST_logo_label.configure(image="", text="Logo not available")
 
 
 def admin_editdelete(_w1, mobility_manager):
@@ -439,18 +518,61 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
         print(preferences)
         print("--- end student preferences ---")
 
-        # Test eligibility and affinity score for all universities
+        # Get ranked universities
         if catalog is not None and engine is not None:
+            global ranked_universities_display
+            
             catalog.load()
-            print("\n--- Test Results: Eligibility and Affinity Score ---")
-            print(f"Student Preferences: {preferences}")
-            print()
-            for uni in catalog.all():
-                name = uni.get_uni_att('name')
-                elig = engine.is_eligible(current_student, uni)
-                score = engine.affinity_score(current_student, uni)
-                print(f"{name:50s} | Eligible: {str(elig):5s} | Score: {score:.2f}")
-            print("--- End of Test ---\n")
+            ranked_universities = catalog.rank(current_student, engine)
+            
+            # Separate available (score > 0) and unavailable (score == 0)
+            available = [(uni, score) for uni, score in ranked_universities if score > 0]
+            unavailable = [(uni, score) for uni, score in ranked_universities if score == 0]
+            
+            # Clear previous storage
+            ranked_universities_display = {}
+            
+            # Display first 10: available first, then random unavailable
+            import random
+            for i in range(10):
+                if i < len(available):
+                    uni, score = available[i]
+                    uni_name = uni.get_uni_att('name')
+                    is_available = True
+                elif unavailable:
+                    # Pick random unavailable
+                    uni, score = random.choice(unavailable)
+                    uni_name = uni.get_uni_att('name')
+                    is_available = False
+                else:
+                    # No more options
+                    uni_name = "No more options available"
+                    score = 0.0
+                    is_available = False
+                    uni = None
+                
+                # Update GUI labels
+                uni_label = getattr(_w1, f'ST_rankrow{i+1}_uniname_label')
+                score_label = getattr(_w1, f'ST_rankrow{i+1}_score_label')
+                action_button = getattr(_w1, f'ST_rankrow{i+1}_button')
+                
+                uni_label.configure(text=uni_name)
+                score_label.configure(text=f'{score:.2f}')
+                
+                # Set color based on availability
+                if is_available:
+                    uni_label.configure(foreground="white")
+                    score_label.configure(foreground="white")
+                    action_button.configure(state='normal')
+                    # Store university for button callback
+                    ranked_universities_display[i + 1] = uni
+                    # Bind button to display this university's info
+                    action_button.configure(command=lambda u=uni, w=_w1: display_university_info(w, u))
+                else:
+                    uni_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
+                    score_label.configure(foreground=_w1.THEME["DISABLED_GREY"])
+                    action_button.configure(state='disabled')
+                    
     except Exception as e:
         print(f"Error during ranking process: {e}")
 

@@ -31,6 +31,16 @@ class University:
         """Returns the value of the requested attribute if it exists, else None."""
         return getattr(self, f"_{self.__class__.__name__}__{attribute}", None)
 
+    def get_logo_path(self) -> str:
+        """Returns the full path to the university logo image.
+        
+        Constructs the path as images/{uni_id}.png
+        """
+        uni_id = self.get_uni_att('id')
+        if uni_id:
+            return f"images/{uni_id}.png"
+        return ""
+
     def to_dict(self) -> dict:
         """Flattenable representation for GUI tables or exports.
 
@@ -149,8 +159,7 @@ class Catalog:
         return list(self._universities)
 
     def rank(self, student, engine) -> list[tuple[University, float]]:
-        eligible = self.filter_for(student)
-        scored = [(u, engine.score(student, u)) for u in eligible]
+        scored = [(u, engine.score(student, u)) for u in self._universities]
         scored.sort(key=lambda t: t[1], reverse=True)
         return scored
 
