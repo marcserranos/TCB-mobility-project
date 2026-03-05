@@ -31,6 +31,16 @@ class University:
         """Returns the value of the requested attribute if it exists, else None."""
         return getattr(self, f"_{self.__class__.__name__}__{attribute}", None)
 
+    def get_logo_path(self) -> str:
+        """Returns the full path to the university logo image.
+        
+        Constructs the path as images/{uni_id}.png
+        """
+        uni_id = self.get_uni_att('id')
+        if uni_id:
+            return f"images/{uni_id}.png"
+        return ""
+
     def to_dict(self) -> dict:
         """Flattenable representation for GUI tables or exports.
 
