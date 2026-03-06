@@ -1075,3 +1075,156 @@ def student_signup_action(_w1, mobility_manager):
         # Fallback: simulate user creation
         tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")
         show_student(_w1)
+
+
+def show_student_help():
+    """Display help popup for the student screen."""
+    help_window = tk.Toplevel()
+    help_window.title("Student Help")
+    help_window.geometry("600x500")
+    help_window.configure(bg="#d9d9d9")
+    
+    # Create a scrollable text area
+    text_frame = tk.Frame(help_window)
+    text_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+    
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    
+    text_widget = tk.Text(text_frame, wrap=tk.WORD, yscrollcommand=scrollbar.set, bg="#ffffff", fg="#000000", font=("Lexend", 10))
+    text_widget.pack(fill=tk.BOTH, expand=True)
+    scrollbar.config(command=text_widget.yview)
+    
+    # Help content
+    help_content = """STUDENT HELP - Erasmus University Ranking Tool
+
+Q: What is this application for?
+A: This tool helps UPF students find and rank Erasmus exchange universities based on their preferences and academic profile.
+
+Q: How do I get started?
+A: 1. Log in with your student credentials or sign up if you're new
+   2. Fill out your academic profile (degree, grade, languages)
+   3. Select your preferred continents
+   4. Rank your preferences (cost, nightlife, etc.)
+   5. Click "Rank!" to see recommended universities
+
+Q: What information do I need to provide?
+A: - Your degree program
+  - Your current GPA/grade
+  - Languages you speak
+  - Continents you're interested in
+  - Your preferences ranked by importance
+
+Q: How does the ranking work?
+A: The system matches universities to your profile based on eligibility, language requirements, and your ranked preferences. Only universities where you meet the minimum requirements will be shown.
+
+Q: What do the preference rankings mean?
+A: Rank your preferences from 1-4 (1 being most important). The algorithm will prioritize universities that match your top preferences.
+
+Q: Can I save my profile?
+A: Yes, your profile is automatically saved when you click "Rank!" or log out.
+
+Q: How do I view university details?
+A: After ranking, click on a university name or use the "More Info" buttons to see detailed information including location, rankings, and requirements.
+
+Q: What does the map button do?
+A: Shows the selected university's location on an interactive map.
+
+Q: What does the website button do?
+A: Opens the university's official website in your browser.
+
+Q: How do I export my results?
+A: Use the "Export PDF" button to save your ranked universities list as a PDF file.
+
+Q: How do I log out?
+A: Click the "Logout" button in the top menu bar.
+"""
+    
+    text_widget.insert(tk.END, help_content)
+    text_widget.config(state=tk.DISABLED)
+    
+    # Close button
+    close_button = tk.Button(help_window, text="Close", command=help_window.destroy, bg="#c8102e", fg="#ffffff", font=("Lexend", 10))
+    close_button.pack(pady=10)
+
+
+def show_admin_help():
+    """Display help popup for the admin screen."""
+    help_window = tk.Toplevel()
+    help_window.title("Admin Help")
+    help_window.geometry("600x500")
+    help_window.configure(bg="#d9d9d9")
+    
+    # Create a scrollable text area
+    text_frame = tk.Frame(help_window)
+    text_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+    
+    scrollbar = tk.Scrollbar(text_frame)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    
+    text_widget = tk.Text(text_frame, wrap=tk.WORD, yscrollcommand=scrollbar.set, bg="#ffffff", fg="#000000", font=("Lexend", 10))
+    text_widget.pack(fill=tk.BOTH, expand=True)
+    scrollbar.config(command=text_widget.yview)
+    
+    # Help content
+    help_content = """ADMIN HELP - Erasmus University Database Management
+
+Q: What can I do as an admin?
+A: You can add new universities to the database, edit existing university information, or delete universities from the system.
+
+Q: How do I add a new university?
+A: 1. Select "Select University" from the dropdown (or leave it as is)
+   2. Click the "Add" button
+   3. Fill in all the university details
+   4. Click "Save" to add it to the database
+
+Q: How do I edit an existing university?
+A: 1. Select the university from the dropdown menu
+   2. Click the "Edit/Delete" button
+   3. Modify the information in the fields
+   4. Click "Save" to update the database
+
+Q: How do I delete a university?
+A: 1. Select the university from the dropdown menu
+   2. Click the "Edit/Delete" button
+   3. Click the "Delete" button (it becomes enabled when editing)
+   4. Confirm the deletion
+
+Q: What information is required for a university?
+A: - University name and ID
+  - City and country
+  - Continent
+  - Latitude and longitude coordinates
+  - Website URL
+  - Academic rankings (university and engineering)
+  - Minimum grade requirements
+  - Previous cutoff grade
+  - Cost of living (scale)
+  - Spots available (scale)
+  - Duration in months (scale)
+  - Weather rating
+  - Nightlife rating
+  - Language offerings (English, Spanish, French, etc.)
+
+Q: What do the rating scales mean?
+A: Most ratings use a 1-10 scale where 1 is lowest/worst and 10 is highest/best. Adjust the sliders to match the university's characteristics.
+
+Q: How do I clear the form?
+A: Click the "Add" button again or select a different university to reset the fields.
+
+Q: Can I modify the university ID?
+A: No, the ID field is read-only for existing universities to maintain database integrity.
+
+Q: How do I log out?
+A: Click the "Logout" button in the top menu bar.
+
+Q: Where is the data stored?
+A: University data is stored in CSV files in the data/ directory.
+"""
+    
+    text_widget.insert(tk.END, help_content)
+    text_widget.config(state=tk.DISABLED)
+    
+    # Close button
+    close_button = tk.Button(help_window, text="Close", command=help_window.destroy, bg="#c8102e", fg="#ffffff", font=("Lexend", 10))
+    close_button.pack(pady=10)
