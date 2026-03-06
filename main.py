@@ -86,6 +86,10 @@ def main(*args):
     _w1.ST_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
     _w1.AD_logout_button.configure(command=lambda: logout(_w1=_w1, root=root))
 
+    # Link Help Buttons
+    _w1.ST_help_button.configure(command=show_student_help)
+    _w1.AD_help_button.configure(command=show_admin_help)
+
     # Student page Buttons
     _w1.ST_lang_button.configure(command=lambda: add_language_row(_w1=_w1))
     # Link Preference Buttons
