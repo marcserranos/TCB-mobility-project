@@ -317,26 +317,23 @@ class FrameBP:
 
 #-----------------------------------------------------STUDENT PAGE, RANKING------------------------------------------------------
 
-        # STUDENT Ranking scrolled window  (to do: name, plan, code, beautify)
-        self.ScrolledwindowRUP = ScrolledWindow(self.ST_bg)
+        # STUDENT Ranking frame (static, no scrolling)
+        self.ScrolledwindowRUP = tk.Frame(self.ST_bg)
         self.ScrolledwindowRUP.place(relx=0.319, rely=0.06, relheight=0.606
                 , relwidth=0.668)
         self.ScrolledwindowRUP.configure(background=self.THEME["BG_GREY"],
                 borderwidth="2", highlightbackground=self.THEME["BG_GREY"],
-                highlightcolor=self.THEME["TEXT_DARK"], insertbackground=self.THEME["TEXT_DARK"],
-                relief="groove", selectbackground=self.THEME["BG_GREY"],
-                selectforeground="black")
+                highlightcolor=self.THEME["TEXT_DARK"], relief="groove")
         self.color = self.ScrolledwindowRUP.cget("background")
         self.ScrolledwindowRUP_f = tk.Frame(self.ScrolledwindowRUP,
                             background=self.color)
-        self.ScrolledwindowRUP.create_window(0, 0, anchor='nw',
-                                           window=self.ScrolledwindowRUP_f)
+        self.ScrolledwindowRUP_f.pack(fill="both", expand=True)
 
         # STUDENT Ranking rows (10 rows with university name, affinity score, and action button)
         for row in range(1, 11):
             # Row frame containing name, score, and button
             row_frame = tk.Frame(self.ScrolledwindowRUP_f, background=self.color, height=40)
-            row_frame.pack(side='top', fill='x', padx=5, pady=12)
+            row_frame.pack(side='top', fill='x', padx=5, pady=11)
             
             # University name label (left side, expands)
             uni_label = tk.Label(row_frame, font="{Lexend} 10")

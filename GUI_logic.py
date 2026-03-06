@@ -834,8 +834,13 @@ def show_student_login(_w1, root):
         _w1.LG_studentlogin_button.place_forget()
         _w1.LG_studentsingup_button.place_forget()
         _w1.LG_adminlogin_button.place_forget()
-        _w1.LG_student_button.configure(style='Unselected.TButton')
-        _w1.LG_admin_button.configure(style='Unselected.TButton')
+        try:
+            _w1.LG_student_button.configure(style='Unselected.TButton')
+            _w1.LG_admin_button.configure(style='Unselected.TButton')
+        except Exception:
+            # fallback for tk.Button which does not support ttk styles
+            _w1.LG_student_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
+            _w1.LG_admin_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
         root.update_idletasks()
         return
 
@@ -846,8 +851,12 @@ def show_student_login(_w1, root):
     _w1.LG_studentlogin_button.place(relx=0.178, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_studentsingup_button.place(relx=0.606, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_adminlogin_button.place_forget()
-    _w1.LG_student_button.configure(style='Selected.TButton')
-    _w1.LG_admin_button.configure(style='Unselected.TButton')
+    try:
+        _w1.LG_student_button.configure(style='Selected.TButton')
+        _w1.LG_admin_button.configure(style='Unselected.TButton')
+    except Exception:
+        _w1.LG_student_button.configure(background=_w1.THEME["BG_GREY"], foreground="black")
+        _w1.LG_admin_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
     root.update_idletasks()
 
 def show_admin_login(_w1, root):
@@ -871,8 +880,12 @@ def show_admin_login(_w1, root):
     _w1.LG_adminlogin_button.place(relx=0.392, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_studentlogin_button.place_forget()
     _w1.LG_studentsingup_button.place_forget()
-    _w1.LG_admin_button.configure(style='Selected.TButton')
-    _w1.LG_student_button.configure(style='Unselected.TButton')
+    try:
+        _w1.LG_admin_button.configure(style='Selected.TButton')
+        _w1.LG_student_button.configure(style='Unselected.TButton')
+    except Exception:
+        _w1.LG_admin_button.configure(background=_w1.THEME["BG_GREY"], foreground="black")
+        _w1.LG_student_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
     root.update_idletasks()
 
 def show_student(_w1):
