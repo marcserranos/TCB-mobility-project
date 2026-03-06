@@ -1,6 +1,6 @@
 UID,degree,grade,English,Spanish,French,German,Italian,Portuguese,Chinese,Japanese,Europe,South America,Asia,Africa,North America,Oceania,Cost of Living,Weather,Nightlife,Academic Rank
 UQO0QQGSPY3PKX5,,,,,,,,,,,,,,,,,,,,
-UBSWMOP3LOYTD9N,Mathematical Engineering,0.0,,,,,,,,,Europe,,,,,,1,2,3,4
+UBSWMOP3LOYTD9N,Computer Engineering,9.0,,B2,,,B2,,B2,B2,Europe,South America,Asia,Africa,North America,Oceania,4,1,2,3
 UETSE2JJ5853UIP,,,,,,,,,,,,,,,,,,,,
 U5I7ZCGYKLPATXF,,,,,,,,,,,,,,,,,,,,
 UAEB83A0J7FSGPV,,,,,,,,,,,,,,,,,,,,
@@ -8,3 +8,4 @@ UPFRZJB781ABH3T,Biomedical Engineering,10.0,C2,C2,,,,C2,C2,C2,Europe,South Ameri
 UJ09GLHF6ELIW8R,,,,,,,,,,,,,,,,,,,,
 U4T68IEHLQL5KX9,Biomedical Engineering,7.7,C1,C2,,,,,,,Europe,South America,Asia,Africa,North America,Oceania,4,2,3,1
 US6W2O1K6YS3Z60,Biomedical Engineering,7.7,C2,C2,,,,,,,Europe,,Asia,Africa,North America,Oceania,4,3,2,1
+UVP0XA6F8OONXYN,Computer Engineering,9.9,C2,,,,C2,,,C1,Europe,South America,Asia,,,,4,1,2,3

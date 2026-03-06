@@ -14,12 +14,6 @@ class Utilities:
         # Compact form of generating a random string from the specified characters
         # The probability of collision is very low for our use case, thus we won't check for duplicates here.
         return ''.join(random.choice(chars) for _ in range(14))
-
-    @staticmethod
-    def choose_random_id(): pass
-    
-    @staticmethod
-    def create_pdf(): pass
     
     @staticmethod
     def export_ranking_pdf(ranked_list, filepath: str):
@@ -45,7 +39,3 @@ class Utilities:
             name = uni.get_uni_att('name') or 'Unknown'
             pdf.cell(0, 8, f"{idx}. {name} - {score:.2f}", ln=True)
         pdf.output(filepath)
-
-    
-    @staticmethod
-    def send_mail(): pass

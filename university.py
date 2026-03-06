@@ -96,7 +96,6 @@ class Location:
     def get_coords(self):
         return self.__coords
 
-
 # ---------------------------------------------------------------------------
 # container for creating/filtering/ranking University objects
 class Catalog:
@@ -160,9 +159,3 @@ class Catalog:
         scored = [(u, engine.score(student, u)) for u in self._universities]
         scored.sort(key=lambda t: t[1], reverse=True)
         return scored
-
-    def lookup(self, uni_id: str):
-        for u in self._universities:
-            if u.get_uni_att('id') == uni_id:
-                return u
-        return None
