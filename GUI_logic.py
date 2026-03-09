@@ -7,23 +7,11 @@ import tkinter.ttk as ttk
 from tkinter import messagebox
 from utilities import Utilities
 from student import Student
-# we need university catalog and scoring engine for ranking; imported here to avoid circular imports
 from catalog import Catalog
 from scoringEngine import ScoringEngine
+from PIL import Image, ImageTk
+import tkintermapview
 
-# For image handling
-try:
-    from PIL import Image, ImageTk
-    PIL_AVAILABLE = True
-except ImportError:
-    PIL_AVAILABLE = False
-
-# For map display
-try:
-    import tkintermapview
-    MAP_AVAILABLE = True
-except ImportError:
-    MAP_AVAILABLE = False
 
 # For opening websites
 import webbrowser
@@ -90,7 +78,7 @@ def display_university_info(_w1, university_obj):
     
     # Load and display logo
     logo_path = university_obj.get_logo_path()
-    if PIL_AVAILABLE and logo_path:
+    if  logo_path:
         try:
             img = Image.open(logo_path)
             img.thumbnail((160, 160), Image.Resampling.LANCZOS)
@@ -113,10 +101,6 @@ def show_university_map():
     
     if current_university is None:
         messagebox.showwarning("No Selection", "Please select a university first using the More Info button.")
-        return
-    
-    if not MAP_AVAILABLE:
-        messagebox.showerror("Map Not Available", "TkinterMapView library is not installed.")
         return
     
     # Get university location
