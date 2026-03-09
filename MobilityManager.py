@@ -17,7 +17,6 @@ class mobilityManager:
         self.__uni_df = pd.DataFrame()
         self.__users_df = pd.DataFrame()
 
-    # This method extracts the information from the CSV into a Pandas DataFrame in memory for easier manipulation.
     def load_universities(self):
         """Extracts information from the CSV into a Pandas DataFrame."""
         try:
@@ -27,7 +26,6 @@ class mobilityManager:
             print("CSV file not found. Starting with an empty database.")
             self.__uni_df = pd.DataFrame()
 
-    # This method saves the current state of the DataFrame back into the CSV file.
     def save_data(self):
         """Persists the in-memory DataFrame back into the CSV file."""
         # index=False prevents Pandas from adding an extra column for the row numbers
@@ -115,7 +113,7 @@ class mobilityManager:
     
     def add_user(self, user_data_dict):
         """Adds a new user to the users DataFrame and saves it."""
-        #Generate random ID for the new user
+        # Generate random ID for the new user
         user_data_dict['UID'] = "U" + Utilities.generate_random_id()
         # Convert the dictionary to a DataFrame row and concatenate
         new_user_row = pd.DataFrame([user_data_dict])
