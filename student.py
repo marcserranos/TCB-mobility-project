@@ -20,7 +20,6 @@ class Student(User):
     def load_from_csv(self, filepath="data/student_info.csv"):
         """
         Load student information from the student_info.csv file based on UID.
-        This method reads the CSV and populates the student's attributes.
         """
         try:
             df = pd.read_csv(filepath, dtype=str)
@@ -96,8 +95,6 @@ class Student(User):
     def save_to_csv(self, filepath="data/student_info.csv"):
         """
         Save the student's current attributes back to the student_info.csv file.
-        This method updates or creates a row based on the student's UID.
-        Preferences are stored as priority numbers (1, 2, 3, 4) based on their order in the list.
         """
         try:
             # try to load existing CSV
@@ -129,7 +126,6 @@ class Student(User):
                 student_data[continent] = continent if continent in self.__continents else ''
             
             # Add preference columns - store priority numbers based on list order
-            # The preferences list is already in priority order (index 0 = highest priority = 1)
             pref_fields = ['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank']
             for i, pref_field in enumerate(pref_fields):
                 # Find the priority of this preference (1-based index)
@@ -223,7 +219,6 @@ class Student(User):
                 continents.append(name)
         self.__continents = continents
 
-        # preferences from pref_label1..pref_label4
         prefs = []
         for i in range(1, 5):
             lbl = getattr(gui_frame, f"pref_label{i}", None)
