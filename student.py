@@ -16,7 +16,6 @@ class Student(User):
         self.__preferences = []
         self.__available_languages = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese", "Japanese"]
         self.__available_continents = ["Europe", "South America", "Asia", "Africa", "North America", "Oceania"]
-        self.__student_info_file = "data/student_info.csv"
 
     def load_from_csv(self, filepath="data/student_info.csv"):
         """
@@ -176,48 +175,21 @@ class Student(User):
         except Exception:
             return False
 
-    def login_retrieve_info(self, user_id):
-        pass
-
-    def new_student(self, user_id, mail, pwd):
-        pass
-
-    def get_stud_att(self, attribute: str):
-        return getattr(self, f"_Student__{attribute}", None)
-
     # Getter methods for GUI and other components
     def get_degree(self):
         return self.__degree
     
-    def set_degree(self, degree):
-        self.__degree = degree
-    
     def get_grade(self):
         return self.__grade
-    
-    def set_grade(self, grade):
-        try:
-            self.__grade = float(grade)
-        except (ValueError, TypeError):
-            self.__grade = 0.0
     
     def get_languages(self):
         return self.__lang
     
-    def set_languages(self, languages_dict):
-        self.__lang = languages_dict
-    
     def get_continents(self):
         return self.__continents
     
-    def set_continents(self, continents_list):
-        self.__continents = continents_list
-    
     def get_preferences(self):
         return self.__preferences
-    
-    def set_preferences(self, preferences_list):
-        self.__preferences = preferences_list
 
     def load_from_gui(self, gui_frame):
         """Populate this student's data from a FrameBP instance.
