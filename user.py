@@ -9,5 +9,6 @@ class User:
         self._pwd = pwd
 
     def logout(self):
+        print(f"User {self._ID} logged out.")
         pass
 
