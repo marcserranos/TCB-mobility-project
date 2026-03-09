@@ -35,11 +35,6 @@ class mobilityManager:
             return []
         return self.__uni_df['Name'].tolist()
 
-    def get_all_entries_as_list(self):
-        """Returns all universities as a list of dictionaries"""
-        # 'records' format: [{col1: val1, col2: val2}, ...]
-        return self.__uni_df.to_dict('records')
-
     def get_uni_by_id(self, uni_id):
         """Retrieves a single dictionary entry based on the University ID."""
         entry = self.__uni_df[self.__uni_df['ID'] == uni_id]
