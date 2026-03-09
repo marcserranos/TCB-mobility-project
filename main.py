@@ -11,7 +11,7 @@ from tkinter import messagebox
 import GUI
 from mobilityManager import mobilityManager
 from GUI_logic import *
-from university import Catalog
+from catalog import Catalog
 from scoringEngine import ScoringEngine
 
 def main(*args):
