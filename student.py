@@ -192,7 +192,8 @@ class Student(User):
         return self.__preferences
 
     def load_from_gui(self, gui_frame):
-        """Populate this student's data from a FrameBP instance.
+        """
+        Populate this student's data from a FrameBP instance.
         """
         # degree & grade
         self.__degree = gui_frame.degree_var.get()
