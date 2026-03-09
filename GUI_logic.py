@@ -518,7 +518,6 @@ def populate_student_page_from_profile(_w1, student):
     """
     Populate student page widgets with the student's saved profile data.
     This is called after login to restore a student's previous entries.
-    Kept simple to avoid any unintended triggers.
     """
     try:
         # Set degree
