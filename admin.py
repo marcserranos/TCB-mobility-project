@@ -8,15 +8,3 @@ class Admin(User):
         super().__init__(user_id, mail, pwd)
         # Private attribute (-)
         self.__usertype = "admin"
-
-    def login_retrieve_info(self, user_id):
-        pass
-
-    def add_university(self): 
-        pass
-
-    def edit_university(self): 
-        pass
-
-    def delete_university(self): 
-        pass

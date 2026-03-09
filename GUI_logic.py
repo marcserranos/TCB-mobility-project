@@ -644,7 +644,7 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
             tk.messagebox.showerror("Missing field", "Please select and rank your preferences.")
             return
 
-        # Save to CSV (silently)
+        # Save to CSV
         current_student.save_to_csv()
 
         # print student preferences to show their structure
