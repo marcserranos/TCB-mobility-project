@@ -18,9 +18,12 @@ class Utilities:
 
         pdf = FPDF()
         pdf.add_page()
+        from datetime import date
+
         pdf.set_auto_page_break(auto=True, margin=15)
         pdf.set_font("Arial", "B", 16)
-        pdf.cell(0, 10, "University Ranking", ln=True, align="C")
+        today = date.today().strftime("%Y-%m-%d")
+        pdf.cell(0, 10, f"{today} Ranking", ln=True, align="C")
         pdf.ln(4)
         pdf.set_font("Arial", "", 12)
         for idx, (uni, score) in enumerate(ranked_list[:10], start=1):

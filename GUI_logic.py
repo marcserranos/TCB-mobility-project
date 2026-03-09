@@ -81,8 +81,7 @@ def display_university_info(_w1, university_obj):
             img.thumbnail((160, 160), Image.Resampling.LANCZOS)
             current_photo = ImageTk.PhotoImage(img)
             _w1.ST_logo_label.configure(image=current_photo, text="")
-        except Exception as e:
-            print(f"Could not load logo from {logo_path}: {e}")
+        except Exception:
             _w1.ST_logo_label.configure(image="", text="Logo not found")
     else:
         _w1.ST_logo_label.configure(image="", text="Logo not available")
@@ -163,7 +162,6 @@ def open_university_website():
     
     # Get university website URL
     website_url = current_university.get_uni_att('website_url')
-    print(f"Raw website URL: {website_url}")
     
     if not website_url or website_url.strip() == "":
         messagebox.showerror("No Website", "Website URL not available for this university.")
@@ -174,15 +172,12 @@ def open_university_website():
     if not website_url.startswith(('http://', 'https://')):
         website_url = 'https://' + website_url
     
-    print(f"Opening website: {website_url}")
     try:
         result = webbrowser.open(website_url)
-        print(f"Webbrowser open result: {result}")
         if not result:
             messagebox.showwarning("Warning", "Could not open browser. Please check your default browser settings.")
     except Exception as e:
         messagebox.showerror("Error", f"Could not open website: {e}")
-        print(f"Error opening website: {e}")
 
 
 def export_rankings_pdf(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
@@ -581,27 +576,23 @@ def populate_student_page_from_profile(_w1, student):
             _w1.ST_grade_entry.focus_set()
         except Exception:
             pass
-    
-    except Exception as e:
-        print(f"Error populating student page: {e}")
+    except Exception:
+        pass
 
 def get_score_color(score):
-    """
-    Map affinity score to a color for visualization.
-    100: green, 80: lime, 60: yellow, 40: orange, 20: dark orange, 0: red
-    """
+    """Colormap for affinity scores in the ranking"""
     if score >= 90:
-        return "#00cc00"  # green
+        return "#00cc00"
     elif score >= 70:
-        return "#ccff00"  # lime
+        return "#ccff00"
     elif score >= 50:
-        return "#ffff00"  # yellow
+        return "#ffff00"
     elif score >= 30:
-        return "#ff8800"  # orange
+        return "#ff8800" 
     elif score >= 10:
-        return "#ff6600"  # dark orange
+        return "#ff6600" 
     else:
-        return "#ff0000"  # red
+        return "#ff0000"
 
 def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
     """
@@ -646,11 +637,6 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
 
         # Save to CSV
         current_student.save_to_csv()
-
-        # print student preferences to show their structure
-        print("--- student preferences ---")
-        print(preferences)
-        print("--- end student preferences ---")
 
         # Get ranked universities
         if catalog is not None and engine is not None:
@@ -713,14 +699,10 @@ def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngin
                     action_button.configure(state='disabled')
                     
     except Exception as e:
-        print(f"Error during ranking process: {e}")
+        tk.messagebox.showerror("Error", f"Error during ranking process: {e}")
 
 def save_student_profile(_w1):
-    """
-    Save the current student's profile data from GUI to CSV.
-    This should be called before ranking or whenever student data is updated.
-    Updates the global current_student with GUI values and saves to CSV.
-    """
+    """Save the current student's profile data from GUI to CSV."""
     global current_student
     
     if current_student is None:
@@ -739,54 +721,6 @@ def save_student_profile(_w1):
     except Exception as e:
         tk.messagebox.showerror("Error", f"Error saving profile: {e}")
         return False
-
-def print_student_attributes(gui_frame):
-    """Create a temporary Student object, populate it from the GUI and
-    print all of its stored attributes to stdout.
-
-    This can be used as the command for the "Rank !" button during
-    development to verify that the GUI state is being captured correctly.
-    
-    Validates that all required fields are filled before proceeding.
-    """
-    from student import Student
-
-    # instantiate with dummy credentials; they're not used here
-    student = Student("", "", "")
-    student.load_from_gui(gui_frame)
-
-    # Validate required fields
-    degree = student.get_stud_att("degree")
-    grade = student.get_stud_att("grade")
-    lang = student.get_stud_att("lang")
-    continents = student.get_stud_att("continents")
-
-    # Check degree
-    if not degree or degree == "Select Degree":
-        messagebox.showerror("Missing Data", "Please select a degree.")
-        return
-
-    # Check grade is valid number
-    if grade is None or grade == 0.0:
-        messagebox.showerror("Missing Data", "Please enter a valid grade (number).")
-        return
-
-    # Check at least one language
-    if not lang or len(lang) == 0:
-        messagebox.showerror("Missing Data", "Please select at least one language certification.")
-        return
-
-    # Check at least one continent
-    if not continents or len(continents) == 0:
-        messagebox.showerror("Missing Data", "Please select at least one continent.")
-        return
-
-    # All validations passed, print data
-    attrs = ["degree", "grade", "lang", "continents", "preferences"]
-    print("--- student data ---")
-    for a in attrs:
-        print(f"{a}: {student.get_stud_att(a)}")
-    print("--------------------")
 
 #_________________________________________________LOGIN LOGIC_________________________________________________________
 
@@ -809,7 +743,6 @@ def show_student_login(_w1, root):
             _w1.LG_admin_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
         root.update_idletasks()
         return
-
     # select student
     _w1.auth_selection = 'student'
     _w1.LG_sublabelframe.place(relx=0.312, rely=0.466, relheight=0.388, relwidth=0.382)
@@ -817,10 +750,10 @@ def show_student_login(_w1, root):
     _w1.LG_studentlogin_button.place(relx=0.178, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_studentsingup_button.place(relx=0.606, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_adminlogin_button.place_forget()
-    try:
+    if isinstance(_w1.LG_student_button, ttk.Button) and isinstance(_w1.LG_admin_button, ttk.Button):
         _w1.LG_student_button.configure(style='Selected.TButton')
         _w1.LG_admin_button.configure(style='Unselected.TButton')
-    except Exception:
+    else:
         _w1.LG_student_button.configure(background=_w1.THEME["BG_GREY"], foreground="black")
         _w1.LG_admin_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
     root.update_idletasks()
@@ -838,7 +771,6 @@ def show_admin_login(_w1, root):
         _w1.LG_admin_button.configure(style='Unselected.TButton')
         root.update_idletasks()
         return
-
     # select admin
     _w1.auth_selection = 'admin'
     _w1.LG_sublabelframe.place(relx=0.312, rely=0.466, relheight=0.388, relwidth=0.382)
@@ -846,10 +778,10 @@ def show_admin_login(_w1, root):
     _w1.LG_adminlogin_button.place(relx=0.392, rely=0.772, height=56, width=125, bordermode='ignore')
     _w1.LG_studentlogin_button.place_forget()
     _w1.LG_studentsingup_button.place_forget()
-    try:
+    if isinstance(_w1.LG_admin_button, ttk.Button) and isinstance(_w1.LG_student_button, ttk.Button):
         _w1.LG_admin_button.configure(style='Selected.TButton')
         _w1.LG_student_button.configure(style='Unselected.TButton')
-    except Exception:
+    else:
         _w1.LG_admin_button.configure(background=_w1.THEME["BG_GREY"], foreground="black")
         _w1.LG_student_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
     root.update_idletasks()
@@ -864,18 +796,14 @@ def initialize_login_ui_state(_w1):
     """Initialize auth selection state and button styles for the login screen."""
     _w1.auth_selection = None
     style = ttk.Style()
-    try:
-        style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
-        style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
-    except Exception:
-        # Some themes ignore background; ensure foregrounds are set
-        style.configure('Unselected.TButton', foreground='white')
-        style.configure('Selected.TButton', foreground='black')
+    # Some themes ignore background; we still set it where supported.
+    style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
+    style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
 
 def show_login(_w1, root):
     initialize_login_ui_state(_w1)
     _w1.LG_bg.lift()
-    # Show selection buttons and form, hide all login buttons initially
+    # show selection buttons and form, hide all login buttons initially
     _w1.LG_student_button.place(relx=0.388, rely=0.323, height=86, width=125)
     _w1.LG_admin_button.place(relx=0.54, rely=0.323, height=86, width=125)
     # hide input panel by default (no selection)
@@ -885,19 +813,18 @@ def show_login(_w1, root):
     _w1.LG_studentsingup_button.place_forget()
     _w1.LG_mail_entry.delete(0, tk.END)
     _w1.LG_pwd_entry.delete(0, tk.END)
-    # default: no selection -> both top buttons shown as Unselected (red)
-    try:
+    # default: no selection
+    if isinstance(_w1.LG_student_button, ttk.Button) and isinstance(_w1.LG_admin_button, ttk.Button):
         _w1.LG_student_button.configure(style='Unselected.TButton')
         _w1.LG_admin_button.configure(style='Unselected.TButton')
-    except Exception:
-        pass
+    else:
+        _w1.LG_student_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
+        _w1.LG_admin_button.configure(background=_w1.THEME["UPF_red"], foreground="white")
     root.update_idletasks()
 
 def logout(_w1, root):
     global current_student
     # Save student data before logout if a student is logged in.
-    # Make sure GUI current values are loaded into the Student instance
-    # (same behavior as the Rank action) before persisting.
     if current_student is not None:
         try:
             current_student.load_from_gui(_w1)
@@ -933,13 +860,8 @@ def admin_login_action(_w1, mobility_manager):
     if not email or not pwd:
         tk.messagebox.showerror("Missing fields", "Please enter email and password.")
         return
-    # Prefer mobilityManager.verify_credentials if implemented
     if hasattr(mobility_manager, 'verify_credentials'):
-        try:
-            ok = mobility_manager.verify_credentials(email, pwd, 'admin')
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error during auth: {e}")
-            return
+        ok = mobility_manager.verify_credentials(email, pwd, 'admin')
         if ok:
             show_admin(_w1)
         else:
@@ -1001,47 +923,32 @@ def student_signup_action(_w1, mobility_manager):
     if not email or not pwd:
         tk.messagebox.showerror("Missing fields", "Please enter email and password to sign up.")
         return
+
     # Check if email already exists
     if hasattr(mobility_manager, 'check_new_user_email'):
-        try:
-            if mobility_manager.check_new_user_email(email):
-                tk.messagebox.showerror("Email exists", f"The email '{email}' is already registered.")
-                return
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error checking email: {e}")
+        if mobility_manager.check_new_user_email(email):
+            tk.messagebox.showerror("Email exists", f"The email '{email}' is already registered.")
             return
+
     # Call mobilityManager.add_user if available
     if hasattr(mobility_manager, 'add_user'):
-        try:
-            uid = mobility_manager.add_user({
-                'email': email,
-                'password': pwd,
-                'user_type': 'student'
-            })
-            
-            # Clear student page for new user
-            clear_student_page(_w1)
-            
-            # Create a Student instance with the new UID
-            current_student = Student(uid, email, pwd)
-            
-            # Initialize student data (empty but ready to be filled)
-            # The load_from_csv will return False for new students, which is expected
-            current_student.load_from_csv()
-            
-            # Clear login fields and show student page
-            _w1.LG_mail_entry.delete(0, tk.END)
-            _w1.LG_pwd_entry.delete(0, tk.END)
-            tk.messagebox.showinfo("Success", "Account created successfully!")
-            show_student(_w1)
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error creating user: {e}")
-            return
-    else:
-        # Fallback: simulate user creation
-        tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")
+        uid = mobility_manager.add_user({
+            'email': email,
+            'password': pwd,
+            'user_type': 'student'
+        })
+        
+        # Clear student page for new user
+        clear_student_page(_w1)
+        # Create a Student instance with the new UID
+        current_student = Student(uid, email, pwd)
+        # Initialize student data (empty but ready to be filled)
+        current_student.load_from_csv()
+        # Clear login fields and show student page
+        _w1.LG_mail_entry.delete(0, tk.END)
+        _w1.LG_pwd_entry.delete(0, tk.END)
+        tk.messagebox.showinfo("Success", "Account created successfully!")
         show_student(_w1)
-
 
 def show_student_help():
     """Display help popup for the student screen."""
@@ -1132,7 +1039,7 @@ def show_admin_help():
     text_widget.pack(fill=tk.BOTH, expand=True)
     scrollbar.config(command=text_widget.yview)
     
-    # Help content
+    # help content
     help_content = """ADMIN HELP - Erasmus University Database Management
 
 Q: What can I do as an admin?
@@ -1191,6 +1098,6 @@ A: University data is stored in CSV files in the data/ directory.
     text_widget.insert(tk.END, help_content)
     text_widget.config(state=tk.DISABLED)
     
-    # Close button
+    # close button
     close_button = tk.Button(help_window, text="Close", command=help_window.destroy, bg="#c8102e", fg="#ffffff", font=("Lexend", 10))
     close_button.pack(pady=10)

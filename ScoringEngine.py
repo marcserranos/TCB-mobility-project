@@ -1,6 +1,6 @@
 import math
+# This class is for scoring and ranking universities based on student profiles.
 
-# This class is responsible for scoring and ranking universities based on student profiles.
 class ScoringEngine:
     def __init__(self, weights: dict = None):
         """Initialize the scoring engine with optional weights."""
