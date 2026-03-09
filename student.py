@@ -193,13 +193,6 @@ class Student(User):
 
     def load_from_gui(self, gui_frame):
         """Populate this student's data from a FrameBP instance.
-
-        The frame should be the object created in `GUI.FrameBP` which
-        exposes the widgets used in the student page (degree_var,
-        ST_grade_entry, added_languages, continent variables and the
-        pref_label1..pref_label4 labels). After calling this method the
-        student's private attributes will reflect the values chosen by
-        the user.
         """
         # degree & grade
         self.__degree = gui_frame.degree_var.get()
