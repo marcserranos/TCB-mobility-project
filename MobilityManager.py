@@ -21,16 +21,13 @@ class mobilityManager:
         """Extracts information from the CSV into a Pandas DataFrame."""
         try:
             self.__uni_df = pd.read_csv(self.__file_path)
-            print(f"Successfully loaded {len(self.__uni_df)} entries.")
         except FileNotFoundError:
-            print("CSV file not found. Starting with an empty database.")
             self.__uni_df = pd.DataFrame()
 
     def save_data(self):
         """Persists the in-memory DataFrame back into the CSV file."""
         # index=False prevents Pandas from adding an extra column for the row numbers
         self.__uni_df.to_csv(self.__file_path, index=False)
-        print("Data successfully saved to CSV.")
 
     def get_university_names(self):
         """Returns a simple list of names for GUI dropdowns or lists."""
@@ -85,15 +82,12 @@ class mobilityManager:
         """Loads user data from the users CSV file."""
         try:
             self.__users_df = pd.read_csv(self.__users_file_path)
-            print(f"Successfully loaded {len(self.__users_df)} users.")
         except FileNotFoundError:
-            print("Users CSV file not found. Starting with an empty user database.")
             self.__users_df = pd.DataFrame()
 
     def save_users(self):
         """Saves the current user DataFrame back to the users CSV file."""
         self.__users_df.to_csv(self.__users_file_path, index=False)
-        print("User data successfully saved to CSV.")
     
     def verify_credentials(self, email, pwd, user_type):
         """Checks if the provided email and password match any user in the users DataFrame."""

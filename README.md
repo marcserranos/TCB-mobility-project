@@ -17,7 +17,6 @@ CURRENT REPO DISTRIBUTION:
 - student.py: student subclass.
 - utilities.py: helper utilities (e.g., random ID generation).
 - scoringEngine.py: scoring engine for affinity/risk ranking.
-- scraping/: experimental scripts for data scraping (read SCRAPING_README.md).
 - data/: CSV files used as the app database and persistence memory.
 - images/: logo files associated with universities.
 

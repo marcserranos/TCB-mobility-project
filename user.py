@@ -15,7 +15,7 @@ class User:
         return self._mail == email and self._pwd == pwd
 
     def logout(self):
-        print(f"User {self._mail} logged out.")
+        pass
 
     def change_pwd(self, user_id, new_pwd):
         self._pwd = new_pwd

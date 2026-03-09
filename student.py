@@ -30,7 +30,6 @@ class Student(User):
             
             if student_row.empty:
                 # no existing data for this student, will initialize on first save
-                print(f"No existing data found for student {self._ID}. Data will be initialized on save.")
                 return False
             
             # extract and set attributes
@@ -88,14 +87,11 @@ class Student(User):
             
             self.__preferences = prefs
             
-            print(f"Successfully loaded student data for {self._ID}")
             return True
             
         except FileNotFoundError:
-            print(f"student_info.csv not found at {filepath}")
             return False
-        except Exception as e:
-            print(f"Error loading student data: {e}")
+        except Exception:
             return False
 
     def save_to_csv(self, filepath="data/student_info.csv"):
@@ -175,21 +171,15 @@ class Student(User):
             
             # Save back to CSV
             df.to_csv(filepath, index=False)
-            print(f"Successfully saved student data for {self._ID}")
             return True
             
-        except Exception as e:
-            print(f"Error saving student data: {e}")
-            import traceback
-            traceback.print_exc()
+        except Exception:
             return False
 
     def login_retrieve_info(self, user_id):
         pass
 
     def new_student(self, user_id, mail, pwd):
-        new_user_id = "U" + Utilities.generate_random_id()
-        print(new_user_id)
         pass
 
     def get_stud_att(self, attribute: str):
