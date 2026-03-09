@@ -33,35 +33,16 @@ def main(*args):
     catalog = Catalog("data/entries.csv")
     engine = ScoringEngine()
 
-    # override the rank button handler to pass the catalog and engine instances
-    # to GUI_logic.rank_button_action.  GUI.py sets a default earlier which we
-    # replace here safely inside a try/except.
-    try:
-        _w1.ST_rank_button.configure(command=lambda: rank_button_action(_w1, catalog, engine))
-    except Exception:
-        pass
+    _w1.ST_rank_button.configure(command=lambda: rank_button_action(_w1, catalog, engine))
 
     # Link Map Button
-    try:
-        _w1.ST_map_button.configure(command=lambda: show_university_map())
-    except Exception:
-        pass
+    _w1.ST_map_button.configure(command=lambda: show_university_map())
 
     # Link Website Button
-    try:
-        _w1.ST_web_button.configure(command=open_university_website)
-        print("Website button configured successfully")
-    except Exception as e:
-        print(f"Error configuring website button: {e}")
-        pass
+    _w1.ST_web_button.configure(command=open_university_website)
 
     # Link Export Button
-    try:
-        _w1.ST_export_button.configure(command=lambda: export_rankings_pdf(_w1, catalog, engine))
-        print("Export button configured")
-    except Exception as e:
-        print(f"Error configuring export button: {e}")
-        pass
+    _w1.ST_export_button.configure(command=lambda: export_rankings_pdf(_w1, catalog, engine))
 
     _w1.AD_editdelete_button.configure(command=lambda: admin_editdelete(_w1=_w1, mobility_manager=mobility_manager))    
     _w1.AD_add_button.configure(command=lambda: clear_admin_entries(_w1=_w1))

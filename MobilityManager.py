@@ -115,7 +115,7 @@ class mobilityManager:
     
     def add_user(self, user_data_dict):
         """Adds a new user to the users DataFrame and saves it."""
-        #Generate random ID for the new user
+        # Generate random ID for the new user
         user_data_dict['UID'] = "U" + Utilities.generate_random_id()
         # Convert the dictionary to a DataFrame row and concatenate
         new_user_row = pd.DataFrame([user_data_dict])
