@@ -6,10 +6,9 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 from utilities import Utilities
-from user import Student
+from student import Student
 # we need university catalog and scoring engine for ranking; imported here to avoid circular imports
-from university import Catalog
-from scoringEngine import ScoringEngine
+from catalog import Catalog
 from scoringEngine import ScoringEngine
 
 # For image handling
@@ -783,7 +782,7 @@ def print_student_attributes(gui_frame):
     
     Validates that all required fields are filled before proceeding.
     """
-    from user import Student
+    from student import Student
 
     # instantiate with dummy credentials; they're not used here
     student = Student("", "", "")
