@@ -29,22 +29,22 @@ class Student(User):
         """
         try:
             df = pd.read_csv(filepath, dtype=str)
-            # Find the row matching this student's UID
+            # find the row matching this student's UID
             student_row = df[df['UID'] == self._ID]
             
             if student_row.empty:
-                # No existing data for this student, will initialize on first save
+                # no existing data for this student, will initialize on first save
                 print(f"No existing data found for student {self._ID}. Data will be initialized on save.")
                 return False
             
-            # Extract and set attributes
+            # extract and set attributes
             row = student_row.iloc[0]
             
-            # Load degree
+            # load degree
             if pd.notna(row.get('degree')) and row.get('degree') != '':
                 self.__degree = str(row['degree'])
             
-            # Load grade
+            # load grade
             try:
                 grade_val = row.get('grade')
                 if pd.notna(grade_val) and grade_val != '':
@@ -52,7 +52,7 @@ class Student(User):
             except (ValueError, TypeError):
                 self.__grade = 0.0
             
-            # Load languages
+            # load languages
             langs = {}
             for lang in self.__available_languages:
                 if lang in row.index:
@@ -70,10 +70,10 @@ class Student(User):
                         continents.append(continent)
             self.__continents = continents
             
-            # Load preferences - they are stored as priority numbers, reconstruct the list
+            # load preferences - they are stored as priority numbers, reconstruct the list
             prefs = []
             pref_fields = ['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank']
-            # Get priorities and sort by them
+            # get priorities and sort by them
             pref_priorities = {}
             for pref in pref_fields:
                 if pref in row.index:
@@ -85,7 +85,7 @@ class Student(User):
                         except (ValueError, TypeError):
                             pass
             
-            # Sort by priority and extract the preference names
+            # sort by priority and extract the preference names
             if pref_priorities:
                 sorted_prefs = sorted(pref_priorities.items(), key=lambda x: x[1])
                 prefs = [pref_name for pref_name, _ in sorted_prefs]
@@ -109,20 +109,20 @@ class Student(User):
         Preferences are stored as priority numbers (1, 2, 3, 4) based on their order in the list.
         """
         try:
-            # Try to load existing CSV
+            # try to load existing CSV
             try:
                 df = pd.read_csv(filepath, dtype=str)
             except FileNotFoundError:
-                # Create new DataFrame with headers if file doesn't exist
+                # create new DataFrame with headers if file doesn't exist
                 df = pd.DataFrame()
             
-            # Define all expected columns in order
+            # define all expected columns in order
             all_columns = ['UID', 'degree', 'grade']
             all_columns.extend(self.__available_languages)
             all_columns.extend(self.__available_continents)
             all_columns.extend(['Cost of Living', 'Weather', 'Nightlife', 'Academic Rank'])
             
-            # Prepare the data dictionary for this student
+            # prepare the data dictionary for this student
             student_data = {
                 'UID': self._ID,
                 'degree': str(self.__degree),
@@ -133,7 +133,7 @@ class Student(User):
             for lang in self.__available_languages:
                 student_data[lang] = self.__lang.get(lang, '')
             
-            # Add continent columns - store the continent name if selected, empty otherwise
+            # add continent columns - store the continent name if selected, empty otherwise
             for continent in self.__available_continents:
                 student_data[continent] = continent if continent in self.__continents else ''
             

@@ -950,13 +950,8 @@ def admin_login_action(_w1, mobility_manager):
     if not email or not pwd:
         tk.messagebox.showerror("Missing fields", "Please enter email and password.")
         return
-    # Prefer mobilityManager.verify_credentials if implemented
     if hasattr(mobility_manager, 'verify_credentials'):
-        try:
-            ok = mobility_manager.verify_credentials(email, pwd, 'admin')
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error during auth: {e}")
-            return
+        ok = mobility_manager.verify_credentials(email, pwd, 'admin')
         if ok:
             show_admin(_w1)
         else:
@@ -1018,47 +1013,32 @@ def student_signup_action(_w1, mobility_manager):
     if not email or not pwd:
         tk.messagebox.showerror("Missing fields", "Please enter email and password to sign up.")
         return
+
     # Check if email already exists
     if hasattr(mobility_manager, 'check_new_user_email'):
-        try:
-            if mobility_manager.check_new_user_email(email):
-                tk.messagebox.showerror("Email exists", f"The email '{email}' is already registered.")
-                return
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error checking email: {e}")
+        if mobility_manager.check_new_user_email(email):
+            tk.messagebox.showerror("Email exists", f"The email '{email}' is already registered.")
             return
+
     # Call mobilityManager.add_user if available
     if hasattr(mobility_manager, 'add_user'):
-        try:
-            uid = mobility_manager.add_user({
-                'email': email,
-                'password': pwd,
-                'user_type': 'student'
-            })
-            
-            # Clear student page for new user
-            clear_student_page(_w1)
-            
-            # Create a Student instance with the new UID
-            current_student = Student(uid, email, pwd)
-            
-            # Initialize student data (empty but ready to be filled)
-            # The load_from_csv will return False for new students, which is expected
-            current_student.load_from_csv()
-            
-            # Clear login fields and show student page
-            _w1.LG_mail_entry.delete(0, tk.END)
-            _w1.LG_pwd_entry.delete(0, tk.END)
-            tk.messagebox.showinfo("Success", "Account created successfully!")
-            show_student(_w1)
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error creating user: {e}")
-            return
-    else:
-        # Fallback: simulate user creation
-        tk.messagebox.showinfo("Not implemented", "add_user not implemented yet — proceeding to Student.")
+        uid = mobility_manager.add_user({
+            'email': email,
+            'password': pwd,
+            'user_type': 'student'
+        })
+        
+        # Clear student page for new user
+        clear_student_page(_w1)
+        # Create a Student instance with the new UID
+        current_student = Student(uid, email, pwd)
+        # Initialize student data (empty but ready to be filled)
+        current_student.load_from_csv()
+        # Clear login fields and show student page
+        _w1.LG_mail_entry.delete(0, tk.END)
+        _w1.LG_pwd_entry.delete(0, tk.END)
+        tk.messagebox.showinfo("Success", "Account created successfully!")
         show_student(_w1)
-
 
 def show_student_help():
     """Display help popup for the student screen."""
@@ -1149,7 +1129,7 @@ def show_admin_help():
     text_widget.pack(fill=tk.BOTH, expand=True)
     scrollbar.config(command=text_widget.yview)
     
-    # Help content
+    # help content
     help_content = """ADMIN HELP - Erasmus University Database Management
 
 Q: What can I do as an admin?
@@ -1208,6 +1188,6 @@ A: University data is stored in CSV files in the data/ directory.
     text_widget.insert(tk.END, help_content)
     text_widget.config(state=tk.DISABLED)
     
-    # Close button
+    # close button
     close_button = tk.Button(help_window, text="Close", command=help_window.destroy, bg="#c8102e", fg="#ffffff", font=("Lexend", 10))
     close_button.pack(pady=10)
