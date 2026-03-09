@@ -3,30 +3,16 @@ import math
 # This class is responsible for scoring and ranking universities based on student profiles.
 class ScoringEngine:
     def __init__(self, weights: dict = None):
-        # weight dictionary may map preference names to explicit weights; if
-        # None, we simply weight by position in the preference list.
+        """Initialize the scoring engine with optional weights."""
         self._weights = weights or {}
 
     def score(self, student_obj, university_obj) -> float:
-        """Compute affinity score based on student preferences.
-
-        Each preference value from the university (0-10 range) is multiplied by
-        a weight based on the preference position:
-        - Position 1 (1st preference): weight = 4
-        - Position 2 (2nd preference): weight = 3
-        - Position 3 (3rd preference): weight = 2
-        - Position 4 (4th preference): weight = 1
-
-        Max score is 100 (when all uni attributes are 10 and all weights sum to 10).
-        Min score is 0.
-        
-        If the university is not eligible for the student, the score is 0.
-        """
+        """Compute affinity score based on student preferences."""
         prefs = student_obj.get_preferences()
         if not prefs:
             return 0.0
 
-        # Check eligibility - if not eligible, score is 0
+        # check eligibility, if not eligible, score is 0
         if not self.is_eligible(student_obj, university_obj):
             return 0.0
 
@@ -41,13 +27,11 @@ class ScoringEngine:
             val = self._preference_value(pref, university_obj)
             total += weight * val
 
-        return total
+        return total # returns the affinity scrore
 
     def _preference_value(self, pref, university_obj) -> float:
-        """Return a 0-10 numeric value for a preference from the university.
+        """Return a 0-10 numeric value for a preference from the university."""
 
-        Maps preference names to university attributes.
-        """
         try:
             if pref == 'Cost of Living':
                 val = university_obj.get_uni_att('cost_of_living')
@@ -85,10 +69,9 @@ class ScoringEngine:
 
     @staticmethod
     def calculate_academic_score(rank, max_rank=1500, decay_factor=5.5):
-        """Transform a raw academic rank into a 0-10 score.
+        """Transform a raw academic rank into a 0-10 score. 
+        Uses the specified power-log formula to create a plateau at the top."""
 
-        Uses the specified power-log formula to create a plateau at the top.
-        """
         try:
             rank = float(rank)
         except Exception:
@@ -104,25 +87,9 @@ class ScoringEngine:
         score = 10 * (1 - (log_rank / log_max) ** decay_factor)
         return round(score, 1)
 
-    def risk_score(self, student_obj, university_obj) -> float:
-        """Penalty related to how far the student is above the cutoff."""
-        grade = student_obj.get_grade()
-        cutoff = university_obj.get_uni_att('cutoff_grade')
-        try:
-            cutoff = float(cutoff)
-        except Exception:
-            cutoff = 0.0
-
-        if grade < cutoff:
-            return cutoff - grade
-        else:
-            return 0.0
-
     def rank(self, student_obj, universities: list) -> list[tuple]:
-        """Score and sort a list of universities for a given student.
-
-        The returned value is a list of ``(university, score)`` tuples sorted in
-        descending order of score. Ineligible universities will have a score of 0.
+        """Score and sort a list of universities and scores for a given student.
+        Ineligible universities will have a score of 0.
         """
         scored = []
         for uni in universities:
@@ -132,25 +99,7 @@ class ScoringEngine:
         return scored
 
     def is_eligible(self, student_obj, university_obj) -> bool:
-        """Return **True** when the student satisfies basic university requirements.
-
-        The method compares information from both objects rather than relying on
-        a single class:
-
-        * **minimum_grade** - the student's grade must be equal or greater than
-          the university's minimum grade requirement.
-        * **degree** - the student's degree string must appear in the
-          university's list of accepted degrees (if either side has data).
-        * **continents** - the university's continent (from its location) should
-          match at least one of the continents listed in the student's profile.
-        * **languages** - the university may specify required languages, each
-          optionally paired with a minimum level (B1, B2, C1, C2).  The student
-          must have *at least one* of those languages and their certification
-          level must be equal or higher than the required level.  The level
-          ordering is: ``B1 < B2 < C1 < C2``.  If the university only lists
-          languages without levels, any presence of that language in the
-          student's profile is sufficient.
-        """
+        """Check if the student meets the university's eligibility criteria."""
 
         # minimum grade check
         stud_grade = student_obj.get_grade()
@@ -162,7 +111,6 @@ class ScoringEngine:
         if stud_grade < uni_min_grade:
             return False
 
-        # ara per ara ho eliminem fins que no sabem que fer amb el degree
         # degree matching
         stud_deg = student_obj.get_degree()
         uni_degs = university_obj.get_uni_att('degree')
@@ -181,7 +129,7 @@ class ScoringEngine:
             if cont not in student_obj.get_continents():
                 return False
 
-        # language requirements, possibly with levels
+        # language requirements
         req_langs = {}
         if hasattr(university_obj, '_University__lang_levels'):
             req_langs = university_obj._University__lang_levels or {}
@@ -213,5 +161,4 @@ class ScoringEngine:
                         break
             if not passed:
                 return False
-
         return True
