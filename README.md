@@ -9,10 +9,14 @@ CURRENT REPO DISTRIBUTION:
 - mobilityManager.py: central class, manager of universities/users and CSV persistence.
 - GUI.py: Tkinter visual layout and widgets.
 - GUI_logic.py: GUI behavior, navigation, authentication, and admin/student actions.
-- user.py: base user, admin, and student class definitions.
-- university.py: university and location entity classes.
+- university.py: university entity class.
+- location.py: location entity class.
+- catalog.py: catalog class for managing universities.
+- user.py: base user class.
+- admin.py: admin subclass.
+- student.py: student subclass.
 - utilities.py: helper utilities (e.g., random ID generation).
-- socring.py: scoring engine skeleton for affinity/risk ranking.
+- scoringEngine.py: scoring engine for affinity/risk ranking.
 - scraping/: experimental scripts for data scraping (read SCRAPING_README.md).
 - data/: CSV files used as the app database and persistence memory.
 - images/: logo files associated with universities.
