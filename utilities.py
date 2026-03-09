@@ -1,32 +1,20 @@
 import random
 
 # This class provides utility functions for data loading, ID generation, PDF creation, and email sending.
-class Utilities:
-    # Public methods (+)
-    
-    # We decided to try and use @staticmethods, as these methods do not require any instance-specific data.
-    # In the case of Utility funcions, we won't need to create an instance of Utilities to use them.
 
+class Utilities:    
     @staticmethod
     def generate_random_id() -> str:
         """Generates a random 14-character ID as a string."""
         chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
         # Compact form of generating a random string from the specified characters
-        # The probability of collision is very low for our use case, thus we won't check for duplicates here.
+        # The probability of collision is very low for our use case, we won't check for duplicates here.
         return ''.join(random.choice(chars) for _ in range(14))
     
     @staticmethod
     def export_ranking_pdf(ranked_list, filepath: str):
-        """Write the top-10 entries from ranked_list to a simple PDF file.
-
-        ``ranked_list`` should be a sequence of ``(university, score)`` tuples.
-        A basic text-based layout is generated using fpdf2 (already in
-        requirements.txt).
-        """
-        try:
-            from fpdf import FPDF
-        except ImportError:
-            raise RuntimeError("fpdf library is required for PDF export")
+        """Write the top-10 entries from ranked_list to a simple PDF file."""
+        from fpdf import FPDF
 
         pdf = FPDF()
         pdf.add_page()

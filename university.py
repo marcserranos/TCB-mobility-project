@@ -6,7 +6,6 @@ from location import Location
 class University:
     def __init__(self, uni_id, name, degree, grade, lang, lang_levels, cutoff, url, logo, loc_obj,
                  ranking=None, weather=None, nightlife=None, cost=None, spots=None):
-        # Private attributes (-)
         self.__id = uni_id
         self.__name = name
         self.__degree = degree  # list of strings (acceptable degrees)
@@ -19,39 +18,28 @@ class University:
         self.__cutoff_grade = float(cutoff)
         self.__website_url = url
         self.__logo_path = logo
-        self.__location = loc_obj  # Instance of Location class
-
+        self.__location = loc_obj  # instance of Location class
         # preference-related values that are used by the scoring engine
-        self.__ranking = ranking          # numeric, smaller is better
-        self.__weather = weather          # textual description
-        self.__nightlife = nightlife      # numeric
-        self.__cost_of_living = cost      # numeric
-        self.__spots = spots              # number of available spots
+        self.__ranking = ranking
+        self.__weather = weather
+        self.__nightlife = nightlife
+        self.__cost_of_living = cost
+        self.__spots = spots
 
-    # Public method (+) to safely access private attributes
     def get_uni_att(self, attribute: str):
         """Returns the value of the requested attribute if it exists, else None."""
         return getattr(self, f"_{self.__class__.__name__}__{attribute}", None)
 
     def get_logo_path(self) -> str:
-        """Returns the full path to the university logo image.
-        
-        Constructs the path as images/{uni_id}.png
-        """
+        """Returns the full path to the university logo image."""
         uni_id = self.get_uni_att('id')
         if uni_id:
-            return f"images/{uni_id}.png"
+            return f"images/{uni_id}.png" # construct the path based on the university ID
         return ""
 
     def to_dict(self) -> dict:
-        """Flattenable representation for GUI tables or exports.
-
-        The keys used here mirror the student's preference names where
-        appropriate so that inspecting the output side-by-side makes it
-        easy to see how the two data structures line up.  For example a
-        student's preference list contains strings like "Cost of Living"
-        and "Academic Rank"; this representation uses the same labels.
-        """
+        """Dict representation for GUI tables or exports."""
+        
         return {
             "id": self.__id,
             "name": self.__name,
