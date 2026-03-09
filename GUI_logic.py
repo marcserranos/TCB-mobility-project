@@ -11,9 +11,6 @@ from catalog import Catalog
 from scoringEngine import ScoringEngine
 from PIL import Image, ImageTk
 import tkintermapview
-
-
-# For opening websites
 import webbrowser
 
 # Global variable to store the current logged-in student instance
@@ -405,11 +402,6 @@ def delete_admin_entries(_w1, mobility_manager):
 def add_language_row(_w1, language=None):
     '''
     Handles adding languages in the student languages frame dynamically.
-    If ``language`` is provided it is used directly, otherwise the current
-    value of ``_w1.lang_var`` (the combobox) is read.  A label for the
-    language, a combobox for the certification level and a delete button are
-    placed.  The layout uses two columns to avoid scrolling when several
-    languages are present (maximum eight supported).
     '''
     # determine which language to add
     selected_lang = language if language is not None else _w1.lang_var.get()
@@ -613,16 +605,7 @@ def get_score_color(score):
 
 def rank_button_action(_w1, catalog: Catalog | None = None, engine: ScoringEngine | None = None):
     """
-    Handle the Rank! button click silently. This function:
-    1. Loads the student data from the GUI into the current_student instance
-    2. Validates that all required student fields are filled
-    3. Saves the student data to CSV
-    4. Instantiates/uses a Catalog to load university objects and prints them
-       (minimal proof-of-concept until the scoring engine is hooked up)
-
-    The ``catalog`` parameter is optional; if provided (e.g. by main.py) the
-    same instance will be reused.  If it is ``None`` the function will still
-    behave normally but no catalog operations will occur.
+    Handle the Rank! button click: validate student data, save profile, and display ranked universities.
     """
     global current_student
 
