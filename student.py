@@ -8,18 +8,14 @@ from user import User
 class Student(User):
     def __init__(self, user_id, mail, pwd):
         super().__init__(user_id, mail, pwd)
-        # Private attributes (-)
         self.__usertype = "student"
         self.__degree = ""
         self.__grade = 0.0
         self.__lang = {}
         self.__continents = []
         self.__preferences = []
-        # Languages available
         self.__available_languages = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Chinese", "Japanese"]
-        # Continents available
         self.__available_continents = ["Europe", "South America", "Asia", "Africa", "North America", "Oceania"]
-        # Path to student info CSV
         self.__student_info_file = "data/student_info.csv"
 
     def load_from_csv(self, filepath="data/student_info.csv"):
