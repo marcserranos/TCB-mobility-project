@@ -864,18 +864,14 @@ def initialize_login_ui_state(_w1):
     """Initialize auth selection state and button styles for the login screen."""
     _w1.auth_selection = None
     style = ttk.Style()
-    try:
-        style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
-        style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
-    except Exception:
-        # Some themes ignore background; ensure foregrounds are set
-        style.configure('Unselected.TButton', foreground='white')
-        style.configure('Selected.TButton', foreground='black')
+    # Some themes ignore background; we still set it where supported.
+    style.configure('Unselected.TButton', background=_w1.THEME['UPF_red'], foreground='white')
+    style.configure('Selected.TButton', background=_w1.THEME['BG_GREY'], foreground='black')
 
 def show_login(_w1, root):
     initialize_login_ui_state(_w1)
     _w1.LG_bg.lift()
-    # Show selection buttons and form, hide all login buttons initially
+    # show selection buttons and form, hide all login buttons initially
     _w1.LG_student_button.place(relx=0.388, rely=0.323, height=86, width=125)
     _w1.LG_admin_button.place(relx=0.54, rely=0.323, height=86, width=125)
     # hide input panel by default (no selection)
@@ -885,7 +881,7 @@ def show_login(_w1, root):
     _w1.LG_studentsingup_button.place_forget()
     _w1.LG_mail_entry.delete(0, tk.END)
     _w1.LG_pwd_entry.delete(0, tk.END)
-    # default: no selection -> both top buttons shown as Unselected (red)
+    # default: no selection
     try:
         _w1.LG_student_button.configure(style='Unselected.TButton')
         _w1.LG_admin_button.configure(style='Unselected.TButton')
@@ -896,8 +892,6 @@ def show_login(_w1, root):
 def logout(_w1, root):
     global current_student
     # Save student data before logout if a student is logged in.
-    # Make sure GUI current values are loaded into the Student instance
-    # (same behavior as the Rank action) before persisting.
     if current_student is not None:
         try:
             current_student.load_from_gui(_w1)
