@@ -2,19 +2,19 @@
 # It contains the same data but is not intended to be modified or used directly in the code. 
 # It serves as a safeguard against accidental changes to the original data.
 
-Name,ID,Country,City,Continent,Minimum grade,Website,Latitude,Longitude,Languages required,Spots available,University Ranking,Engineering Ranking,Weather,Nightlife,Cost of living,Previous cutoff grade,Duration (months)
-Universitat Pompeu Fabra,98FE9FHASN91U3,Spain,Barcelona,Europe,5.0,www.upf.edu,41.4039,2.1909,Catalan; Spanish; English,1,186,451-500,Mediterranean,9,8,5.0,10
-The University of Warwick,1CLBZF5AFVINTX,United Kingdom,Coventry,Europe,9.0,www.warwick.ac.uk,52.3793,-1.5615,English,2,74,144,Temperate/Rainy,6,7,9.0,10
-Keio University,HFPJBX0GO7GD8N,Japan,Tokyo,Asia,5.0,www.keio.ac.jp,35.6485,139.7437,Japanese; English,1,215,101-170,Humid Subtropical,9,8,5.0,12
-Alma Mater Studiorum - Università di Bologna,A0HBJBHZME6ZJ6,Italy,Bologna,Europe,6.0,www.unibo.it,44.4949,11.3426,Italian; English,2,138,114,Humid Subtropical,8,6,6.0,10
-Korea University,QNAUFRWXDDV6EJ,South Korea,Seoul,Asia,5.0,www.korea.edu,37.5894,127.0326,Korean; English,1,61,25,Humid Continental,10,7,5.0,11
-The University of Chicago,61GKIX50KONJBI,USA,Chicago,North America,4.0,www.uchicago.edu,41.7886,-87.5987,English,1,13,104,Continental/Windy,9,10,4.0,9
-National Taiwan-Chinese University,WHK4OIA1SFFZF1,Taiwan,Taipei City,Asia,6.0,www.ntu.edu.tw,25.0175,121.5397,Mandarin; English,1,63,48,Subtropical/Humid,8,5,6.0,12
-University of Technology Sydney,399B64AVYL2YP6,Australia,Sydney,Oceania,6.0,www.uts.edu.au,-33.8839,151.2003,English,3,96,96,Humid Subtropical,10,10,6.0,10
-The University of Queensland,NXOLME0MJ4FWGB,Australia,Brisbane,Oceania,6.0,www.uq.edu.au,-27.4975,153.0136,English,2,42,63,Humid Subtropical,8,9,6.0,10
-Royal Melbourne Institute of Technology,34USZYW0CMYLQN,Australia,Melbourne,Oceania,6.0,www.rmit.edu.au,-37.8077,144.9631,English,2,125,27,Oceanic/Variable,9,9,6.0,10
-The University of Sydney,BAZPPAXXO6NQHI,Australia,Sydney,Oceania,6.0,www.sydney.edu.au,-33.8886,151.1873,English,2,18,36,Humid Subtropical,10,10,6.0,10
-The University of Texas at Austin,NKPZ9I873BKKPF,USA,Austin,North America,6.0,www.utexas.edu,30.2849,-97.7341,English,1,68,24,Humid Subtropical,9,8,6.0,9
-The University of British Columbia,VGFAB3Q301J0BI,Canada,Vancouver,North America,5.0,www.ubc.ca,49.2606,-123.246,English,2,38,37,Oceanic/Rainy,8,9,5.0,12
-Politecnico di Milano,4WFYHDZNSFCA0W,Italy,Milan,Europe,6.0,www.polimi.it,45.4781,9.2272,Italian; English,3,98,18,Humid Subtropical,9,8,6.0,10
-Technische Universität München,QQVEKZ1FH5ZUYJ,Germany,Munich,Europe,6.0,www.tum.de,48.1497,11.5678,German; English,2,22,19,Continental/Alpine,8,9,6.0,10
+Name,ID,Country,City,Continent,Minimum grade,Website,Latitude,Longitude,Languages required,Spots available,University Ranking,Engineering Ranking,Weather,Nightlife,Cost of living,Previous cutoff grade,Duration (months),English,Spanish,French,German,Italian,Portuguese,Chinese,Japanese
+Universitat Pompeu Fabra,98FE9FHASN91U3,Spain,Barcelona,Europe,5.0,www.upf.edu,41.4039,2.1909,Catalan; Spanish; English,1,186,451,9,8,5.0,10,B2,B2,,,,,,
+The University of Warwick,1CLBZF5AFVINTX,United Kingdom,Coventry,Europe,9.0,www.warwick.ac.uk,52.3793,-1.5615,English,2,74,144,3,6,7,9.0,10,C1,,,,,,,
+Keio University,HFPJBX0GO7GD8N,Japan,Tokyo,Asia,5.0,www.keio.ac.jp,35.6485,139.7437,Japanese; English,1,215,170,7,9,8,5.0,12,B2,,,,,,,B2
+Alma Mater Studiorum - Università di Bologna,A0HBJBHZME6ZJ6,Italy,Bologna,Europe,6.0,www.unibo.it,44.4949,11.3426,Italian; English,2,138,114,6,8,6,6.0,10,B2,,,,B2,,,
+Korea University,QNAUFRWXDDV6EJ,South Korea,Seoul,Asia,5.0,www.korea.edu,37.5894,127.0326,Korean; English,1,61,25,6,10,7,5.0,11,B2,,,,,,,
+The University of Chicago,61GKIX50KONJBI,USA,Chicago,North America,4.0,www.uchicago.edu,41.7886,-87.5987,English,1,13,104,2,9,10,4.0,9,C1,,,,,,,
+National Taiwan-Chinese University,WHK4OIA1SFFZF1,Taiwan,Taipei City,Asia,6.0,www.ntu.edu.tw,25.0175,121.5397,Mandarin; English,1,63,48,6,8,5,6.0,12,B2,,,,,,B2,
+University of Technology Sydney,399B64AVYL2YP6,Australia,Sydney,Oceania,6.0,www.uts.edu.au,-33.8839,151.2003,English,3,96,96,9,10,10,6.0,10,,B2,,,,,,
+The University of Queensland,NXOLME0MJ4FWGB,Australia,Brisbane,Oceania,6.5,www.uq.edu.au,-27.4975,153.0136,English,2,42,63,9,8,9,6.0,10,C1,,,C1,,,,
+Royal Melbourne Institute of Technology,34USZYW0CMYLQN,Australia,Melbourne,Oceania,6.0,www.rmit.edu.au,-37.8077,144.9631,English,2,125,27,7,9,9,6.0,10,C1,,,,,,,
+The University of Sydney,BAZPPAXXO6NQHI,Australia,Sydney,Oceania,6.0,www.sydney.edu.au,-33.8886,151.1873,English,2,18,36,9,10,10,6.0,10,C1,,,,,,,
+The University of Texas at Austin,NKPZ9I873BKKPF,USA,Austin,North America,6.0,www.utexas.edu,30.2849,-97.7341,English,1,68,24,8,9,8,6.0,9,C1,,,,,,,
+The University of British Columbia,VGFAB3Q301J0BI,Canada,Vancouver,North America,5.0,www.ubc.ca,49.2606,-123.246,English,2,38,37,5,8,9,5.0,12,C1,,,,,,,
+Politecnico di Milano,4WFYHDZNSFCA0W,Italy,Milan,Europe,6.0,www.polimi.it,45.4781,9.2272,Italian; English,3,98,18,6,9,8,6.0,10,B2,,,,B2,,,
+Technische Universität München,QQVEKZ1FH5ZUYJ,Germany,Munich,Europe,6.0,www.tum.de,48.1497,11.5678,German; English,2,22,19,7,8,9,6.0,10,B2,,,B2,,,,
